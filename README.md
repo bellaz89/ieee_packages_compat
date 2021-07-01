@@ -1,8 +1,11 @@
 # IEEE 1076: VHDL Packages
 
-This repository contains open source materials referenced by the IEEE 1076 standard. It was first  
-published in December 2019, together with the release of [IEEE Std. 1076-2019](https://ieeexplore.ieee.org/document/8938196). See tagged commits  
-for states of the sources matching the LRM releases.
+This repository contains open source materials referenced by the IEEE 1076 standard.
+It was first published in December 2019, together with the release of
+[IEEE Std. 1076-2019](https://ieeexplore.ieee.org/document/8938196).
+
+See [List of Releases](https://opensource.ieee.org/vasg/Packages/-/releases) for all
+releases.
 
 ## License
 
@@ -32,12 +35,12 @@ purposes.
 
 # IEEE P1076 Working Group
 
-Language Change Specifications, Bug Fixes and Enhancements to the VHDL Language Reference Manual  
-and to these Packages are coordinated through the VHDL Analysis and Standardization Group (IEEE P1076  
-WG: VASG). Check the work in progress through the references below:
+Updates to the IEEE Std. 1076 and to these Packages are coordinated through
+the VHDL Analysis and Standardization Group (C/DA/P1076/1076 aka. VASG). Check
+the work in progress through the references below:
 
 <p align="center">
-  <a title="VASG site" href="https://IEEE-P1076.gitlab.io"><img src="https://img.shields.io/website.svg?label=IEEE-P1076.gitlab.io&longCache=true&style=flat-square&url=http%3A%2F%2FIEEE-P1076.gitlab.io%2Findex.html&logo=GitLab&logoColor=fff"></a><!--
+  <a title="VHDL Analysis and Standardization Group (VASG)" href="https://IEEE-P1076.gitlab.io"><img src="https://img.shields.io/website.svg?label=IEEE-P1076.gitlab.io&longCache=true&style=flat-square&url=http%3A%2F%2FIEEE-P1076.gitlab.io%2Findex.html&logo=GitLab&logoColor=fff"></a><!--
   -->
   <a title="E-mail reflector/list" href="http://grouper.ieee.org/groups/1076/email"><img alt="E-mail reflector/list" src="https://img.shields.io/badge/-grouper.ieee.org/groups/1076-323131.svg?logo=ieee&style=flat-square&longCache=true"></a><!--
   -->
