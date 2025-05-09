@@ -44,19 +44,20 @@ use STD.TEXTIO.all;
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.NUMERIC_STD.all;
-use IEEE.fixed_float_types.all;
+
+library ieee_test;
+use ieee_test.fixed_float_types.all;
 
 package fixed_generic_pkg is
-  generic (
-    -- Rounding routine to use in fixed point, fixed_round or fixed_truncate
-    fixed_round_style    : fixed_round_style_type    := fixed_round;
-    -- Overflow routine to use in fixed point, fixed_saturate or fixed_wrap
-    fixed_overflow_style : fixed_overflow_style_type := fixed_saturate;
-    -- Extra bits used in divide routines
-    fixed_guard_bits     : NATURAL                   := 3;
-    -- If TRUE, then turn off warnings on "X" propagation
-    no_warning           : BOOLEAN                   := false
-    );
+
+  -- Rounding routine to use in fixed point, fixed_round or fixed_truncate
+  constant fixed_round_style    : fixed_round_style_type    := fixed_truncate;
+  -- Overflow routine to use in fixed point, fixed_saturate or fixed_wrap
+  constant fixed_overflow_style : fixed_overflow_style_type := fixed_wrap;
+  -- Extra bits used in divide routines
+  constant fixed_guard_bits     : NATURAL                   := 3;
+  -- If TRUE, then turn off warnings on "X" propagation
+  constant no_warning           : BOOLEAN                   := false;
 
   -- Author David Bishop (dbishop@vhdl.org)
   constant CopyRightNotice : STRING :=
@@ -67,11 +68,11 @@ package fixed_generic_pkg is
   -- base Signed fixed point type, downto direction assumed
   type UNRESOLVED_sfixed is array (INTEGER range <>) of STD_ULOGIC;
 
-  alias U_ufixed is UNRESOLVED_ufixed;
-  alias U_sfixed is UNRESOLVED_sfixed;
+  subtype U_ufixed is UNRESOLVED_ufixed;
+  subtype U_sfixed is UNRESOLVED_sfixed;
 
-  subtype ufixed is (resolved) UNRESOLVED_ufixed;
-  subtype sfixed is (resolved) UNRESOLVED_sfixed;
+  subtype ufixed is UNRESOLVED_ufixed;
+  subtype sfixed is UNRESOLVED_sfixed;
 
   --===========================================================================
   -- Arithmetic Operators:
@@ -374,9 +375,9 @@ package fixed_generic_pkg is
   -- Scales the result by a power of 2.  Width of input = width of output with
   -- the binary point moved.
   function scalb (y : UNRESOLVED_ufixed; N : INTEGER) return UNRESOLVED_ufixed;
-  function scalb (y : UNRESOLVED_ufixed; N : UNRESOLVED_SIGNED) return UNRESOLVED_ufixed;
+  function scalb (y : UNRESOLVED_ufixed; N : signed) return UNRESOLVED_ufixed;
   function scalb (y : UNRESOLVED_sfixed; N : INTEGER) return UNRESOLVED_sfixed;
-  function scalb (y : UNRESOLVED_sfixed; N : UNRESOLVED_SIGNED) return UNRESOLVED_sfixed;
+  function scalb (y : UNRESOLVED_sfixed; N : signed) return UNRESOLVED_sfixed;
 
   function Is_Negative (arg : UNRESOLVED_sfixed) return BOOLEAN;
 
@@ -397,18 +398,18 @@ package fixed_generic_pkg is
   function "/=" (l, r : UNRESOLVED_ufixed) return BOOLEAN;
   function "/=" (l, r : UNRESOLVED_sfixed) return BOOLEAN;
 
-  function "?="  (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?/=" (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?>"  (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?>=" (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?<"  (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?<=" (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?="  (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?/=" (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?>"  (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?>=" (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?<"  (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?<=" (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  
+  function \?/=\ (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?>\  (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?>=\ (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?<\  (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?<=\ (l, r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?=\  (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?/=\ (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?>\  (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?>=\ (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?<\  (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?<=\ (l, r : UNRESOLVED_sfixed) return STD_ULOGIC;
 
   function std_match (l, r : UNRESOLVED_ufixed) return BOOLEAN;
   function std_match (l, r : UNRESOLVED_sfixed) return BOOLEAN;
@@ -439,19 +440,19 @@ package fixed_generic_pkg is
   function ">"  (l : NATURAL; r : UNRESOLVED_ufixed) return BOOLEAN;
   function "<"  (l : NATURAL; r : UNRESOLVED_ufixed) return BOOLEAN;
 
-  function "?="  (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
-  function "?/=" (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
-  function "?>=" (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
-  function "?<=" (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
-  function "?>"  (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
-  function "?<"  (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
+  function \?=\  (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
+  function \?/=\ (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
+  function \?>=\ (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
+  function \?<=\ (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
+  function \?>\  (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
+  function \?<\  (l : UNRESOLVED_ufixed; r : NATURAL) return STD_ULOGIC;
 
-  function "?="  (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?/=" (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?>=" (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?<=" (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?>"  (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?<"  (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?=\  (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?/=\ (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?>=\ (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?<=\ (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?>\  (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?<\  (l : NATURAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
 
   function maximum (l : UNRESOLVED_ufixed; r : NATURAL)
     return UNRESOLVED_ufixed;
@@ -480,19 +481,19 @@ package fixed_generic_pkg is
   function ">"  (l : REAL; r : UNRESOLVED_ufixed) return BOOLEAN;
   function "<"  (l : REAL; r : UNRESOLVED_ufixed) return BOOLEAN;
 
-  function "?="  (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
-  function "?/=" (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
-  function "?>=" (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
-  function "?<=" (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
-  function "?>"  (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
-  function "?<"  (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
+  function \?=\  (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
+  function \?/=\ (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
+  function \?>=\ (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
+  function \?<=\ (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
+  function \?>\  (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
+  function \?<\  (l : UNRESOLVED_ufixed; r : REAL) return STD_ULOGIC;
 
-  function "?="  (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?/=" (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?>=" (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?<=" (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?>"  (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "?<"  (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?=\  (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?/=\ (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?>=\ (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?<=\ (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?>\  (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function \?<\  (l : REAL; r : UNRESOLVED_ufixed) return STD_ULOGIC;
 
   function maximum (l : UNRESOLVED_ufixed; r : REAL) return UNRESOLVED_ufixed;
   function maximum (l : REAL; r : UNRESOLVED_ufixed) return UNRESOLVED_ufixed;
@@ -517,19 +518,19 @@ package fixed_generic_pkg is
   function ">"  (l : INTEGER; r : UNRESOLVED_sfixed) return BOOLEAN;
   function "<"  (l : INTEGER; r : UNRESOLVED_sfixed) return BOOLEAN;
 
-  function "?="  (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
-  function "?/=" (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
-  function "?>=" (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
-  function "?<=" (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
-  function "?>"  (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
-  function "?<"  (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
+  function \?=\  (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
+  function \?/=\ (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
+  function \?>=\ (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
+  function \?<=\ (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
+  function \?>\  (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
+  function \?<\  (l : UNRESOLVED_sfixed; r : INTEGER) return STD_ULOGIC;
 
-  function "?="  (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?/=" (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?>=" (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?<=" (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?>"  (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?<"  (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?=\  (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?/=\ (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?>=\ (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?<=\ (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?>\  (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?<\  (l : INTEGER; r : UNRESOLVED_sfixed) return STD_ULOGIC;
 
   function maximum (l : UNRESOLVED_sfixed; r : INTEGER)
     return UNRESOLVED_sfixed;
@@ -558,19 +559,19 @@ package fixed_generic_pkg is
   function ">"  (l : REAL; r : UNRESOLVED_sfixed) return BOOLEAN;
   function "<"  (l : REAL; r : UNRESOLVED_sfixed) return BOOLEAN;
 
-  function "?="  (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
-  function "?/=" (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
-  function "?>=" (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
-  function "?<=" (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
-  function "?>"  (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
-  function "?<"  (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
+  function \?=\  (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
+  function \?/=\ (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
+  function \?>=\ (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
+  function \?<=\ (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
+  function \?>\  (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
+  function \?<\  (l : UNRESOLVED_sfixed; r : REAL) return STD_ULOGIC;
 
-  function "?="  (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?/=" (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?>=" (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?<=" (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?>"  (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "?<"  (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?=\  (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?/=\ (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?>=\ (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?<=\ (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?>\  (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function \?<\  (l : REAL; r : UNRESOLVED_sfixed) return STD_ULOGIC;
 
   function maximum (l : UNRESOLVED_sfixed; r : REAL) return UNRESOLVED_sfixed;
   function maximum (l : REAL; r : UNRESOLVED_sfixed) return UNRESOLVED_sfixed;
@@ -684,18 +685,18 @@ package fixed_generic_pkg is
     return UNRESOLVED_sfixed;
 
   -- Reduction operators, same as numeric_std functions
-  function "and"  (l : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "nand" (l : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "or"   (l : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "nor"  (l : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "xor"  (l : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "xnor" (l : UNRESOLVED_ufixed) return STD_ULOGIC;
-  function "and"  (l : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "nand" (l : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "or"   (l : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "nor"  (l : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "xor"  (l : UNRESOLVED_sfixed) return STD_ULOGIC;
-  function "xnor" (l : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function and_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function nand_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function or_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function nor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function xor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function xnor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC;
+  function and_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function nand_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function or_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function nor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function xor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC;
+  function xnor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC;
 
   -- returns arg'low-1 if not found
   function find_leftmost (arg : UNRESOLVED_ufixed; y : STD_ULOGIC)
@@ -799,7 +800,7 @@ package fixed_generic_pkg is
 
   -- unsigned to unsigned fixed point
   function to_ufixed (
-    arg                     : UNRESOLVED_UNSIGNED;             -- unsigned
+    arg                     : unsigned;             -- unsigned
     constant left_index     : INTEGER;  -- left index (high index)
     constant right_index    : INTEGER                   := 0;  -- right index
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
@@ -807,7 +808,7 @@ package fixed_generic_pkg is
     return UNRESOLVED_ufixed;
 
   function to_ufixed (
-    arg                     : UNRESOLVED_UNSIGNED;           -- unsigned
+    arg                     : unsigned;           -- unsigned
     size_res                : UNRESOLVED_ufixed;  -- for size only
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
     constant round_style    : fixed_round_style_type    := fixed_round_style)
@@ -815,7 +816,7 @@ package fixed_generic_pkg is
 
   -- Performs a conversion.  ufixed (arg'range) is returned
   function to_ufixed (
-    arg : UNRESOLVED_UNSIGNED)          -- unsigned
+    arg : unsigned)          -- unsigned
     return UNRESOLVED_ufixed;
 
   -- unsigned fixed point to unsigned
@@ -824,15 +825,15 @@ package fixed_generic_pkg is
     constant size           : NATURAL;            -- length of output
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
     constant round_style    : fixed_round_style_type    := fixed_round_style)
-    return UNRESOLVED_UNSIGNED;
+    return unsigned;
 
   -- unsigned fixed point to unsigned
   function to_unsigned (
     arg                     : UNRESOLVED_ufixed;    -- fixed point input
-    size_res                : UNRESOLVED_UNSIGNED;  -- used for length of output
+    size_res                : unsigned;  -- used for length of output
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
     constant round_style    : fixed_round_style_type    := fixed_round_style)
-    return UNRESOLVED_UNSIGNED;
+    return unsigned;
 
   -- unsigned fixed point to real
   function to_real (
@@ -882,7 +883,7 @@ package fixed_generic_pkg is
 
   -- signed to sfixed
   function to_sfixed (
-    arg                     : UNRESOLVED_SIGNED;               -- signed
+    arg                     : signed;               -- signed
     constant left_index     : INTEGER;  -- left index (high index)
     constant right_index    : INTEGER                   := 0;  -- right index
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
@@ -890,7 +891,7 @@ package fixed_generic_pkg is
     return UNRESOLVED_sfixed;
 
   function to_sfixed (
-    arg                     : UNRESOLVED_SIGNED;  -- signed
+    arg                     : signed;  -- signed
     size_res                : UNRESOLVED_sfixed;  -- for size only
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
     constant round_style    : fixed_round_style_type    := fixed_round_style)
@@ -898,7 +899,7 @@ package fixed_generic_pkg is
 
   -- signed to sfixed (output assumed to be size of signed input)
   function to_sfixed (
-    arg : UNRESOLVED_SIGNED)            -- signed
+    arg : signed)            -- signed
     return UNRESOLVED_sfixed;
 
   -- Conversion from ufixed to sfixed
@@ -912,15 +913,15 @@ package fixed_generic_pkg is
     constant size           : NATURAL;            -- length of output
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
     constant round_style    : fixed_round_style_type    := fixed_round_style)
-    return UNRESOLVED_SIGNED;
+    return signed;
 
   -- signed fixed point to signed
   function to_signed (
     arg                     : UNRESOLVED_sfixed;  -- fixed point input
-    size_res                : UNRESOLVED_SIGNED;  -- used for length of output
+    size_res                : signed;  -- used for length of output
     constant overflow_style : fixed_overflow_style_type := fixed_overflow_style;
     constant round_style    : fixed_round_style_type    := fixed_round_style)
-    return UNRESOLVED_SIGNED;
+    return signed;
 
   -- signed fixed point to real
   function to_real (

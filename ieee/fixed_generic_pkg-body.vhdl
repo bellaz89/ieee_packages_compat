@@ -182,7 +182,7 @@ package body fixed_generic_pkg is
     result := to_fixed(ress (ress'high-1
                              downto 0), arg'high, arg'low);
     overflowx := ((arg(arg'high) /= ress(ress'high-1))
-                  and (or (STD_ULOGIC_VECTOR(ress)) /= '0'));
+                  and (or_reduce (STD_ULOGIC_VECTOR(ress)) /= '0'));
   end procedure round_up;
 
   -- Rounding - Performs a "round_nearest" (IEEE 754) which rounds up
@@ -201,7 +201,7 @@ package body fixed_generic_pkg is
     if (remainder'length > 1) then
       if (remainder (remainder'high) = '1') then
         rounds := (arg(arg'low) = '1')
-                  or (or (to_sulv(remainder(remainder'high-1 downto
+                  or (or_reduce (to_sulv(remainder(remainder'high-1 downto
                                            remainder'low))) = '1');
       end if;
     else
@@ -234,7 +234,7 @@ package body fixed_generic_pkg is
     if (remainder'length > 1) then
       if (remainder (remainder'high) = '1') then
         rounds := (arg(arg'low) = '1')
-                  or (or (to_sulv(remainder(remainder'high-1 downto
+                  or (or_reduce (to_sulv(remainder(remainder'high-1 downto
                                            remainder'low))) = '1');
       end if;
     else
@@ -1706,68 +1706,68 @@ package body fixed_generic_pkg is
   end function "xnor";
 
   -- Reduction operators
-  function "and" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function and_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return and to_sulv(l);
-  end function "and";
+    return and_reduce(to_sulv(l));
+  end function and_reduce;
 
-  function "nand" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function nand_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return nand to_sulv(l);
-  end function "nand";
+    return nand_reduce(to_sulv(l));
+  end function nand_reduce;
 
-  function "or" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function or_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return or to_sulv(l);
-  end function "or";
+    return or_reduce(to_sulv(l));
+  end function or_reduce;
 
-  function "nor" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function nor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return nor to_sulv(l);
-  end function "nor";
+    return nor_reduce(to_sulv(l));
+  end function nor_reduce;
 
-  function "xor" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function xor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return xor to_sulv(l);
-  end function "xor";
+    return xor_reduce(to_sulv(l));
+  end function xor_reduce;
 
-  function "xnor" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function xnor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return xnor to_sulv(l);
-  end function "xnor";
+    return xnor_reduce(to_sulv(l));
+  end function xnor_reduce;
 
-  function "and" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function and_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return and to_sulv(l);
-  end function "and";
+    return and_reduce(to_sulv(l));
+  end function and_reduce;
 
-  function "nand" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function nand_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return nand to_sulv(l);
-  end function "nand";
+    return nand_reduce(to_sulv(l));
+  end function nand_reduce;
 
-  function "or" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function or_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return or to_sulv(l);
-  end function "or";
+    return or_reduce(to_sulv(l));
+  end function or_reduce;
 
-  function "nor" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function nor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return nor to_sulv(l);
-  end function "nor";
+    return nor_reduce(to_sulv(l));
+  end function nor_reduce;
 
-  function "xor" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function xor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return xor to_sulv(l);
-  end function "xor";
+    return xor_reduce(to_sulv(l));
+  end function xor_reduce;
 
-  function "xnor" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function xnor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return xnor to_sulv(l);
-  end function "xnor";
+    return xnor_reduce(to_sulv(l));
+  end function xnor_reduce;
   -- End reduction operators
 
-  function "?=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1786,9 +1786,9 @@ package body fixed_generic_pkg is
       rslv    := to_uns (rresize);
       return lslv ?= rslv;
     end if;
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1807,9 +1807,9 @@ package body fixed_generic_pkg is
       rslv    := to_uns (rresize);
       return lslv ?/= rslv;
     end if;
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1828,9 +1828,9 @@ package body fixed_generic_pkg is
       rslv    := to_uns (rresize);
       return lslv ?> rslv;
     end if;
-  end function "?>";
+  end function \?>\;
 
-  function "?>=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1849,9 +1849,9 @@ package body fixed_generic_pkg is
       rslv    := to_uns (rresize);
       return lslv ?>= rslv;
     end if;
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1870,9 +1870,9 @@ package body fixed_generic_pkg is
       rslv    := to_uns (rresize);
       return lslv ?< rslv;
     end if;
-  end function "?<";
+  end function \?<\;
 
-  function "?<=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1891,9 +1891,9 @@ package body fixed_generic_pkg is
       rslv    := to_uns (rresize);
       return lslv ?<= rslv;
     end if;
-  end function "?<=";
+  end function \?<=\;
 
-  function "?=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1912,9 +1912,9 @@ package body fixed_generic_pkg is
       rslv    := to_s (rresize);
       return lslv ?= rslv;
     end if;
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1933,9 +1933,9 @@ package body fixed_generic_pkg is
       rslv    := to_s (rresize);
       return lslv ?/= rslv;
     end if;
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1954,9 +1954,9 @@ package body fixed_generic_pkg is
       rslv    := to_s (rresize);
       return lslv ?> rslv;
     end if;
-  end function "?>";
+  end function \?>\;
 
-  function "?>=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1975,9 +1975,9 @@ package body fixed_generic_pkg is
       rslv    := to_s (rresize);
       return lslv ?>= rslv;
     end if;
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1996,9 +1996,9 @@ package body fixed_generic_pkg is
       rslv    := to_s (rresize);
       return lslv ?< rslv;
     end if;
-  end function "?<";
+  end function \?<\;
 
-  function "?<=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -2017,7 +2017,7 @@ package body fixed_generic_pkg is
       rslv    := to_s (rresize);
       return lslv ?<= rslv;
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Match function, similar to "std_match" from numeric_std
   function std_match (L, R : UNRESOLVED_ufixed) return BOOLEAN is
@@ -3335,13 +3335,13 @@ package body fixed_generic_pkg is
                           (right_index = arghigh+1);
       elsif (left_index < arglow) then  -- return overflow
         if (overflow_style = fixed_saturate) and
-          (or(to_sulv(invec)) = '1') then
+          (or_reduce(to_sulv(invec)) = '1') then
           result := saturate (result'high, result'low);     -- saturate
         end if;
       elsif (arghigh > left_index) then
         -- wrap or saturate?
         if (overflow_style = fixed_saturate and
-            or (to_sulv(invec(arghigh downto left_index+1))) = '1')
+            or_reduce(to_sulv(invec(arghigh downto left_index+1))) = '1')
         then
           result := saturate (result'high, result'low);     -- saturate
         else
@@ -3419,7 +3419,7 @@ package body fixed_generic_pkg is
         end if;
       elsif (arghigh > left_index) then
         if (invec(arghigh) = '0') then
-          reduced := or (to_sulv(invec(arghigh-1 downto
+          reduced := or_reduce(to_sulv(invec(arghigh-1 downto
                                       left_index)));
           if overflow_style = fixed_saturate and reduced = '1' then
             -- saturate positive
@@ -4129,53 +4129,53 @@ package body fixed_generic_pkg is
     return (l < to_ufixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
     return (l ?= to_ufixed (r, l'high, l'low));
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
     return (l ?/= to_ufixed (r, l'high, l'low));
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
     return (l ?>= to_ufixed (r, l'high, l'low));
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
     return (l ?<= to_ufixed (r, l'high, l'low));
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
     return (l ?> to_ufixed (r, l'high, l'low));
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
     return (l ?< to_ufixed (r, l'high, l'low));
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_ufixed;              -- fixed point input
@@ -4242,53 +4242,53 @@ package body fixed_generic_pkg is
     return (to_ufixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?= r);
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?> r);
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?< r);
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : NATURAL;
@@ -4355,53 +4355,53 @@ package body fixed_generic_pkg is
     return (l < to_ufixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?= to_ufixed (r, l'high, l'low));
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?/= to_ufixed (r, l'high, l'low));
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?>= to_ufixed (r, l'high, l'low));
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?<= to_ufixed (r, l'high, l'low));
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?> to_ufixed (r, l'high, l'low));
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?< to_ufixed (r, l'high, l'low));
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_ufixed;
@@ -4468,53 +4468,53 @@ package body fixed_generic_pkg is
     return (to_ufixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?= r);
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?> r);
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_ufixed (l, r'high, r'low) ?< r);
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : REAL;
@@ -4581,53 +4581,53 @@ package body fixed_generic_pkg is
     return (l < to_sfixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
     return (l ?= to_sfixed (r, l'high, l'low));
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
     return (l ?/= to_sfixed (r, l'high, l'low));
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
     return (l ?>= to_sfixed (r, l'high, l'low));
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
     return (l ?<= to_sfixed (r, l'high, l'low));
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
     return (l ?> to_sfixed (r, l'high, l'low));
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
     return (l ?< to_sfixed (r, l'high, l'low));
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_sfixed;
@@ -4694,53 +4694,53 @@ package body fixed_generic_pkg is
     return (to_sfixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?= r);
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?> r);
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?< r);
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : INTEGER;
@@ -4807,53 +4807,53 @@ package body fixed_generic_pkg is
     return (l < to_sfixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?= to_sfixed (r, l'high, l'low));
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?/= to_sfixed (r, l'high, l'low));
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?>= to_sfixed (r, l'high, l'low));
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?<= to_sfixed (r, l'high, l'low));
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?> to_sfixed (r, l'high, l'low));
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
     return (l ?< to_sfixed (r, l'high, l'low));
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_sfixed;
@@ -4920,53 +4920,53 @@ package body fixed_generic_pkg is
     return (to_sfixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?= r);
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?> r);
-  end function "?>";
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
     return (to_sfixed (l, r'high, r'low) ?< r);
-  end function "?<";
+  end function \?<\;
 
   function maximum (
     l : REAL;
@@ -5437,12 +5437,12 @@ package body fixed_generic_pkg is
                    smath => false);
     if igood then                       -- We did not get another error
       if not ((i = -1) and               -- We read everything, and high bits 0
-              (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+              (or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
         report fixed_generic_pkg'instance_name
           & "OREAD(ufixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce(slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
             report fixed_generic_pkg'instance_name
             & "OREAD(ufixed): Vector truncated"
@@ -5474,7 +5474,7 @@ package body fixed_generic_pkg is
                    smath => false);
     if (igood and                   -- We did not get another error
         (i = -1) and                -- We read everything, and high bits 0
-        (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+        (or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
       valuex := to_ufixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -5503,14 +5503,14 @@ package body fixed_generic_pkg is
     if igood then                       -- We did not get another error
       if not ((i = -1) and               -- We read everything
               ((slv(VALUE'high-lbv) = '0' and      -- sign bits = extra bits
-                or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+                or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
                (slv(VALUE'high-lbv) = '1' and
-                and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+                and_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
         report fixed_generic_pkg'instance_name
           & "OREAD(sfixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce(slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
             report fixed_generic_pkg'instance_name
             & "OREAD(sfixed): Vector truncated"
@@ -5543,9 +5543,9 @@ package body fixed_generic_pkg is
     if (igood                       -- We did not get another error
         and (i = -1)                -- We read everything
         and ((slv(VALUE'high-lbv) = '0' and  -- sign bits = extra bits
-              or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+              or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
              (slv(VALUE'high-lbv) = '1' and
-              and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+              and_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
       valuex := to_sfixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -5729,12 +5729,12 @@ package body fixed_generic_pkg is
                    smath => false);
     if igood then
       if not ((i = -1) and               -- We read everything, and high bits 0
-              (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+              (or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
         report fixed_generic_pkg'instance_name
           & "HREAD(ufixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce(slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
             report fixed_generic_pkg'instance_name
             & "HREAD(ufixed): Vector truncated"
@@ -5766,7 +5766,7 @@ package body fixed_generic_pkg is
                    smath => false);
     if (igood and                   -- We did not get another error
         (i = -1) and                -- We read everything, and high bits 0
-        (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+        (or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
       valuex := to_ufixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -5795,14 +5795,14 @@ package body fixed_generic_pkg is
     if igood then                       -- We did not get another error
       if not ((i = -1)                   -- We read everything
               and ((slv(VALUE'high-lbv) = '0' and  -- sign bits = extra bits
-                    or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+                    or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
                    (slv(VALUE'high-lbv) = '1' and
-                    and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+                    and_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
         report fixed_generic_pkg'instance_name
           & "HREAD(sfixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce(slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
             report fixed_generic_pkg'instance_name
             & "HREAD(sfixed): Vector truncated"
@@ -5835,9 +5835,9 @@ package body fixed_generic_pkg is
     if (igood and                   -- We did not get another error
         (i = -1) and                -- We read everything
         ((slv(VALUE'high-lbv) = '0' and  -- sign bits = extra bits
-          or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+          or_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
          (slv(VALUE'high-lbv) = '1' and
-          and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+          and_reduce(slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
       valuex := to_sfixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
