@@ -54,6 +54,14 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
+library ieee;
+use ieee.std_logic_1164.STD_ULOGIC;
+use ieee.std_logic_1164.STD_ULOGIC_VECTOR;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
+
 package body NUMERIC_BIT is
 
   -- null range array constants
@@ -66,6 +74,60 @@ package body NUMERIC_BIT is
   constant NO_WARNING : BOOLEAN := false;  -- default to emit warnings
 
   -- =========================Local Subprograms =================================
+
+  function to_std_logic_vector(bv: bit_vector) return std_ulogic_vector is
+    variable result: std_ulogic_vector(bv'range);
+  begin
+    for i in bv'range loop
+      if (bv(i) = '1') then
+        result(i) := '1';
+      else
+        result(i) := '0';
+      end if;
+    end loop;
+    return result;
+  end function;
+
+  function to_bit(sl : std_ulogic) return bit is
+  begin
+    if sl = '1' then
+      return '1';
+    else
+      return '1';
+    end if;
+  end function;
+  -------------------------------------------------------------------
+  -- or
+  -------------------------------------------------------------------
+  function or_reduce (l : BIT_VECTOR) return BIT is
+  begin
+    return to_bit(or_reduce(to_std_logic_vector(l)));
+  end function or_reduce;
+
+  -------------------------------------------------------------------
+  -- nor
+  -------------------------------------------------------------------
+  function nor_reduce (l : BIT_VECTOR) return BIT is
+  begin
+    return to_bit(nor_reduce(to_std_logic_vector(l)));
+  end function nor_reduce;
+
+  -------------------------------------------------------------------
+  -- xor
+  -------------------------------------------------------------------
+  function xor_reduce (l : BIT_VECTOR) return BIT is
+  begin
+    return to_bit(xor_reduce(to_std_logic_vector(l)));
+  end function xor_reduce;
+
+  -------------------------------------------------------------------
+  -- xnor
+  -------------------------------------------------------------------
+  function xnor_reduce (l : BIT_VECTOR) return BIT is
+  begin
+    return to_bit(xnor_reduce(to_std_logic_vector(l)));
+  end function xnor_reduce;
+
 
   function SIGNED_NUM_BITS (ARG : INTEGER) return NATURAL is
     variable NBITS : NATURAL;
@@ -1557,374 +1619,374 @@ package body NUMERIC_BIT is
   -- ============================================================================
 
   -- Id: C.49
-  function "?>" (L, R : UNSIGNED) return BIT is
+  function \?>\ (L, R : UNSIGNED) return BIT is
   begin
     if L > R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.50
-  function "?>" (L, R : SIGNED) return BIT is
+  function \?>\ (L, R : SIGNED) return BIT is
   begin
     if L > R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.51
-  function "?>" (L : NATURAL; R : UNSIGNED) return BIT is
+  function \?>\ (L : NATURAL; R : UNSIGNED) return BIT is
   begin
     if L > R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.52
-  function "?>" (L : INTEGER; R : SIGNED) return BIT is
+  function \?>\ (L : INTEGER; R : SIGNED) return BIT is
   begin
     if L > R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.53
-  function "?>" (L : UNSIGNED; R : NATURAL) return BIT is
+  function \?>\ (L : UNSIGNED; R : NATURAL) return BIT is
   begin
     if L > R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.54
-  function "?>" (L : SIGNED; R : INTEGER) return BIT is
+  function \?>\ (L : SIGNED; R : INTEGER) return BIT is
   begin
     if L > R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- ============================================================================
 
   -- Id: C.55
-  function "?<" (L, R : UNSIGNED) return BIT is
+  function \?<\ (L, R : UNSIGNED) return BIT is
   begin
     if L < R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.56
-  function "?<" (L, R : SIGNED) return BIT is
+  function \?<\ (L, R : SIGNED) return BIT is
   begin
     if L < R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.57
-  function "?<" (L : NATURAL; R : UNSIGNED) return BIT is
+  function \?<\ (L : NATURAL; R : UNSIGNED) return BIT is
   begin
     if L < R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.58
-  function "?<" (L : INTEGER; R : SIGNED) return BIT is
+  function \?<\ (L : INTEGER; R : SIGNED) return BIT is
   begin
     if L < R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.59
-  function "?<" (L : UNSIGNED; R : NATURAL) return BIT is
+  function \?<\ (L : UNSIGNED; R : NATURAL) return BIT is
   begin
     if L < R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.60
-  function "?<" (L : SIGNED; R : INTEGER) return BIT is
+  function \?<\ (L : SIGNED; R : INTEGER) return BIT is
   begin
     if L < R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- ============================================================================
 
   -- Id: C.61
-  function "?<=" (L, R : UNSIGNED) return BIT is
+  function \?<=\ (L, R : UNSIGNED) return BIT is
   begin
     if L <= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.62
-  function "?<=" (L, R : SIGNED) return BIT is
+  function \?<=\ (L, R : SIGNED) return BIT is
   begin
     if L <= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.63
-  function "?<=" (L : NATURAL; R : UNSIGNED) return BIT is
+  function \?<=\ (L : NATURAL; R : UNSIGNED) return BIT is
   begin
     if L <= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.64
-  function "?<=" (L : INTEGER; R : SIGNED) return BIT is
+  function \?<=\ (L : INTEGER; R : SIGNED) return BIT is
   begin
     if L <= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.65
-  function "?<=" (L : UNSIGNED; R : NATURAL) return BIT is
+  function \?<=\ (L : UNSIGNED; R : NATURAL) return BIT is
   begin
     if L <= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.66
-  function "?<=" (L : SIGNED; R : INTEGER) return BIT is
+  function \?<=\ (L : SIGNED; R : INTEGER) return BIT is
   begin
     if L <= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- ============================================================================
 
   -- Id: C.67
-  function "?>=" (L, R : UNSIGNED) return BIT is
+  function \?>=\ (L, R : UNSIGNED) return BIT is
   begin
     if L >= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.68
-  function "?>=" (L, R : SIGNED) return BIT is
+  function \?>=\ (L, R : SIGNED) return BIT is
   begin
     if L >= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.69
-  function "?>=" (L : NATURAL; R : UNSIGNED) return BIT is
+  function \?>=\ (L : NATURAL; R : UNSIGNED) return BIT is
   begin
     if L >= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.70
-  function "?>=" (L : INTEGER; R : SIGNED) return BIT is
+  function \?>=\ (L : INTEGER; R : SIGNED) return BIT is
   begin
     if L >= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.71
-  function "?>=" (L : UNSIGNED; R : NATURAL) return BIT is
+  function \?>=\ (L : UNSIGNED; R : NATURAL) return BIT is
   begin
     if L >= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.72
-  function "?>=" (L : SIGNED; R : INTEGER) return BIT is
+  function \?>=\ (L : SIGNED; R : INTEGER) return BIT is
   begin
     if L >= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- ============================================================================
 
   -- Id: C.73
-  function "?=" (L, R : UNSIGNED) return BIT is
+  function \?=\ (L, R : UNSIGNED) return BIT is
   begin
     if L = R then
       return '1';
     else
       return '0';
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.74
-  function "?=" (L, R : SIGNED) return BIT is
+  function \?=\ (L, R : SIGNED) return BIT is
   begin
     if L = R then
       return '1';
     else
       return '0';
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.75
-  function "?=" (L : NATURAL; R : UNSIGNED) return BIT is
+  function \?=\ (L : NATURAL; R : UNSIGNED) return BIT is
   begin
     if L = R then
       return '1';
     else
       return '0';
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.76
-  function "?=" (L : INTEGER; R : SIGNED) return BIT is
+  function \?=\ (L : INTEGER; R : SIGNED) return BIT is
   begin
     if L = R then
       return '1';
     else
       return '0';
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.77
-  function "?=" (L : UNSIGNED; R : NATURAL) return BIT is
+  function \?=\ (L : UNSIGNED; R : NATURAL) return BIT is
   begin
     if L = R then
       return '1';
     else
       return '0';
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.78
-  function "?=" (L : SIGNED; R : INTEGER) return BIT is
+  function \?=\ (L : SIGNED; R : INTEGER) return BIT is
   begin
     if L = R then
       return '1';
     else
       return '0';
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- ============================================================================
 
   -- Id: C.79
-  function "?/=" (L, R : UNSIGNED) return BIT is
+  function \?/=\ (L, R : UNSIGNED) return BIT is
   begin
     if L /= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.80
-  function "?/=" (L, R : SIGNED) return BIT is
+  function \?/=\ (L, R : SIGNED) return BIT is
   begin
     if L /= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.81
-  function "?/=" (L : NATURAL; R : UNSIGNED) return BIT is
+  function \?/=\ (L : NATURAL; R : UNSIGNED) return BIT is
   begin
     if L /= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.82
-  function "?/=" (L : INTEGER; R : SIGNED) return BIT is
+  function \?/=\ (L : INTEGER; R : SIGNED) return BIT is
   begin
     if L /= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.83
-  function "?/=" (L : UNSIGNED; R : NATURAL) return BIT is
+  function \?/=\ (L : UNSIGNED; R : NATURAL) return BIT is
   begin
     if L /= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.84
-  function "?/=" (L : SIGNED; R : INTEGER) return BIT is
+  function \?/=\ (L : SIGNED; R : INTEGER) return BIT is
   begin
     if L /= R then
       return '1';
     else
       return '0';
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- ============================================================================
 
@@ -2608,10 +2670,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.39
-  function "and" (L : SIGNED) return BIT is
+  function and_reduce (L : SIGNED) return BIT is
   begin
-    return and (BIT_VECTOR (L));
-  end function "and";
+    return and_reduce (BIT_VECTOR (L));
+  end function and_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.40 is not compatible with editions of IEEE Std 1076 from
@@ -2619,10 +2681,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.40
-  function "and" (L : UNSIGNED) return BIT is
+  function and_reduce (L : UNSIGNED) return BIT is
   begin
-    return and (BIT_VECTOR (L));
-  end function "and";
+    return and_reduce (BIT_VECTOR (L));
+  end function and_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.41 is not compatible with editions of IEEE Std 1076 from
@@ -2630,10 +2692,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.41
-  function "nand" (L : SIGNED) return BIT is
+  function nand_reduce (L : SIGNED) return BIT is
   begin
-    return nand (BIT_VECTOR (L));
-  end function "nand";
+    return nand_reduce (BIT_VECTOR (L));
+  end function nand_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.42 is not compatible with editions of IEEE Std 1076 from
@@ -2641,10 +2703,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.42
-  function "nand" (L : UNSIGNED) return BIT is
+  function nand_reduce (L : UNSIGNED) return BIT is
   begin
-    return nand (BIT_VECTOR (L));
-  end function "nand";
+    return nand_reduce (BIT_VECTOR (L));
+  end function nand_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.43 is not compatible with editions of IEEE Std 1076 from
@@ -2652,10 +2714,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.43
-  function "or" (L : SIGNED) return BIT is
+  function or_reduce (L : SIGNED) return BIT is
   begin
-    return or (BIT_VECTOR (L));
-  end function "or";
+    return or_reduce (BIT_VECTOR (L));
+  end function or_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.44 is not compatible with editions of IEEE Std 1076 from
@@ -2663,10 +2725,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.44
-  function "or" (L : UNSIGNED) return BIT is
+  function or_reduce (L : UNSIGNED) return BIT is
   begin
-    return or (BIT_VECTOR (L));
-  end function "or";
+    return or_reduce (BIT_VECTOR (L));
+  end function or_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.45 is not compatible with editions of IEEE Std 1076 from
@@ -2674,10 +2736,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.45
-  function "nor" (L : SIGNED) return BIT is
+  function nor_reduce (L : SIGNED) return BIT is
   begin
-    return nor (BIT_VECTOR (L));
-  end function "nor";
+    return nor_reduce (BIT_VECTOR (L));
+  end function nor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.46 is not compatible with editions of IEEE Std 1076 from
@@ -2685,10 +2747,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.46
-  function "nor" (L : UNSIGNED) return BIT is
+  function nor_reduce (L : UNSIGNED) return BIT is
   begin
-    return nor (BIT_VECTOR (L));
-  end function "nor";
+    return nor_reduce (BIT_VECTOR (L));
+  end function nor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.47 is not compatible with editions of IEEE Std 1076 from
@@ -2696,10 +2758,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.47
-  function "xor" (L : SIGNED) return BIT is
+  function xor_reduce (L : SIGNED) return BIT is
   begin
-    return xor (BIT_VECTOR (L));
-  end function "xor";
+    return xor_reduce (BIT_VECTOR (L));
+  end function xor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.48 is not compatible with editions of IEEE Std 1076 from
@@ -2707,10 +2769,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.48
-  function "xor" (L : UNSIGNED) return BIT is
+  function xor_reduce (L : UNSIGNED) return BIT is
   begin
-    return xor (BIT_VECTOR (L));
-  end function "xor";
+    return xor_reduce (BIT_VECTOR (L));
+  end function xor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.49 is not compatible with editions of IEEE Std 1076 from
@@ -2718,10 +2780,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.49
-  function "xnor" (L : SIGNED) return BIT is
+  function xnor_reduce (L : SIGNED) return BIT is
   begin
-    return xnor (BIT_VECTOR (L));
-  end function "xnor";
+    return xnor_reduce (BIT_VECTOR (L));
+  end function xnor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.50 is not compatible with editions of IEEE Std 1076 from
@@ -2729,10 +2791,10 @@ package body NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.50
-  function "xnor" (L : UNSIGNED) return BIT is
+  function xnor_reduce (L : UNSIGNED) return BIT is
   begin
-    return xnor (BIT_VECTOR (L));
-  end function "xnor";
+    return xnor_reduce (BIT_VECTOR (L));
+  end function xnor_reduce;
 
   -- ============================================================================
   -- string conversion and write operations
@@ -2844,14 +2906,14 @@ package body NUMERIC_BIT is
     end if;
     if (pad > 0) then
       if (ivalue(0) = '0') then         -- positive
-        if ivalue(0) = or (ivalue(0 to pad)) then
+        if ivalue(0) = or_reduce (ivalue(0 to pad)) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
           GOOD  := true;
         else
           GOOD := false;
         end if;
       else                              -- negative
-        if ivalue(0) = and (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
           GOOD  := true;
         else
@@ -2881,7 +2943,7 @@ package body NUMERIC_BIT is
             VALUE => ivalue);           -- Read padded string
     if (pad > 0) then
       if (ivalue(0) = '0') then         -- positive
-        if ivalue(0) = or (ivalue(0 to pad)) then
+        if ivalue(0) = or_reduce (ivalue(0 to pad)) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           assert false
@@ -2889,7 +2951,7 @@ package body NUMERIC_BIT is
             severity error;
         end if;
       else                              -- negative
-        if ivalue(0) = and (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           assert false
@@ -2926,14 +2988,14 @@ package body NUMERIC_BIT is
     end if;
     if (pad > 0) then
       if (ivalue(0) = '0') then         -- positive
-        if ivalue(0) = or (ivalue(0 to pad)) then
+        if ivalue(0) = or_reduce (ivalue(0 to pad)) then
           GOOD  := true;
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           GOOD := false;
         end if;
       else                              -- negative
-        if ivalue(0) = and (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
           GOOD  := true;
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
@@ -2963,7 +3025,7 @@ package body NUMERIC_BIT is
             VALUE => ivalue);           -- Read padded string
     if (pad > 0) then
       if (ivalue(0) = '0') then         -- positive
-        if ivalue(0) = or (ivalue(0 to pad)) then
+        if ivalue(0) = or_reduce (ivalue(0 to pad)) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           assert false
@@ -2971,7 +3033,7 @@ package body NUMERIC_BIT is
             severity error;
         end if;
       else                              -- negative
-        if ivalue(0) = and (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           assert false

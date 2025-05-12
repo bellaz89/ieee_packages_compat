@@ -48,7 +48,12 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
-use WORK.MATH_REAL.all;
+library ieee;
+use ieee.MATH_REAL.all;
+
+library ieee_compat;
+use ieee.math_real.all;
+
 package MATH_COMPLEX is
   constant CopyRightNotice : STRING
     := "Copyright IEEE P1076 WG. Licensed Apache 2.0";

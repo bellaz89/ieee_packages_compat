@@ -40,10 +40,7 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
-library IEEE;
-use IEEE.MATH_REAL.all;
-
-package body fixed_generic_pkg is
+package body fixed_pkg is
   -- Author David Bishop (dbishop@vhdl.org)
   -- Other contributers: Jim Lewis, Yannick Grugni, Ryan W. Hilton
   -- null array constants
@@ -70,7 +67,7 @@ package body fixed_generic_pkg is
     return INTEGER is
   begin  -- function mine
     if (l = INTEGER'low or r = INTEGER'low) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & " Unbounded number passed, was a literal used?"
         severity error;
       return 0;
@@ -87,7 +84,7 @@ package body fixed_generic_pkg is
   is
   begin  -- function cleanvec
     assert not (arg'ascending and (arg'low /= INTEGER'low))
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & " Vector passed using a ""to"" range, expected is ""downto"""
       severity error;
     return arg;
@@ -100,7 +97,7 @@ package body fixed_generic_pkg is
   is
   begin  -- function cleanvec
     assert not (arg'ascending and (arg'low /= INTEGER'low))
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & " Vector passed using a ""to"" range, expected is ""downto"""
       severity error;
     return arg;
@@ -182,7 +179,7 @@ package body fixed_generic_pkg is
     result := to_fixed(ress (ress'high-1
                              downto 0), arg'high, arg'low);
     overflowx := ((arg(arg'high) /= ress(ress'high-1))
-                  and (or (STD_ULOGIC_VECTOR(ress)) /= '0'));
+                  and (or_reduce (STD_ULOGIC_VECTOR(ress)) /= '0'));
   end procedure round_up;
 
   -- Rounding - Performs a "round_nearest" (IEEE 754) which rounds up
@@ -201,7 +198,7 @@ package body fixed_generic_pkg is
     if (remainder'length > 1) then
       if (remainder (remainder'high) = '1') then
         rounds := (arg(arg'low) = '1')
-                  or (or (to_sulv(remainder(remainder'high-1 downto
+                  or (or_reduce (to_sulv(remainder(remainder'high-1 downto
                                            remainder'low))) = '1');
       end if;
     else
@@ -234,7 +231,7 @@ package body fixed_generic_pkg is
     if (remainder'length > 1) then
       if (remainder (remainder'high) = '1') then
         rounds := (arg(arg'low) = '1')
-                  or (or (to_sulv(remainder(remainder'high-1 downto
+                  or (or_reduce (to_sulv(remainder(remainder'high-1 downto
                                            remainder'low))) = '1');
       end if;
     else
@@ -314,14 +311,14 @@ package body fixed_generic_pkg is
     arg : UNRESOLVED_ufixed)            -- fixed point vector
     return STD_LOGIC_VECTOR is
   begin
-    return to_sulv(arg);
+    return std_logic_vector(to_sulv(arg));
   end function to_slv;
 
   function to_slv (
     arg : UNRESOLVED_sfixed)            -- fixed point vector
     return STD_LOGIC_VECTOR is
   begin
-    return to_sulv(arg);
+    return std_logic_vector(to_sulv(arg));
   end function to_slv;
 
   function to_ufixed (
@@ -336,7 +333,7 @@ package body fixed_generic_pkg is
       return NAUF;
     end if;
     if (arg'length /= result'length) then
-      report fixed_generic_pkg'instance_name & "TO_UFIXED(SLV) "
+      report fixed_pkg'instance_name & "TO_UFIXED(SLV) "
         & "Vector lengths do not match.  Input length is "
         & INTEGER'image(arg'length) & " and output will be "
         & INTEGER'image(result'length) & " wide."
@@ -362,7 +359,7 @@ package body fixed_generic_pkg is
       return NASF;
     end if;
     if (arg'length /= result'length) then
-      report fixed_generic_pkg'instance_name & "TO_SFIXED(SLV) "
+      report fixed_pkg'instance_name & "TO_SFIXED(SLV) "
         & "Vector lengths do not match.  Input length is "
         & INTEGER'image(arg'length) & " and output will be "
         & INTEGER'image(result'length) & " wide."
@@ -597,7 +594,7 @@ package body fixed_generic_pkg is
     lslv := to_uns (cleanvec (lresize));
     rslv := to_uns (cleanvec (r));
     if (rslv = 0) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & "DIVIDE(ufixed) Division by zero" severity error;
       result := saturate (result'high, result'low);    -- saturate
     else
@@ -639,7 +636,7 @@ package body fixed_generic_pkg is
     lslv := to_s (cleanvec (lresize));
     rslv := to_s (cleanvec (r));
     if (rslv = 0) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & "DIVIDE(sfixed) Division by zero" severity error;
       result := saturate (result'high, result'low);
     else
@@ -744,7 +741,7 @@ package body fixed_generic_pkg is
                        round_style    => fixed_truncate);
     rslv := to_uns (rresize);
     if (rslv = 0) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & "remainder(ufixed) Division by zero" severity error;
       result := saturate (result'high, result'low);      -- saturate
     else
@@ -1010,7 +1007,7 @@ package body fixed_generic_pkg is
     return INTEGER is
   begin
     for_loop : for i in arg'reverse_range loop
-      if arg(i) ?= y then
+      if \?=\(arg(i), y) = '1' then
         return i;
       end if;
     end loop;
@@ -1021,7 +1018,7 @@ package body fixed_generic_pkg is
     return INTEGER is
   begin
     for_loop : for i in arg'range loop
-      if arg(i) ?= y then
+      if \?=\(arg(i), y) = '1' then
         return i;
       end if;
     end loop;
@@ -1032,7 +1029,7 @@ package body fixed_generic_pkg is
     return INTEGER is
   begin
     for_loop : for i in arg'reverse_range loop
-      if arg(i) ?= y then
+      if \?=\(arg(i), y) = '1' then
         return i;
       end if;
     end loop;
@@ -1043,7 +1040,7 @@ package body fixed_generic_pkg is
     return INTEGER is
   begin
     for_loop : for i in arg'range loop
-      if arg(i) ?= y then
+      if \?=\(arg(i), y) = '1' then
         return i;
       end if;
     end loop;
@@ -1260,7 +1257,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) and to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """and"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1275,7 +1272,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) or to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """or"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1290,7 +1287,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) nand to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """nand"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1305,7 +1302,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) nor to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """nor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1320,7 +1317,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) xor to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """xor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1335,7 +1332,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) xnor to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """xnor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1357,7 +1354,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) and to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """and"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1372,7 +1369,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) or to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """or"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1387,7 +1384,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) nand to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """nand"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1402,7 +1399,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) nor to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """nor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1417,7 +1414,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) xor to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """xor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1432,7 +1429,7 @@ package body fixed_generic_pkg is
       RESULT := to_sulv(L) xnor to_sulv(R);
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """xnor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -1706,68 +1703,68 @@ package body fixed_generic_pkg is
   end function "xnor";
 
   -- Reduction operators
-  function "and" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function and_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return and to_sulv(l);
-  end function "and";
+    return and_reduce (to_sulv(l));
+  end function and_reduce;
 
-  function "nand" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function nand_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return nand to_sulv(l);
-  end function "nand";
+    return nand_reduce (to_sulv(l));
+  end function nand_reduce;
 
-  function "or" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function or_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return or to_sulv(l);
-  end function "or";
+    return or_reduce (to_sulv(l));
+  end function or_reduce;
 
-  function "nor" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function nor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return nor to_sulv(l);
-  end function "nor";
+    return nor_reduce (to_sulv(l));
+  end function nor_reduce;
 
-  function "xor" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function xor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return xor to_sulv(l);
-  end function "xor";
+    return xor_reduce (to_sulv(l));
+  end function xor_reduce;
 
-  function "xnor" (l : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function xnor_reduce (l : UNRESOLVED_ufixed) return STD_ULOGIC is
   begin
-    return xnor to_sulv(l);
-  end function "xnor";
+    return xnor_reduce (to_sulv(l));
+  end function xnor_reduce;
 
-  function "and" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function and_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return and to_sulv(l);
-  end function "and";
+    return and_reduce (to_sulv(l));
+  end function and_reduce;
 
-  function "nand" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function nand_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return nand to_sulv(l);
-  end function "nand";
+    return nand_reduce (to_sulv(l));
+  end function nand_reduce;
 
-  function "or" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function or_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return or to_sulv(l);
-  end function "or";
+    return or_reduce (to_sulv(l));
+  end function or_reduce;
 
-  function "nor" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function nor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return nor to_sulv(l);
-  end function "nor";
+    return nor_reduce (to_sulv(l));
+  end function nor_reduce;
 
-  function "xor" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function xor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return xor to_sulv(l);
-  end function "xor";
+    return xor_reduce (to_sulv(l));
+  end function xor_reduce;
 
-  function "xnor" (l : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function xnor_reduce (l : UNRESOLVED_sfixed) return STD_ULOGIC is
   begin
-    return xnor to_sulv(l);
-  end function "xnor";
+    return xnor_reduce (to_sulv(l));
+  end function xnor_reduce;
   -- End reduction operators
 
-  function "?=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1775,7 +1772,7 @@ package body fixed_generic_pkg is
   begin  -- ?=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1784,11 +1781,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_uns (lresize);
       rslv    := to_uns (rresize);
-      return lslv ?= rslv;
+      return \?=\(lslv, rslv);
     end if;
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1796,7 +1793,7 @@ package body fixed_generic_pkg is
   begin  -- ?/=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?/="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1805,11 +1802,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_uns (lresize);
       rslv    := to_uns (rresize);
-      return lslv ?/= rslv;
+      return \?/=\(lslv, rslv);
     end if;
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1817,7 +1814,7 @@ package body fixed_generic_pkg is
   begin  -- ?>
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?>"": null detected, returning X"
         severity warning;
       return 'X';
@@ -1826,11 +1823,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_uns (lresize);
       rslv    := to_uns (rresize);
-      return lslv ?> rslv;
+      return \?>\(lslv, rslv);
     end if;
-  end function "?>";
+  end function \?>\;
 
-  function "?>=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1838,7 +1835,7 @@ package body fixed_generic_pkg is
   begin  -- ?>=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?>="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1847,11 +1844,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_uns (lresize);
       rslv    := to_uns (rresize);
-      return lslv ?>= rslv;
+      return \?>=\(lslv, rslv);
     end if;
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1859,7 +1856,7 @@ package body fixed_generic_pkg is
   begin  -- ?<
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?<"": null detected, returning X"
         severity warning;
       return 'X';
@@ -1868,11 +1865,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_uns (lresize);
       rslv    := to_uns (rresize);
-      return lslv ?< rslv;
+      return \?<\(lslv, rslv);
     end if;
-  end function "?<";
+  end function \?<\;
 
-  function "?<=" (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_ufixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_ufixed (left_index downto right_index);
@@ -1880,7 +1877,7 @@ package body fixed_generic_pkg is
   begin  -- ?<=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?<="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1889,11 +1886,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_uns (lresize);
       rslv    := to_uns (rresize);
-      return lslv ?<= rslv;
+      return \?<=\(lslv, rslv);
     end if;
-  end function "?<=";
+  end function \?<=\;
 
-  function "?=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1901,7 +1898,7 @@ package body fixed_generic_pkg is
   begin  -- ?=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1910,11 +1907,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_s (lresize);
       rslv    := to_s (rresize);
-      return lslv ?= rslv;
+      return \?=\(lslv, rslv);
     end if;
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1922,7 +1919,7 @@ package body fixed_generic_pkg is
   begin  -- ?/=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?/="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1931,11 +1928,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_s (lresize);
       rslv    := to_s (rresize);
-      return lslv ?/= rslv;
+      return \?/=\(lslv, rslv);
     end if;
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1943,7 +1940,7 @@ package body fixed_generic_pkg is
   begin  -- ?>
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?>"": null detected, returning X"
         severity warning;
       return 'X';
@@ -1952,11 +1949,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_s (lresize);
       rslv    := to_s (rresize);
-      return lslv ?> rslv;
+      return \?>\(lslv, rslv);
     end if;
-  end function "?>";
+  end function \?>\;
 
-  function "?>=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1964,7 +1961,7 @@ package body fixed_generic_pkg is
   begin  -- ?>=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?>="": null detected, returning X"
         severity warning;
       return 'X';
@@ -1973,11 +1970,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_s (lresize);
       rslv    := to_s (rresize);
-      return lslv ?>= rslv;
+      return \?>=\(lslv, rslv);
     end if;
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -1985,7 +1982,7 @@ package body fixed_generic_pkg is
   begin  -- ?<
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?<"": null detected, returning X"
         severity warning;
       return 'X';
@@ -1994,11 +1991,11 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_s (lresize);
       rslv    := to_s (rresize);
-      return lslv ?< rslv;
+      return \?<\(lslv, rslv);
     end if;
-  end function "?<";
+  end function \?<\;
 
-  function "?<=" (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_sfixed) return STD_ULOGIC is
     constant left_index       : INTEGER := maximum(L'high, R'high);
     constant right_index      : INTEGER := mins(L'low, R'low);
     variable lresize, rresize : UNRESOLVED_sfixed (left_index downto right_index);
@@ -2006,7 +2003,7 @@ package body fixed_generic_pkg is
   begin  -- ?<=
     if ((L'length < 1) or (R'length < 1)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """?<="": null detected, returning X"
         severity warning;
       return 'X';
@@ -2015,9 +2012,9 @@ package body fixed_generic_pkg is
       rresize := resize (R, left_index, right_index);
       lslv    := to_s (lresize);
       rslv    := to_s (rresize);
-      return lslv ?<= rslv;
+      return \?<=\(lslv, rslv);
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Match function, similar to "std_match" from numeric_std
   function std_match (L, R : UNRESOLVED_ufixed) return BOOLEAN is
@@ -2026,7 +2023,7 @@ package body fixed_generic_pkg is
       return std_match(to_sulv(L), to_sulv(R));
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "STD_MATCH: L'RANGE /= R'RANGE, returning FALSE"
         severity warning;
       return false;
@@ -2039,7 +2036,7 @@ package body fixed_generic_pkg is
       return std_match(to_sulv(L), to_sulv(R));
     else
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "STD_MATCH: L'RANGE /= R'RANGE, returning FALSE"
         severity warning;
       return false;
@@ -2058,13 +2055,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """="": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """="": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2087,13 +2084,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """="": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """="": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2116,13 +2113,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """/="": null argument detected, returning TRUE"
         severity warning;
       return true;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """/="": metavalue detected, returning TRUE"
         severity warning;
       return true;
@@ -2145,13 +2142,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """/="": null argument detected, returning TRUE"
         severity warning;
       return true;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """/="": metavalue detected, returning TRUE"
         severity warning;
       return true;
@@ -2174,13 +2171,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>"": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>"": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2203,13 +2200,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>"": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>"": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2232,13 +2229,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<"": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<"": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2261,13 +2258,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<"": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<"": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2290,13 +2287,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>="": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>="": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2319,13 +2316,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>="": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """>="": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2348,13 +2345,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<="": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<="": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2377,13 +2374,13 @@ package body fixed_generic_pkg is
   begin
     if (l'length < 1 or r'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<="": null argument detected, returning FALSE"
         severity warning;
       return false;
     elsif (Is_X(l) or Is_X(r)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & """<="": metavalue detected, returning FALSE"
         severity warning;
       return false;
@@ -2481,7 +2478,7 @@ package body fixed_generic_pkg is
       end loop;
       if argx /= 0 then
         assert no_warning
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
           & "TO_UFIXED(NATURAL): vector truncated"
           severity warning;
         if overflow_style = fixed_saturate then
@@ -2535,7 +2532,7 @@ package body fixed_generic_pkg is
       end loop;
       if argx /= 0 or left_index < 0 or sign /= sresult(sresult'left) then
         assert no_warning
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
           & "TO_SFIXED(INTEGER): vector truncated"
           severity warning;
         if overflow_style = fixed_saturate then                -- saturate
@@ -2580,14 +2577,14 @@ package body fixed_generic_pkg is
       return NAUF;
     end if;
     if (arg < 0.0) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & "TO_UFIXED: Negative argument passed "
         & REAL'image(arg) severity error;
       return result;
     end if;
     presult := arg;
     if presult >= (2.0**(left_index+1)) then
-      assert no_warning report fixed_generic_pkg'instance_name
+      assert no_warning report fixed_pkg'instance_name
         & "TO_UFIXED(REAL): vector truncated"
         severity warning;
       if overflow_style = fixed_wrap then
@@ -2636,7 +2633,7 @@ package body fixed_generic_pkg is
       return NASF;
     end if;
     if (arg >= (2.0**left_index) or arg < -(2.0**left_index)) then
-      assert no_warning report fixed_generic_pkg'instance_name
+      assert no_warning report fixed_pkg'instance_name
         & "TO_SFIXED(REAL): vector truncated"
         severity warning;
       if overflow_style = fixed_saturate then
@@ -2944,7 +2941,7 @@ package body fixed_generic_pkg is
     variable result : UNRESOLVED_ufixed (width-fraction-1 downto -fraction);
   begin
     if (arg'length /= result'length) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & "TO_UFIX (STD_ULOGIC_VECTOR) "
         & "Vector lengths do not match.  Input length is "
         & INTEGER'image(arg'length) & " and output will be "
@@ -2967,7 +2964,7 @@ package body fixed_generic_pkg is
     variable result : UNRESOLVED_sfixed (width-fraction-1 downto -fraction);
   begin
     if (arg'length /= result'length) then
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
         & "TO_SFIX (STD_ULOGIC_VECTOR) "
         & "Vector lengths do not match.  Input length is "
         & INTEGER'image(arg'length) & " and output will be "
@@ -3109,7 +3106,7 @@ package body fixed_generic_pkg is
     arg_int := To_X01(cleanvec(arg));
     if (Is_X(arg_int)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "TO_REAL (ufixed): metavalue detected, returning 0.0"
         severity warning;
       return 0.0;
@@ -3141,7 +3138,7 @@ package body fixed_generic_pkg is
     arg_int := to_X01(cleanvec(arg));
     if (Is_X(arg_int)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "TO_REAL (sfixed): metavalue detected, returning 0.0"
         severity warning;
       return 0.0;
@@ -3169,7 +3166,7 @@ package body fixed_generic_pkg is
     end if;
     if (Is_X (arg)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "TO_INTEGER (ufixed): metavalue detected, returning 0"
         severity warning;
       return 0;
@@ -3199,7 +3196,7 @@ package body fixed_generic_pkg is
     end if;
     if (Is_X (arg)) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "TO_INTEGER (sfixed): metavalue detected, returning 0"
         severity warning;
       return 0;
@@ -3223,7 +3220,7 @@ package body fixed_generic_pkg is
   begin
     if (s'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "TO_01(ufixed): null detected, returning NULL"
         severity warning;
       return NAUF;
@@ -3239,7 +3236,7 @@ package body fixed_generic_pkg is
   begin
     if (s'length < 1) then
       assert no_warning
-        report fixed_generic_pkg'instance_name
+        report fixed_pkg'instance_name
         & "TO_01(sfixed): null detected, returning NULL"
         severity warning;
       return NASF;
@@ -3335,13 +3332,13 @@ package body fixed_generic_pkg is
                           (right_index = arghigh+1);
       elsif (left_index < arglow) then  -- return overflow
         if (overflow_style = fixed_saturate) and
-          (or(to_sulv(invec)) = '1') then
+          (or_reduce (to_sulv(invec)) = '1') then
           result := saturate (result'high, result'low);     -- saturate
         end if;
       elsif (arghigh > left_index) then
         -- wrap or saturate?
         if (overflow_style = fixed_saturate and
-            or (to_sulv(invec(arghigh downto left_index+1))) = '1')
+            or_reduce (to_sulv(invec(arghigh downto left_index+1))) = '1')
         then
           result := saturate (result'high, result'low);     -- saturate
         else
@@ -3404,7 +3401,7 @@ package body fixed_generic_pkg is
                           (right_index = arghigh+1);
       elsif (left_index < arglow) then  -- return overflow
         if (overflow_style = fixed_saturate) then
-          reduced := or (to_sulv(invec));
+          reduced := or_reduce (to_sulv(invec));
           if (reduced = '1') then
             if (invec(arghigh) = '0') then
               -- saturate POSITIVE
@@ -3419,7 +3416,7 @@ package body fixed_generic_pkg is
         end if;
       elsif (arghigh > left_index) then
         if (invec(arghigh) = '0') then
-          reduced := or (to_sulv(invec(arghigh-1 downto
+          reduced := or_reduce (to_sulv(invec(arghigh-1 downto
                                       left_index)));
           if overflow_style = fixed_saturate and reduced = '1' then
             -- saturate positive
@@ -3434,7 +3431,7 @@ package body fixed_generic_pkg is
             end if;
           end if;
         else
-          reduced := and (to_sulv(invec(arghigh-1 downto
+          reduced := and_reduce (to_sulv(invec(arghigh-1 downto
                                        left_index)));
           if overflow_style = fixed_saturate and reduced = '0' then
             result := not saturate (result'high, result'low);
@@ -4129,53 +4126,53 @@ package body fixed_generic_pkg is
     return (l < to_ufixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
-    return (l ?= to_ufixed (r, l'high, l'low));
-  end function "?=";
+    return (\?=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
-    return (l ?/= to_ufixed (r, l'high, l'low));
-  end function "?/=";
+    return (\?/=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
-    return (l ?>= to_ufixed (r, l'high, l'low));
-  end function "?>=";
+    return (\?>=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
-    return (l ?<= to_ufixed (r, l'high, l'low));
-  end function "?<=";
+    return (\?<=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
-    return (l ?> to_ufixed (r, l'high, l'low));
-  end function "?>";
+    return (\?>\(l, to_ufixed (r, l'high, l'low)));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_ufixed;
     r : NATURAL)                        -- fixed point input
     return STD_ULOGIC is
   begin
-    return (l ?< to_ufixed (r, l'high, l'low));
-  end function "?<";
+    return (\?<\(l, to_ufixed (r, l'high, l'low)));
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_ufixed;              -- fixed point input
@@ -4242,53 +4239,53 @@ package body fixed_generic_pkg is
     return (to_ufixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?= r);
-  end function "?=";
+    return (\?=\(to_ufixed (l, r'high, r'low), r));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+    return (\?/=\(to_ufixed (l, r'high, r'low), r));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+    return (\?>=\(to_ufixed (l, r'high, r'low), r));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+    return (\?<=\(to_ufixed (l, r'high, r'low), r));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?> r);
-  end function "?>";
+    return (\?>\(to_ufixed (l, r'high, r'low), r));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : NATURAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?< r);
-  end function "?<";
+    return (\?<\(to_ufixed (l, r'high, r'low), r));
+  end function \?<\;
 
   function maximum (
     l : NATURAL;
@@ -4355,53 +4352,53 @@ package body fixed_generic_pkg is
     return (l < to_ufixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?= to_ufixed (r, l'high, l'low));
-  end function "?=";
+    return (\?=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?/= to_ufixed (r, l'high, l'low));
-  end function "?/=";
+    return (\?/=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?>= to_ufixed (r, l'high, l'low));
-  end function "?>=";
+    return (\?>=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?<= to_ufixed (r, l'high, l'low));
-  end function "?<=";
+    return (\?<=\(l, to_ufixed (r, l'high, l'low)));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?> to_ufixed (r, l'high, l'low));
-  end function "?>";
+    return (\?>\(l, to_ufixed (r, l'high, l'low)));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_ufixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?< to_ufixed (r, l'high, l'low));
-  end function "?<";
+    return (\?<\(l, to_ufixed (r, l'high, l'low)));
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_ufixed;
@@ -4468,53 +4465,53 @@ package body fixed_generic_pkg is
     return (to_ufixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?= r);
-  end function "?=";
+    return (\?=\(to_ufixed (l, r'high, r'low), r));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+    return (\?/=\(to_ufixed (l, r'high, r'low), r));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+    return (\?>=\(to_ufixed (l, r'high, r'low), r));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+    return (\?<=\(to_ufixed (l, r'high, r'low), r));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?> r);
-  end function "?>";
+    return (\?>\(to_ufixed (l, r'high, r'low), r));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : REAL;
     r : UNRESOLVED_ufixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_ufixed (l, r'high, r'low) ?< r);
-  end function "?<";
+    return (\?<\(to_ufixed (l, r'high, r'low), r));
+  end function \?<\;
 
   function maximum (
     l : REAL;
@@ -4581,53 +4578,53 @@ package body fixed_generic_pkg is
     return (l < to_sfixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
-    return (l ?= to_sfixed (r, l'high, l'low));
-  end function "?=";
+    return (\?=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
-    return (l ?/= to_sfixed (r, l'high, l'low));
-  end function "?/=";
+    return (\?/=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
-    return (l ?>= to_sfixed (r, l'high, l'low));
-  end function "?>=";
+    return (\?>=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
-    return (l ?<= to_sfixed (r, l'high, l'low));
-  end function "?<=";
+    return (\?<=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
-    return (l ?> to_sfixed (r, l'high, l'low));
-  end function "?>";
+    return (\?>\(l, to_sfixed (r, l'high, l'low)));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_sfixed;
     r : INTEGER)
     return STD_ULOGIC is
   begin
-    return (l ?< to_sfixed (r, l'high, l'low));
-  end function "?<";
+    return (\?<\(l, to_sfixed (r, l'high, l'low)));
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_sfixed;
@@ -4694,53 +4691,53 @@ package body fixed_generic_pkg is
     return (to_sfixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?= r);
-  end function "?=";
+    return (\?=\(to_sfixed (l, r'high, r'low), r));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+    return (\?/=\(to_sfixed (l, r'high, r'low), r));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+    return (\?>=\(to_sfixed (l, r'high, r'low), r));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+    return (\?<=\(to_sfixed (l, r'high, r'low), r));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?> r);
-  end function "?>";
+    return (\?>\(to_sfixed (l, r'high, r'low), r));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : INTEGER;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?< r);
-  end function "?<";
+    return (\?<\(to_sfixed (l, r'high, r'low), r));
+  end function \?<\;
 
   function maximum (
     l : INTEGER;
@@ -4807,53 +4804,53 @@ package body fixed_generic_pkg is
     return (l < to_sfixed (r, l'high, l'low));
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?= to_sfixed (r, l'high, l'low));
-  end function "?=";
+    return (\?=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?/= to_sfixed (r, l'high, l'low));
-  end function "?/=";
+    return (\?/=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?>= to_sfixed (r, l'high, l'low));
-  end function "?>=";
+    return (\?>=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?<= to_sfixed (r, l'high, l'low));
-  end function "?<=";
+    return (\?<=\(l, to_sfixed (r, l'high, l'low)));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?> to_sfixed (r, l'high, l'low));
-  end function "?>";
+    return (\?>\(l, to_sfixed (r, l'high, l'low)));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : UNRESOLVED_sfixed;
     r : REAL)
     return STD_ULOGIC is
   begin
-    return (l ?< to_sfixed (r, l'high, l'low));
-  end function "?<";
+    return (\?<\(l, to_sfixed (r, l'high, l'low)));
+  end function \?<\;
 
   function maximum (
     l : UNRESOLVED_sfixed;
@@ -4920,53 +4917,53 @@ package body fixed_generic_pkg is
     return (to_sfixed (l, r'high, r'low) < r);
   end function "<";
 
-  function "?=" (
+  function \?=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?= r);
-  end function "?=";
+    return (\?=\(to_sfixed (l, r'high, r'low), r));
+  end function \?=\;
 
-  function "?/=" (
+  function \?/=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?/= r);
-  end function "?/=";
+    return (\?/=\(to_sfixed (l, r'high, r'low), r));
+  end function \?/=\;
 
-  function "?>=" (
+  function \?>=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?>= r);
-  end function "?>=";
+    return (\?>=\(to_sfixed (l, r'high, r'low), r));
+  end function \?>=\;
 
-  function "?<=" (
+  function \?<=\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?<= r);
-  end function "?<=";
+    return (\?<=\(to_sfixed (l, r'high, r'low), r));
+  end function \?<=\;
 
-  function "?>" (
+  function \?>\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?> r);
-  end function "?>";
+    return (\?>\(to_sfixed (l, r'high, r'low), r));
+  end function \?>\;
 
-  function "?<" (
+  function \?<\ (
     l : REAL;
     r : UNRESOLVED_sfixed)              -- fixed point input
     return STD_ULOGIC is
   begin
-    return (to_sfixed (l, r'high, r'low) ?< r);
-  end function "?<";
+    return (\?<\(to_sfixed (l, r'high, r'low), r));
+  end function \?<\;
 
   function maximum (
     l : REAL;
@@ -5077,17 +5074,17 @@ package body fixed_generic_pkg is
       i := VALUE'high;
       while i >= VALUE'low loop
         if readOk = false then              -- Bail out if there was a bad read
-          report fixed_generic_pkg'instance_name & "READ(ufixed) "
+          report fixed_pkg'instance_name & "READ(ufixed) "
             & "End of string encountered"
             severity error;
           return;
         elsif c = '_' then
           if i = VALUE'high then
-            report fixed_generic_pkg'instance_name & "READ(ufixed) "
+            report fixed_pkg'instance_name & "READ(ufixed) "
               & "String begins with an ""_""" severity error;
             return;
           elsif lastu then
-            report fixed_generic_pkg'instance_name & "READ(ufixed) "
+            report fixed_pkg'instance_name & "READ(ufixed) "
               & "Two underscores detected in input string ""__"""
               severity error;
             return;
@@ -5096,11 +5093,11 @@ package body fixed_generic_pkg is
           end if;
         elsif c = '.' then                -- binary point
           if founddot then
-            report fixed_generic_pkg'instance_name & "READ(ufixed) "
+            report fixed_pkg'instance_name & "READ(ufixed) "
               & "Two binary points found in input string" severity error;
             return;
           elsif i /= -1 then                 -- Seperator in the wrong spot
-            report fixed_generic_pkg'instance_name & "READ(ufixed) "
+            report fixed_pkg'instance_name & "READ(ufixed) "
               & "Decimal point does not match number format "
               severity error;
             return;
@@ -5108,12 +5105,12 @@ package body fixed_generic_pkg is
           founddot := true;
           lastu := false;
         elsif c = ' ' or c = NBSP or c = HT then  -- reading done.
-          report fixed_generic_pkg'instance_name & "READ(ufixed) "
+          report fixed_pkg'instance_name & "READ(ufixed) "
             & "Short read, Space encounted in input string"
             severity error;
           return;
         elsif char_to_MVL9plus(c) = error then
-          report fixed_generic_pkg'instance_name & "READ(ufixed) "
+          report fixed_pkg'instance_name & "READ(ufixed) "
             & "Character '" &
             c & "' read, expected STD_ULOGIC literal."
             severity error;
@@ -5204,17 +5201,17 @@ package body fixed_generic_pkg is
       i := VALUE'high;
       while i >= VALUE'low loop
         if readOk = false then              -- Bail out if there was a bad read
-          report fixed_generic_pkg'instance_name & "READ(sfixed) "
+          report fixed_pkg'instance_name & "READ(sfixed) "
             & "End of string encountered"
             severity error;
           return;
         elsif c = '_' then
           if i = VALUE'high then
-            report fixed_generic_pkg'instance_name & "READ(sfixed) "
+            report fixed_pkg'instance_name & "READ(sfixed) "
               & "String begins with an ""_""" severity error;
             return;
           elsif lastu then
-            report fixed_generic_pkg'instance_name & "READ(sfixed) "
+            report fixed_pkg'instance_name & "READ(sfixed) "
               & "Two underscores detected in input string ""__"""
               severity error;
             return;
@@ -5223,11 +5220,11 @@ package body fixed_generic_pkg is
           end if;
         elsif c = '.' then                -- binary point
           if founddot then
-            report fixed_generic_pkg'instance_name & "READ(sfixed) "
+            report fixed_pkg'instance_name & "READ(sfixed) "
               & "Two binary points found in input string" severity error;
             return;
           elsif i /= -1 then                 -- Seperator in the wrong spot
-            report fixed_generic_pkg'instance_name & "READ(sfixed) "
+            report fixed_pkg'instance_name & "READ(sfixed) "
               & "Decimal point does not match number format "
               severity error;
             return;
@@ -5235,12 +5232,12 @@ package body fixed_generic_pkg is
           founddot := true;
           lastu := false;
         elsif c = ' ' or c = NBSP or c = HT then  -- reading done.
-          report fixed_generic_pkg'instance_name & "READ(sfixed) "
+          report fixed_pkg'instance_name & "READ(sfixed) "
             & "Short read, Space encounted in input string"
             severity error;
           return;
         elsif char_to_MVL9plus(c) = error then
-          report fixed_generic_pkg'instance_name & "READ(sfixed) "
+          report fixed_pkg'instance_name & "READ(sfixed) "
             & "Character '" &
             c & "' read, expected STD_ULOGIC literal."
             severity error;
@@ -5314,7 +5311,7 @@ package body fixed_generic_pkg is
       when 'X' => RESULT := "XXX"; GOOD := true;
       when others =>
         assert not ISSUE_ERROR
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
           & "OREAD Error: Read a '" & C &
           "', expected an Octal character (0-7)."
           severity error;
@@ -5339,12 +5336,12 @@ package body fixed_generic_pkg is
     begin
       if message then
         if smath then
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
             & "OREAD(sfixed) "
             & mess
             severity error;
         else
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
             & "OREAD(ufixed) "
             & mess
             severity error;
@@ -5437,14 +5434,14 @@ package body fixed_generic_pkg is
                    smath => false);
     if igood then                       -- We did not get another error
       if not ((i = -1) and               -- We read everything, and high bits 0
-              (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
-        report fixed_generic_pkg'instance_name
+              (or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+        report fixed_pkg'instance_name
           & "OREAD(ufixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce (slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
-            report fixed_generic_pkg'instance_name
+            report fixed_pkg'instance_name
             & "OREAD(ufixed): Vector truncated"
             severity warning;
         end if;
@@ -5474,7 +5471,7 @@ package body fixed_generic_pkg is
                    smath => false);
     if (igood and                   -- We did not get another error
         (i = -1) and                -- We read everything, and high bits 0
-        (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+        (or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
       valuex := to_ufixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -5503,16 +5500,16 @@ package body fixed_generic_pkg is
     if igood then                       -- We did not get another error
       if not ((i = -1) and               -- We read everything
               ((slv(VALUE'high-lbv) = '0' and      -- sign bits = extra bits
-                or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+                or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
                (slv(VALUE'high-lbv) = '1' and
-                and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
-        report fixed_generic_pkg'instance_name
+                and_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+        report fixed_pkg'instance_name
           & "OREAD(sfixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce (slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
-            report fixed_generic_pkg'instance_name
+            report fixed_pkg'instance_name
             & "OREAD(sfixed): Vector truncated"
             severity warning;
         end if;
@@ -5543,9 +5540,9 @@ package body fixed_generic_pkg is
     if (igood                       -- We did not get another error
         and (i = -1)                -- We read everything
         and ((slv(VALUE'high-lbv) = '0' and  -- sign bits = extra bits
-              or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+              or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
              (slv(VALUE'high-lbv) = '1' and
-              and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+              and_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
       valuex := to_sfixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -5609,7 +5606,7 @@ package body fixed_generic_pkg is
       when 'X'       => RESULT := "XXXX"; GOOD := true;
       when others =>
         assert not ISSUE_ERROR
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
           & "HREAD Error: Read a '" & C &
           "', expected a Hex character (0-F)."
           severity error;
@@ -5634,12 +5631,12 @@ package body fixed_generic_pkg is
     begin
       if message then
         if smath then
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
             & "HREAD(sfixed) "
             & mess
             severity error;
         else
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
             & "HREAD(ufixed) "
             & mess
             severity error;
@@ -5729,14 +5726,14 @@ package body fixed_generic_pkg is
                    smath => false);
     if igood then
       if not ((i = -1) and               -- We read everything, and high bits 0
-              (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
-        report fixed_generic_pkg'instance_name
+              (or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+        report fixed_pkg'instance_name
           & "HREAD(ufixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce (slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
-            report fixed_generic_pkg'instance_name
+            report fixed_pkg'instance_name
             & "HREAD(ufixed): Vector truncated"
             severity warning;
         end if;
@@ -5766,7 +5763,7 @@ package body fixed_generic_pkg is
                    smath => false);
     if (igood and                   -- We did not get another error
         (i = -1) and                -- We read everything, and high bits 0
-        (or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
+        (or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0')) then
       valuex := to_ufixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -5795,16 +5792,16 @@ package body fixed_generic_pkg is
     if igood then                       -- We did not get another error
       if not ((i = -1)                   -- We read everything
               and ((slv(VALUE'high-lbv) = '0' and  -- sign bits = extra bits
-                    or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+                    or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
                    (slv(VALUE'high-lbv) = '1' and
-                    and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
-        report fixed_generic_pkg'instance_name
+                    and_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+        report fixed_pkg'instance_name
           & "HREAD(sfixed): Vector truncated."
           severity error;
       else
-        if (or (slv(VALUE'low-lbv-1 downto 0)) = '1') then
+        if (or_reduce (slv(VALUE'low-lbv-1 downto 0)) = '1') then
           assert no_warning
-            report fixed_generic_pkg'instance_name
+            report fixed_pkg'instance_name
             & "HREAD(sfixed): Vector truncated"
             severity warning;
         end if;
@@ -5835,9 +5832,9 @@ package body fixed_generic_pkg is
     if (igood and                   -- We did not get another error
         (i = -1) and                -- We read everything
         ((slv(VALUE'high-lbv) = '0' and  -- sign bits = extra bits
-          or (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
+          or_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '0') or
          (slv(VALUE'high-lbv) = '1' and
-          and (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
+          and_reduce (slv(hbv-lbv downto VALUE'high+1-lbv)) = '1'))) then
       valuex := to_sfixed (slv, hbv, lbv);
       VALUE  := valuex (VALUE'range);
       GOOD := true;
@@ -6085,7 +6082,7 @@ package body fixed_generic_pkg is
     READ (L, result, good);
     deallocate (L);
     assert (good)
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & "from_string: Bad string "& bstring severity error;
     return result;
   end function from_string;
@@ -6107,7 +6104,7 @@ package body fixed_generic_pkg is
     OREAD (L, result, good);
     deallocate (L);
     assert (good)
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & "from_ostring: Bad string "& ostring severity error;
     return result;
   end function from_ostring;
@@ -6126,7 +6123,7 @@ package body fixed_generic_pkg is
     HREAD (L, result, good);
     deallocate (L);
     assert (good)
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & "from_hstring: Bad string "& hstring severity error;
     return result;
   end function from_hstring;
@@ -6145,7 +6142,7 @@ package body fixed_generic_pkg is
     READ (L, result, good);
     deallocate (L);
     assert (good)
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & "from_string: Bad string "& bstring severity error;
     return result;
   end function from_string;
@@ -6164,7 +6161,7 @@ package body fixed_generic_pkg is
     OREAD (L, result, good);
     deallocate (L);
     assert (good)
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & "from_ostring: Bad string "& ostring severity error;
     return result;
   end function from_ostring;
@@ -6183,7 +6180,7 @@ package body fixed_generic_pkg is
     HREAD (L, result, good);
     deallocate (L);
     assert (good)
-      report fixed_generic_pkg'instance_name
+      report fixed_pkg'instance_name
       & "from_hstring: Bad string "& hstring severity error;
     return result;
   end function from_hstring;
@@ -6265,12 +6262,12 @@ package body fixed_generic_pkg is
             r := r + 1;
           end if;
         elsif xarg(i) = ' ' or xarg(i) = NBSP or xarg(i) = HT then
-          report fixed_generic_pkg'instance_name
+          report fixed_pkg'instance_name
             & "Found a space in the input STRING " & xarg
             severity error;
         elsif xarg(i) = '.' then
           if founddot then
-            report fixed_generic_pkg'instance_name
+            report fixed_pkg'instance_name
               & "Found two binary points in input string " & xarg
               severity error;
           else
@@ -6357,4 +6354,4 @@ package body fixed_generic_pkg is
     return from_hstring (hstring, ((left_index+1)*4)-1, right_index*4);
   end function from_hstring;
 
-end package body fixed_generic_pkg;
+end package body fixed_pkg;

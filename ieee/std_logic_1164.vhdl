@@ -53,26 +53,29 @@
 
 use STD.TEXTIO.all;
 
+library ieee;
+use ieee.std_logic_1164.all;
+
 package std_logic_1164 is
 
-  -------------------------------------------------------------------
-  -- logic state system  (unresolved)
-  -------------------------------------------------------------------
-  type STD_ULOGIC is ( 'U',             -- Uninitialized
-                       'X',             -- Forcing  Unknown
-                       '0',             -- Forcing  0
-                       '1',             -- Forcing  1
-                       'Z',             -- High Impedance
-                       'W',             -- Weak     Unknown
-                       'L',             -- Weak     0
-                       'H',             -- Weak     1
-                       '-'              -- Don't care
-                       );
-  -------------------------------------------------------------------
-  -- unconstrained array of std_ulogic for use with the resolution function
-  -- and for use in declaring signal arrays of unresolved elements
-  -------------------------------------------------------------------
-  type STD_ULOGIC_VECTOR is array (NATURAL range <>) of STD_ULOGIC;
+  -- -------------------------------------------------------------------
+  -- -- logic state system  (unresolved)
+  -- -------------------------------------------------------------------
+  -- type STD_ULOGIC is ( 'U',             -- Uninitialized
+  --                      'X',             -- Forcing  Unknown
+  --                      '0',             -- Forcing  0
+  --                      '1',             -- Forcing  1
+  --                      'Z',             -- High Impedance
+  --                      'W',             -- Weak     Unknown
+  --                      'L',             -- Weak     0
+  --                      'H',             -- Weak     1
+  --                      '-'              -- Don't care
+  --                      );
+  -- -------------------------------------------------------------------
+  -- -- unconstrained array of std_ulogic for use with the resolution function
+  -- -- and for use in declaring signal arrays of unresolved elements
+  -- -------------------------------------------------------------------
+  -- type STD_ULOGIC_VECTOR is array (NATURAL range <>) of STD_ULOGIC;
 
   -------------------------------------------------------------------
   -- resolution function
@@ -80,47 +83,47 @@ package std_logic_1164 is
   function resolved (s : STD_ULOGIC_VECTOR) return STD_ULOGIC;
 
 
-  -------------------------------------------------------------------
-  -- logic state system  (resolved)
-  -------------------------------------------------------------------
-  subtype STD_LOGIC is resolved STD_ULOGIC;
+  -- -------------------------------------------------------------------
+  -- -- logic state system  (resolved)
+  -- -------------------------------------------------------------------
+  -- subtype STD_LOGIC is resolved STD_ULOGIC;
 
-  -------------------------------------------------------------------
-  -- unconstrained array of resolved std_ulogic for use in declaring
-  -- signal arrays of resolved elements
-  -------------------------------------------------------------------
-  subtype STD_LOGIC_VECTOR is (resolved) STD_ULOGIC_VECTOR;
+  -- -------------------------------------------------------------------
+  -- -- unconstrained array of resolved std_ulogic for use in declaring
+  -- -- signal arrays of resolved elements
+  -- -------------------------------------------------------------------
+  -- subtype STD_LOGIC_VECTOR is (resolved) STD_ULOGIC_VECTOR;
 
   -------------------------------------------------------------------
   -- common subtypes
   -------------------------------------------------------------------
-  subtype X01 is resolved STD_ULOGIC range 'X' to '1';    -- ('X','0','1')
-  subtype X01Z is resolved STD_ULOGIC range 'X' to 'Z';   -- ('X','0','1','Z')
-  subtype UX01 is resolved STD_ULOGIC range 'U' to '1';   -- ('U','X','0','1')
-  subtype UX01Z is resolved STD_ULOGIC range 'U' to 'Z';  -- ('U','X','0','1','Z')
+  -- subtype X01 is resolved STD_ULOGIC range 'X' to '1';    -- ('X','0','1')
+  -- subtype X01Z is resolved STD_ULOGIC range 'X' to 'Z';   -- ('X','0','1','Z')
+  -- subtype UX01 is resolved STD_ULOGIC range 'U' to '1';   -- ('U','X','0','1')
+  -- subtype UX01Z is resolved STD_ULOGIC range 'U' to 'Z';  -- ('U','X','0','1','Z')
 
   -------------------------------------------------------------------
   -- overloaded logical operators
   -------------------------------------------------------------------
 
-  function "and"  (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
-  function "nand" (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
-  function "or"   (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
-  function "nor"  (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
-  function "xor"  (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
-  function "xnor" (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
-  function "not"  (l : STD_ULOGIC) return UX01;
+  -- function "and"  (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
+  -- function "nand" (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
+  -- function "or"   (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
+  -- function "nor"  (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
+  -- function "xor"  (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
+  -- function "xnor" (l : STD_ULOGIC; r : STD_ULOGIC) return UX01;
+  -- function "not"  (l : STD_ULOGIC) return UX01;
 
   -------------------------------------------------------------------
   -- vectorized overloaded logical operators
   -------------------------------------------------------------------
-  function "and"  (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function "nand" (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function "or"   (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function "nor"  (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function "xor"  (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function "xnor" (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function "not"  (l    : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "and"  (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "nand" (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "or"   (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "nor"  (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "xor"  (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "xnor" (l, r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function "not"  (l    : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
 
   function "and"  (l : STD_ULOGIC_VECTOR; r : STD_ULOGIC) return STD_ULOGIC_VECTOR;
   function "and"  (l : STD_ULOGIC; r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
@@ -140,12 +143,12 @@ package std_logic_1164 is
   function "xnor" (l : STD_ULOGIC_VECTOR; r : STD_ULOGIC) return STD_ULOGIC_VECTOR;
   function "xnor" (l : STD_ULOGIC; r : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
 
-  function "and"  (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
-  function "nand" (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
-  function "or"   (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
-  function "nor"  (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
-  function "xor"  (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
-  function "xnor" (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
+  function and_reduce  (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
+  function nand_reduce (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
+  function or_reduce   (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
+  function nor_reduce  (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
+  function xor_reduce  (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
+  function xnor_reduce (l : STD_ULOGIC_VECTOR) return STD_ULOGIC;
 
   -------------------------------------------------------------------
   -- shift operators
@@ -159,14 +162,14 @@ package std_logic_1164 is
   -------------------------------------------------------------------
   -- conversion functions
   -------------------------------------------------------------------
-  function To_bit       (s : STD_ULOGIC; xmap : BIT        := '0') return BIT;
-  function To_bitvector (s : STD_ULOGIC_VECTOR; xmap : BIT := '0') return BIT_VECTOR;
+  -- function To_bit       (s : STD_ULOGIC; xmap : BIT        := '0') return BIT;
+  -- function To_bitvector (s : STD_ULOGIC_VECTOR; xmap : BIT := '0') return BIT_VECTOR;
 
-  function To_StdULogic       (b : BIT) return STD_ULOGIC;
-  function To_StdLogicVector  (b : BIT_VECTOR) return STD_LOGIC_VECTOR;
-  function To_StdLogicVector  (s : STD_ULOGIC_VECTOR) return STD_LOGIC_VECTOR;
-  function To_StdULogicVector (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_StdULogicVector (s : STD_LOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_StdULogic       (b : BIT) return STD_ULOGIC;
+  -- function To_StdLogicVector  (b : BIT_VECTOR) return STD_LOGIC_VECTOR;
+  -- function To_StdLogicVector  (s : STD_ULOGIC_VECTOR) return STD_LOGIC_VECTOR;
+  -- function To_StdULogicVector (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_StdULogicVector (s : STD_LOGIC_VECTOR) return STD_ULOGIC_VECTOR;
 
   alias To_Bit_Vector is
     To_bitvector[STD_ULOGIC_VECTOR, BIT return BIT_VECTOR];
@@ -206,34 +209,36 @@ package std_logic_1164 is
   function TO_01 (s : BIT; xmap : STD_ULOGIC := '0')
     return STD_ULOGIC;
 
-  function To_X01 (s : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_X01 (s : STD_ULOGIC) return X01;
-  function To_X01 (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_X01 (b : BIT) return X01;
+  -- function To_X01 (s : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_X01 (s : STD_ULOGIC) return X01;
+  -- function To_X01 (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_X01 (b : BIT) return X01;
 
-  function To_X01Z (s : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_X01Z (s : STD_ULOGIC) return X01Z;
-  function To_X01Z (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_X01Z (b : BIT) return X01Z;
+  -- function To_X01Z (s : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_X01Z (s : STD_ULOGIC) return X01Z;
+  -- function To_X01Z (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_X01Z (b : BIT) return X01Z;
 
-  function To_UX01 (s : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_UX01 (s : STD_ULOGIC) return UX01;
-  function To_UX01 (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
-  function To_UX01 (b : BIT) return UX01;
+  -- function To_UX01 (s : STD_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_UX01 (s : STD_ULOGIC) return UX01;
+  -- function To_UX01 (b : BIT_VECTOR) return STD_ULOGIC_VECTOR;
+  -- function To_UX01 (b : BIT) return UX01;
 
-  function "??" (l : STD_ULOGIC) return BOOLEAN;
+  function \??\ (l : STD_ULOGIC) return BOOLEAN;
+  function \?=\ (l,r : STD_ULOGIC) return STD_ULOGIC;
+  function \?/=\ (l,r : STD_ULOGIC) return STD_ULOGIC;
 
   -------------------------------------------------------------------
   -- edge detection
   -------------------------------------------------------------------
-  function rising_edge  (signal s : STD_ULOGIC) return BOOLEAN;
-  function falling_edge (signal s : STD_ULOGIC) return BOOLEAN;
+  -- function rising_edge  (signal s : STD_ULOGIC) return BOOLEAN;
+  -- function falling_edge (signal s : STD_ULOGIC) return BOOLEAN;
 
   -------------------------------------------------------------------
   -- object contains an unknown
   -------------------------------------------------------------------
-  function Is_X (s : STD_ULOGIC_VECTOR) return BOOLEAN;
-  function Is_X (s : STD_ULOGIC) return BOOLEAN;
+  -- function Is_X (s : STD_ULOGIC_VECTOR) return BOOLEAN;
+  -- function Is_X (s : STD_ULOGIC) return BOOLEAN;
 
   -------------------------------------------------------------------
   -- matching relational operators
@@ -261,8 +266,10 @@ package std_logic_1164 is
 
   -- explicitly defined operations
 
-  alias TO_BSTRING is TO_STRING [STD_ULOGIC_VECTOR return STRING];
-  alias TO_BINARY_STRING is TO_STRING [STD_ULOGIC_VECTOR return STRING];
+  -- -- No support for VHDL 93
+
+  -- alias TO_BSTRING is TO_STRING [STD_ULOGIC_VECTOR return STRING];
+  -- alias TO_BINARY_STRING is TO_STRING [STD_ULOGIC_VECTOR return STRING];
   function TO_OSTRING (VALUE : STD_ULOGIC_VECTOR) return STRING;
   alias TO_OCTAL_STRING is TO_OSTRING [STD_ULOGIC_VECTOR return STRING];
   function TO_HSTRING (VALUE : STD_ULOGIC_VECTOR) return STRING;

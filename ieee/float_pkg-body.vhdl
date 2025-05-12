@@ -40,7 +40,7 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
-package body float_generic_pkg is
+package body float_pkg is
 
   -- Author David Bishop (dbishop@vhdl.org)
   -----------------------------------------------------------------------------
@@ -63,7 +63,7 @@ package body float_generic_pkg is
     return INTEGER is
   begin  -- function minimum
     if (L = INTEGER'low or R = INTEGER'low) then
-      report float_generic_pkg'instance_name
+      report float_pkg'instance_name
         & " Unbounded number passed, was a literal used?"
         severity error;
       return 0;
@@ -189,12 +189,12 @@ package body float_generic_pkg is
   begin  -- function check_round
     result := false;
     if (remainder'length > 0) then      -- if remainder in a null array
-      or_reduced := or (remainder & sticky);
+      or_reduced := or_reduce (remainder & sticky);
       rounding_case : case round_style is
         when round_nearest =>           -- Round Nearest, default mode
           if remainder(remainder'high) = '1' then  -- round
             if (remainder'length > 1) then
-              if ((or (remainder(remainder'high-1
+              if ((or_reduce (remainder(remainder'high-1
                                  downto remainder'low)) = '1'
                    or sticky = '1')
                   or fract_in = '1') then
@@ -228,7 +228,7 @@ package body float_generic_pkg is
     fract_out : out UNSIGNED;           -- output fraction
     expon_out : out SIGNED) is          -- output exponent
   begin  -- procedure fp_round
-    if and (fract_in) = '1' then        -- Fraction is all "1"
+    if and_reduce (fract_in) = '1' then        -- Fraction is all "1"
       expon_out := expon_in + 1;
       fract_out := to_unsigned(0, fract_out'high+1);
     else
@@ -270,7 +270,7 @@ package body float_generic_pkg is
         exp (exponent_width-1) := not exp(exponent_width-1);
       when others =>
         assert no_warning
-          report float_generic_pkg'instance_name
+          report float_pkg'instance_name
           & "BREAK_NUMBER: " &
           "Meta state detected in fp_break_number process"
           severity warning;
@@ -329,7 +329,7 @@ package body float_generic_pkg is
       case round_style is
         when round_nearest =>
           round := remainder(2) and
-                   (fract (0) or (or (remainder (1 downto 0))));
+                   (fract (0) or (or_reduce (remainder (1 downto 0))));
         when round_inf =>
           round := remainder(2) and not isign;
         when round_neginf =>
@@ -385,7 +385,7 @@ package body float_generic_pkg is
   -- Converts an fp into an SULV
   function to_slv (arg : UNRESOLVED_float) return STD_LOGIC_VECTOR is
   begin
-    return to_sulv (arg);
+    return std_logic_vector(to_sulv (arg));
   end function to_slv;
 
   -- purpose: normalizes a floating point number
@@ -420,7 +420,7 @@ package body float_generic_pkg is
     shiftr  := find_leftmost (to_01(fract), '1')     -- Find the first "1"
                - fraction_width - nguard;  -- subtract the length we want
     exp := resize (expon, exp'length) + shiftr;
-    if (or (fract) = '0') then   -- Zero
+    if (or_reduce (fract) = '0') then   -- Zero
       zerores := true;
     elsif ((exp <= -resize(expon_base, exp'length)-1) and denormalize)
       or ((exp < -resize(expon_base, exp'length)-1) and not denormalize) then
@@ -575,7 +575,7 @@ package body float_generic_pkg is
   begin  -- classfp
     if (arg'length < 1 or fraction_width < 3 or exponent_width < 3
         or x'left < x'right) then
-      report float_generic_pkg'instance_name
+      report float_pkg'instance_name
         & "CLASSFP: " &
         "Floating point number detected with a bad range"
         severity error;
@@ -587,9 +587,9 @@ package body float_generic_pkg is
       return isx;                       -- If there is an X in the number
       -- Special cases, check for illegal number
     elsif check_error and
-      (and (STD_ULOGIC_VECTOR (arg (exponent_width-1 downto 0)))
+      (and_reduce (STD_ULOGIC_VECTOR (arg (exponent_width-1 downto 0)))
        = '1') then                      -- Exponent is all "1".
-      if or (to_slv (arg (-1 downto -fraction_width)))
+      if or_reduce (STD_ULOGIC_VECTOR (arg (-1 downto -fraction_width)))
         /= '0' then  -- Fraction must be all "0" or this is not a number.
         if (arg(-1) = '1') then         -- From "W. Khan - IEEE standard
           return nan;            -- 754 binary FP Signaling nan (Not a number)
@@ -603,9 +603,9 @@ package body float_generic_pkg is
         return neg_inf;                 -- Negative infinity
       end if;
       -- check for "0"
-    elsif or (STD_LOGIC_VECTOR (arg (exponent_width-1 downto 0)))
+    elsif or_reduce (std_ulogic_vector (arg (exponent_width-1 downto 0)))
       = '0' then                        -- Exponent is all "0"
-      if or (to_slv (arg (-1 downto -fraction_width)))
+      if or_reduce (std_ulogic_vector (to_slv (arg (-1 downto -fraction_width))))
         = '0' then                      -- Fraction is all "0"
         if arg(exponent_width) = '0' then
           return pos_zero;              -- Zero
@@ -787,7 +787,7 @@ package body float_generic_pkg is
         fractc    := fractr;
         fracts    := (others => '0');   -- add zero
         leftright := false;
-        sticky    := or (fractl);
+        sticky    := or_reduce (fractl);
       elsif shiftx < 0 then
         shiftx    := - shiftx;
         fracts    := shift_right (fractl, to_integer(shiftx));
@@ -813,7 +813,7 @@ package body float_generic_pkg is
         fracts    := (others => '0');   -- add zero
         fractc    := fractl;
         leftright := true;
-        sticky    := or (fractr);
+        sticky    := or_reduce (fractr);
       elsif shiftx > 0 then
         fracts    := shift_right (fractr, to_integer(shiftx));
         fractc    := fractl;
@@ -835,7 +835,7 @@ package body float_generic_pkg is
           sign := r(r'high);
         end if;
       end if;
-      if or (ufract) = '0' then
+      if or_reduce (ufract) = '0' then
         sign := '0';                    -- IEEE 854, 6.3, paragraph 2.
       end if;
       -- normalize
@@ -965,7 +965,7 @@ package body float_generic_pkg is
       rfract := fractl * fractr;        -- Multiply the fraction
       sfract := rfract (rfract'high downto
                         rfract'high - (fraction_width+1+multguard));
-      sticky := or (rfract (rfract'high-(fraction_width+1+multguard)
+      sticky := or_reduce (rfract (rfract'high-(fraction_width+1+multguard)
                                    downto 0));
       -- normalize
       fpresult := normalize (fract          => sfract,
@@ -1054,7 +1054,7 @@ package body float_generic_pkg is
         fpresult := zerofp (fraction_width => fraction_width,
                             exponent_width => exponent_width);
       when neg_zero | pos_zero =>       -- 1/0
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
           & "RECIPROCAL: Floating Point divide by zero"
           severity error;
         fpresult := pos_inffp (fraction_width => fraction_width,
@@ -1164,7 +1164,7 @@ package body float_generic_pkg is
           fpresult := qnanfp (fraction_width => fraction_width,
                               exponent_width => exponent_width);
         else
-          report float_generic_pkg'instance_name
+          report float_pkg'instance_name
             & "DIVIDE: Floating Point divide by zero"
             severity error;
           -- Infinity, define in 754-1985-7.2
@@ -1305,7 +1305,7 @@ package body float_generic_pkg is
           fpresult := qnanfp (fraction_width => fraction_width,
                               exponent_width => exponent_width);
         else
-          report float_generic_pkg'instance_name
+          report float_pkg'instance_name
             & "DIVIDEBYP2: Floating Point divide by zero"
             severity error;
           -- Infinity, define in 754-1985-7.2
@@ -1359,8 +1359,8 @@ package body float_generic_pkg is
               denormalize => denormalize,
               fract       => urfract,
               expon       => exponr);
-            assert (or (urfract (fraction_width-1 downto 0)) = '0')
-              report float_generic_pkg'instance_name
+            assert (or_reduce (urfract (fraction_width-1 downto 0)) = '0')
+              report float_pkg'instance_name
               & "DIVIDEBYP2: "
               & "Dividebyp2 called with a non power of two divisor"
               severity error;
@@ -1497,7 +1497,7 @@ package body float_generic_pkg is
         rexpon2 := resize (exponc, rexpon2'length);
         fractc  := "0" & fractx;
         fracts  := (others => '0');
-        sticky  := or (rfract);
+        sticky  := or_reduce (rfract);
       elsif shiftx < 0 then
         shiftx := - shiftx;
         fracts := shift_right (rfract (rfract'high downto rfract'high
@@ -1506,11 +1506,11 @@ package body float_generic_pkg is
         fractc    := "0" & fractx;
         rexpon2   := resize (exponc, rexpon2'length);
         leftright := false;
-        sticky := or (rfract (to_integer(shiftx)+rfract'high
+        sticky := or_reduce (rfract (to_integer(shiftx)+rfract'high
                                      - fracts'length downto 0));
       elsif shiftx = 0 then
         rexpon2 := resize (exponc, rexpon2'length);
-        sticky  := or (rfract (rfract'high - fractc'length downto 0));
+        sticky  := or_reduce (rfract (rfract'high - fractc'length downto 0));
         if rfract (rfract'high downto rfract'high - fractc'length+1) > fractx
         then
           fractc := "0" & fractx;
@@ -1528,14 +1528,14 @@ package body float_generic_pkg is
         fracts    := (others => '0');
         fractc    := rfract (rfract'high downto rfract'high - fractc'length+1);
         leftright := true;
-        sticky := or (fractx & rfract (rfract'high - fractc'length
+        sticky := or_reduce (fractx & rfract (rfract'high - fractc'length
                                               downto 0));
       else                              -- fractx'high > shiftx > 0
         rexpon2   := rexpon;
         fracts    := "0" & shift_right (fractx, to_integer (shiftx));
         fractc    := rfract (rfract'high downto rfract'high - fractc'length+1);
         leftright := true;
-        sticky := or (fractx (to_integer (shiftx) downto 0)
+        sticky := or_reduce (fractx (to_integer (shiftx) downto 0)
                              & rfract (rfract'high - fractc'length downto 0));
       end if;
       fracts (0) := fracts (0) or sticky;  -- Or the sticky bit into the LSB
@@ -2049,7 +2049,7 @@ package body float_generic_pkg is
     return not is_less_than and not is_unordered;
   end function ge;
 
-  function "?=" (L, R : UNRESOLVED_float) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_float) return STD_ULOGIC is
     constant fraction_width         : NATURAL := -mine(L'low, R'low);  -- length of FP output fraction
     constant exponent_width         : NATURAL := maximum(L'high, R'high);  -- length of FP output exponent
     variable lfptype, rfptype       : valid_fpstate;
@@ -2076,7 +2076,7 @@ package body float_generic_pkg is
                          fraction_width => fraction_width,
                          denormalize_in => float_denormalize,
                          denormalize    => float_denormalize);
-      is_equal := to_sulv(lresize) ?= to_sulv(rresize);
+      is_equal := \?=\(lresize, rresize);
     end if;
     if (float_check_error) then
       if (lfptype = nan or lfptype = quiet_nan or
@@ -2089,9 +2089,9 @@ package body float_generic_pkg is
       is_unordered := '0';
     end if;
     return is_equal and not is_unordered;
-  end function "?=";
+  end function \?=\;
 
-  function "?/=" (L, R : UNRESOLVED_float) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_float) return STD_ULOGIC is
     constant fraction_width         : NATURAL := -mine(L'low, R'low);  -- length of FP output fraction
     constant exponent_width         : NATURAL := maximum(L'high, R'high);  -- length of FP output exponent
     variable lfptype, rfptype       : valid_fpstate;
@@ -2118,7 +2118,7 @@ package body float_generic_pkg is
                          fraction_width => fraction_width,
                          denormalize_in => float_denormalize,
                          denormalize    => float_denormalize);
-      is_equal := to_sulv(lresize) ?= to_sulv(rresize);
+      is_equal := \?=\(lresize, rresize);
     end if;
     if (float_check_error) then
       if (lfptype = nan or lfptype = quiet_nan or
@@ -2131,9 +2131,9 @@ package body float_generic_pkg is
       is_unordered := '0';
     end if;
     return not (is_equal and not is_unordered);
-  end function "?/=";
+  end function \?/=\;
 
-  function "?>" (L, R : UNRESOLVED_float) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_float) return STD_ULOGIC is
     constant fraction_width : NATURAL := -mine(L'low, R'low);
     variable founddash      : BOOLEAN := false;
   begin
@@ -2151,7 +2151,7 @@ package body float_generic_pkg is
         end if;
       end loop;
       if founddash then
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
           & " ""?>"": '-' found in compare string"
           severity error;
         return 'X';
@@ -2163,9 +2163,9 @@ package body float_generic_pkg is
         return '0';
       end if;
     end if;
-  end function "?>";
+  end function \?>\;
 
-  function "?>=" (L, R : UNRESOLVED_float) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_float) return STD_ULOGIC is
     constant fraction_width : NATURAL := -mine(L'low, R'low);
     variable founddash      : BOOLEAN := false;
   begin
@@ -2183,7 +2183,7 @@ package body float_generic_pkg is
         end if;
       end loop;
       if founddash then
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
           & " ""?>="": '-' found in compare string"
           severity error;
         return 'X';
@@ -2195,9 +2195,9 @@ package body float_generic_pkg is
         return '0';
       end if;
     end if;
-  end function "?>=";
+  end function \?>=\;
 
-  function "?<" (L, R : UNRESOLVED_float) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_float) return STD_ULOGIC is
     constant fraction_width : NATURAL := -mine(L'low, R'low);
     variable founddash      : BOOLEAN := false;
   begin
@@ -2215,7 +2215,7 @@ package body float_generic_pkg is
         end if;
       end loop;
       if founddash then
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
           & " ""?<"": '-' found in compare string"
           severity error;
         return 'X';
@@ -2227,9 +2227,9 @@ package body float_generic_pkg is
         return '0';
       end if;
     end if;
-  end function "?<";
+  end function \?<\;
 
-  function "?<=" (L, R : UNRESOLVED_float) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_float) return STD_ULOGIC is
     constant fraction_width : NATURAL := -mine(L'low, R'low);
     variable founddash      : BOOLEAN := false;
   begin
@@ -2247,7 +2247,7 @@ package body float_generic_pkg is
         end if;
       end loop;
       if founddash then
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
           & " ""?<="": '-' found in compare string"
           severity error;
         return 'X';
@@ -2259,14 +2259,14 @@ package body float_generic_pkg is
         return '0';
       end if;
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   function std_match (L, R : UNRESOLVED_float) return BOOLEAN is
   begin
     if (L'high = R'high and L'low = R'low) then
       return std_match(to_sulv(L), to_sulv(R));
     else
-      report float_generic_pkg'instance_name
+      report float_pkg'instance_name
         & "STD_MATCH: L'RANGE /= R'RANGE, returning FALSE"
         severity warning;
       return false;
@@ -2276,7 +2276,7 @@ package body float_generic_pkg is
   function find_rightmost (arg : UNRESOLVED_float; y : STD_ULOGIC) return INTEGER is
   begin
     for_loop : for i in arg'reverse_range loop
-      if arg(i) ?= y then
+      if \?=\(arg(i), y) = '1' then
         return i;
       end if;
     end loop;
@@ -2286,7 +2286,7 @@ package body float_generic_pkg is
   function find_leftmost (arg : UNRESOLVED_float; y : STD_ULOGIC) return INTEGER is
   begin
     for_loop : for i in arg'range loop
-      if arg(i) ?= y then
+      if \?=\(arg(i), y) = '1' then
         return i;
       end if;
     end loop;
@@ -2624,7 +2624,7 @@ package body float_generic_pkg is
           null;                         -- don't round
       end case;
       if (round) then
-        if and(fract) = '1' then        -- fraction is all "1"
+        if and_reduce (fract) = '1' then        -- fraction is all "1"
           expon := expon + 1;
           fract := (others => '0');
         else
@@ -3184,7 +3184,7 @@ package body float_generic_pkg is
               if frac'high - base > 1 then
                 round := fract (frac'high - base - 1) and
                          (fract (frac'high - base)
-                          or (or (fract (frac'high - base - 2 downto 0))));
+                          or (or_reduce (fract (frac'high - base - 2 downto 0))));
               else
                 round := fract (frac'high - base - 1) and
                          fract (frac'high - base);
@@ -3444,7 +3444,7 @@ package body float_generic_pkg is
           rsigned := -(SIGNED("0" & frac));
         end if;
         result_big := to_sfixed (
-          arg         => STD_LOGIC_VECTOR(rsigned),
+          arg         => STD_ULOGIC_VECTOR(rsigned),
           left_index  => left_index,
           right_index => (right_index-3));
         result := resize (arg            => result_big,
@@ -3637,7 +3637,7 @@ package body float_generic_pkg is
   begin  -- function to_01
     if (arg'length < 1) then
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & "TO_01: null detected, returning NULL"
         severity warning;
       return NAFP;
@@ -3658,7 +3658,7 @@ package body float_generic_pkg is
   begin
     if (arg'length < 1) then
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & "TO_X01: null detected, returning NULL"
         severity warning;
       return NAFP;
@@ -3673,7 +3673,7 @@ package body float_generic_pkg is
   begin
     if (arg'length < 1) then
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & "TO_X01Z: null detected, returning NULL"
         severity warning;
       return NAFP;
@@ -3688,7 +3688,7 @@ package body float_generic_pkg is
   begin
     if (arg'length < 1) then
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & "TO_UX01: null detected, returning NULL"
         severity warning;
       return NAFP;
@@ -4068,176 +4068,176 @@ package body float_generic_pkg is
   end function "<";
 
   -- ?= overloads
-  function "?=" (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
+  function \?=\ (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?= r_float;
-  end function "?=";
+    return \?=\(l, r_float);
+  end function \?=\;
 
-  function "?/=" (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
+  function \?/=\ (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?/= r_float;
-  end function "?/=";
+    return \?/=\(l, r_float);
+  end function \?/=\;
 
-  function "?>" (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
+  function \?>\ (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?> r_float;
-  end function "?>";
+    return \?>\(l, r_float);
+  end function \?>\;
 
-  function "?>=" (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
+  function \?>=\ (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?>= r_float;
-  end function "?>=";
+    return \?>=\(l, r_float);
+  end function \?>=\;
 
-  function "?<" (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
+  function \?<\ (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?< r_float;
-  end function "?<";
+    return \?<\(l, r_float);
+  end function \?<\;
 
-  function "?<=" (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
+  function \?<=\ (l : UNRESOLVED_float; r : REAL) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?<= r_float;
-  end function "?<=";
+    return \?<=\(l, r_float);
+  end function \?<=\;
 
   -- real and float
-  function "?=" (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?=\ (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?= r;
-  end function "?=";
+    return \?=\(l_float, r);
+  end function \?=\;
 
-  function "?/=" (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?/=\ (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?/= r;
-  end function "?/=";
+    return \?/=\(l_float, r);
+  end function \?/=\;
 
-  function "?>" (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?>\ (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?> r;
-  end function "?>";
+    return \?>\(l_float, r);
+  end function \?>\;
 
-  function "?>=" (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?>=\ (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?>= r;
-  end function "?>=";
+    return \?>=\(l_float, r);
+  end function \?>=\;
 
-  function "?<" (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?<\ (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?< r;
-  end function "?<";
+    return \?<\(l_float, r);
+  end function \?<\;
 
-  function "?<=" (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?<=\ (l : REAL; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?<= r;
-  end function "?<=";
+    return \?<=\(l_float, r);
+  end function \?<=\;
 
   -- ?= overloads
-  function "?=" (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
+  function \?=\ (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?= r_float;
-  end function "?=";
+    return \?=\(l, r_float);
+  end function \?=\;
 
-  function "?/=" (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
+  function \?/=\ (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?/= r_float;
-  end function "?/=";
+    return \?/=\(l, r_float);
+  end function \?/=\;
 
-  function "?>" (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
+  function \?>\ (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?> r_float;
-  end function "?>";
+    return \?>\(l, r_float);
+  end function \?>\;
 
-  function "?>=" (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
+  function \?>=\ (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?>= r_float;
-  end function "?>=";
+    return \?>=\(l, r_float);
+  end function \?>=\;
 
-  function "?<" (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
+  function \?<\ (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?< r_float;
-  end function "?<";
+    return \?<\(l, r_float);
+  end function \?<\;
 
-  function "?<=" (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
+  function \?<=\ (l : UNRESOLVED_float; r : INTEGER) return STD_ULOGIC is
     variable r_float : UNRESOLVED_float (l'range);
   begin
     r_float := to_float (r, l'high, -l'low);
-    return l ?<= r_float;
-  end function "?<=";
+    return \?<=\(l, r_float);
+  end function \?<=\;
 
   -- integer and float
-  function "?=" (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?=\ (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?= r;
-  end function "?=";
+    return \?=\(l_float, r);
+  end function \?=\;
 
-  function "?/=" (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?/=\ (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?/= r;
-  end function "?/=";
+    return \?/=\(l_float, r);
+  end function \?/=\;
 
-  function "?>" (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?>\ (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?> r;
-  end function "?>";
+    return \?>\(l_float, r);
+  end function \?>\;
 
-  function "?>=" (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?>=\ (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?>= r;
-  end function "?>=";
+    return \?>=\(l_float, r);
+  end function \?>=\;
 
-  function "?<" (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?<\ (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?< r;
-  end function "?<";
+    return \?<\(l_float, r);
+  end function \?<\;
 
-  function "?<=" (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
+  function \?<=\ (l : INTEGER; r : UNRESOLVED_float) return STD_ULOGIC is
     variable l_float : UNRESOLVED_float (r'range);
   begin
     l_float := to_float (l, r'high, -r'low);
-    return l_float ?<= r;
-  end function "?<=";
+    return \?<=\(l_float, r);
+  end function \?<=\;
 
   -- minimum and maximum overloads
   function minimum (l : UNRESOLVED_float; r : REAL)
@@ -4329,7 +4329,7 @@ package body float_generic_pkg is
       RESULT := to_sulv(L) and to_sulv(R);
     else
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & """and"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -4344,7 +4344,7 @@ package body float_generic_pkg is
       RESULT := to_sulv(L) or to_sulv(R);
     else
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & """or"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -4359,7 +4359,7 @@ package body float_generic_pkg is
       RESULT := to_sulv(L) nand to_sulv(R);
     else
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & """nand"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -4374,7 +4374,7 @@ package body float_generic_pkg is
       RESULT := to_sulv(L) nor to_sulv(R);
     else
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & """nor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -4389,7 +4389,7 @@ package body float_generic_pkg is
       RESULT := to_sulv(L) xor to_sulv(R);
     else
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & """xor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -4404,7 +4404,7 @@ package body float_generic_pkg is
       RESULT := to_sulv(L) xnor to_sulv(R);
     else
       assert no_warning
-        report float_generic_pkg'instance_name
+        report float_pkg'instance_name
         & """xnor"": Range error L'RANGE /= R'RANGE"
         severity warning;
       RESULT := (others => 'X');
@@ -4523,35 +4523,35 @@ package body float_generic_pkg is
 
   -- Reduction operators, same as numeric_std functions
 
-  function "and" (l : UNRESOLVED_float) return STD_ULOGIC is
+  function and_reduce (l : UNRESOLVED_float) return STD_ULOGIC is
   begin
-    return and to_sulv(l);
-  end function "and";
+    return and_reduce (to_sulv(l));
+  end function and_reduce;
 
-  function "nand" (l : UNRESOLVED_float) return STD_ULOGIC is
+  function nand_reduce (l : UNRESOLVED_float) return STD_ULOGIC is
   begin
-    return nand to_sulv(l);
-  end function "nand";
+    return nand_reduce (to_sulv(l));
+  end function nand_reduce;
 
-  function "or" (l : UNRESOLVED_float) return STD_ULOGIC is
+  function or_reduce (l : UNRESOLVED_float) return STD_ULOGIC is
   begin
-    return or to_sulv(l);
-  end function "or";
+    return or_reduce (to_sulv(l));
+  end function or_reduce;
 
-  function "nor" (l : UNRESOLVED_float) return STD_ULOGIC is
+  function nor_reduce (l : UNRESOLVED_float) return STD_ULOGIC is
   begin
-    return nor to_sulv(l);
-  end function "nor";
+    return nor_reduce (to_sulv(l));
+  end function nor_reduce;
 
-  function "xor" (l : UNRESOLVED_float) return STD_ULOGIC is
+  function xor_reduce (l : UNRESOLVED_float) return STD_ULOGIC is
   begin
-    return xor to_sulv(l);
-  end function "xor";
+    return xor_reduce (to_sulv(l));
+  end function xor_reduce;
 
-  function "xnor" (l : UNRESOLVED_float) return STD_ULOGIC is
+  function xnor_reduce (l : UNRESOLVED_float) return STD_ULOGIC is
   begin
-    return xnor to_sulv(l);
-  end function "xnor";
+    return xnor_reduce (to_sulv(l));
+  end function xnor_reduce;
 
   -----------------------------------------------------------------------------
   -- Recommended Functions from the IEEE 754 Appendix
@@ -4745,12 +4745,12 @@ package body float_generic_pkg is
           fract    := (others => '0');
           fract(0) := '1';
         elsif validfpx = pos_normal then
-          if and (fract) = '1' then     -- fraction is all "1".
-            if and (expon (exponent_width-1 downto 1)) = '1'
+          if and_reduce (fract) = '1' then     -- fraction is all "1".
+            if and_reduce (expon (exponent_width-1 downto 1)) = '1'
               and expon (0) = '0' then
                                         -- Exponent is one away from infinity.
               assert no_warning
-                report float_generic_pkg'instance_name
+                report float_pkg'instance_name
                 & "FP_NEXTAFTER: NextAfter overflow"
                 severity warning;
               return pos_inffp (fraction_width => fraction_width,
@@ -4763,7 +4763,7 @@ package body float_generic_pkg is
             fract := fract + 1;
           end if;
         elsif validfpx = pos_denormal then
-          if and (fract) = '1' then     -- fraction is all "1".
+          if and_reduce (fract) = '1' then     -- fraction is all "1".
             -- return smallest possible normal number
             expon    := (others => '0');
             expon(0) := '1';
@@ -4772,8 +4772,8 @@ package body float_generic_pkg is
             fract := fract + 1;
           end if;
         elsif validfpx = neg_normal then
-          if or (fract) = '0' then      -- fraction is all "0".
-            if or (expon (exponent_width-1 downto 1)) = '0' and
+          if or_reduce (fract) = '0' then      -- fraction is all "0".
+            if or_reduce (expon (exponent_width-1 downto 1)) = '0' and
               expon (0) = '1' then      -- Smallest exponent
               -- return the largest negative denormal number
               expon := (others => '0');
@@ -4786,7 +4786,7 @@ package body float_generic_pkg is
             fract := fract - 1;
           end if;
         elsif validfpx = neg_denormal then
-          if or (fract(fract'high downto 1)) = '0'
+          if or_reduce (fract(fract'high downto 1)) = '0'
             and fract (0) = '1' then    -- Smallest possible fraction
             return zerofp (fraction_width => fraction_width,
                            exponent_width => exponent_width);
@@ -4809,12 +4809,12 @@ package body float_generic_pkg is
           fract    := (others => '0');
           fract(0) := '1';
         elsif validfpx = neg_normal then
-          if and (fract) = '1' then     -- fraction is all "1".
-            if and (expon (exponent_width-1 downto 1)) = '1'
+          if and_reduce (fract) = '1' then     -- fraction is all "1".
+            if and_reduce (expon (exponent_width-1 downto 1)) = '1'
               and expon (0) = '0' then
                                         -- Exponent is one away from infinity.
               assert no_warning
-                report float_generic_pkg'instance_name
+                report float_pkg'instance_name
                 & "FP_NEXTAFTER: NextAfter overflow"
                 severity warning;
               return neg_inffp (fraction_width => fraction_width,
@@ -4827,7 +4827,7 @@ package body float_generic_pkg is
             fract := fract + 1;
           end if;
         elsif validfpx = neg_denormal then
-          if and (fract) = '1' then     -- fraction is all "1".
+          if and_reduce (fract) = '1' then     -- fraction is all "1".
             -- return smallest possible normal number
             expon    := (others => '0');
             expon(0) := '1';
@@ -4836,8 +4836,8 @@ package body float_generic_pkg is
             fract := fract + 1;
           end if;
         elsif validfpx = pos_normal then
-          if or (fract) = '0' then      -- fraction is all "0".
-            if or (expon (exponent_width-1 downto 1)) = '0' and
+          if or_reduce (fract) = '0' then      -- fraction is all "0".
+            if or_reduce (expon (exponent_width-1 downto 1)) = '0' and
               expon (0) = '1' then      -- Smallest exponent
               -- return the largest positive denormal number
               expon := (others => '0');
@@ -4850,7 +4850,7 @@ package body float_generic_pkg is
             fract := fract - 1;
           end if;
         elsif validfpx = pos_denormal then
-          if or (fract(fract'high downto 1)) = '0'
+          if or_reduce (fract(fract'high downto 1)) = '0'
             and fract (0) = '1' then    -- Smallest possible fraction
             return zerofp (fraction_width => fraction_width,
                            exponent_width => exponent_width);
@@ -5176,14 +5176,14 @@ package body float_generic_pkg is
       i := VALUE'high;
       readloop : loop
         if readOk = false then          -- Bail out if there was a bad read
-          report float_generic_pkg'instance_name
+          report float_pkg'instance_name
             & "READ(float): "
             & "Error end of file encountered."
             severity error;
           return;
         elsif c = ' ' or c = CR or c = HT then  -- reading done.
           if (i /= VALUE'low) then
-            report float_generic_pkg'instance_name
+            report float_pkg'instance_name
               & "READ(float): "
               & "Warning: Value truncated."
               severity warning;
@@ -5191,12 +5191,12 @@ package body float_generic_pkg is
           end if;
         elsif c = '_' then
           if i = VALUE'high then        -- Begins with an "_"
-            report float_generic_pkg'instance_name
+            report float_pkg'instance_name
               & "READ(float): "
               & "String begins with an ""_""" severity error;
             return;
           elsif lastu then              -- "__" detected
-            report float_generic_pkg'instance_name
+            report float_pkg'instance_name
               & "READ(float): "
               & "Two underscores detected in input string ""__"""
               severity error;
@@ -5206,7 +5206,7 @@ package body float_generic_pkg is
           end if;
         elsif c = ':' or c = '.' then   -- separator, ignore
           if not (i = -1 or i = VALUE'high-1) then
-            report float_generic_pkg'instance_name
+            report float_pkg'instance_name
               & "READ(float):  "
               & "Warning: Separator point does not match number format: '"
               & c & "' encountered at location " & INTEGER'image(i) & "."
@@ -5214,7 +5214,7 @@ package body float_generic_pkg is
           end if;
           lastu := false;
         elsif (char_to_MVL9plus(c) = error) then
-          report float_generic_pkg'instance_name
+          report float_pkg'instance_name
             & "READ(float): "
             & "Error: Character '" & c & "' read, expected STD_ULOGIC literal."
             severity error;
@@ -5297,11 +5297,11 @@ package body float_generic_pkg is
 
   procedure OREAD (L : inout LINE; VALUE : out UNRESOLVED_float) is
     constant ne         : INTEGER := ((VALUE'length+2)/3) * 3;   -- pad
-    variable slv        : STD_LOGIC_VECTOR (ne-1 downto 0);      -- slv
+    variable slv        : STD_ULOGIC_VECTOR (ne-1 downto 0);      -- slv
     variable slvu       : ufixed (VALUE'range);  -- Unsigned fixed point
     variable c          : CHARACTER;
     variable ok         : BOOLEAN;
-    variable nybble     : STD_LOGIC_VECTOR (2 downto 0);         -- 3 bits
+    variable nybble     : STD_ULOGIC_VECTOR (2 downto 0);         -- 3 bits
     variable colon, dot : BOOLEAN;
   begin
     VALUE := (VALUE'range => 'U');      -- initialize to a "U"
@@ -5313,7 +5313,7 @@ package body float_generic_pkg is
                          good  => ok,
                          chars => ne/3);
       if not ok then
-        report float_generic_pkg'instance_name & "OREAD: "
+        report float_pkg'instance_name & "OREAD: "
           & "short string encounted: " & L.all
           & " needs to have " & integer'image (ne/3)
           & " valid octal characters."
@@ -5322,7 +5322,7 @@ package body float_generic_pkg is
       elsif dot then
         OREAD (L, slvu, ok);            -- read it like a UFIXED number
         if not ok then
-          report float_generic_pkg'instance_name & "OREAD: "
+          report float_pkg'instance_name & "OREAD: "
             & "error encounted reading STRING " & L.all
             severity error;
           return;
@@ -5332,12 +5332,12 @@ package body float_generic_pkg is
       elsif colon then
         OREAD (L, nybble, ok);          -- read the sign bit
         if not ok then
-          report float_generic_pkg'instance_name & "OREAD: "
+          report float_pkg'instance_name & "OREAD: "
             & "End of string encountered"
             severity error;
           return;
         elsif nybble (2 downto 1) /= "00" then
-          report float_generic_pkg'instance_name & "OREAD: "
+          report float_pkg'instance_name & "OREAD: "
             & "Illegal sign bit STRING encounted "
             severity error;
           return;
@@ -5346,7 +5346,7 @@ package body float_generic_pkg is
         fix_colon (L.all, ne/3);         -- replaces the colon with a ".".
         OREAD (L, slvu (slvu'high-1 downto slvu'low), ok);  -- read it like a UFIXED number
         if not ok then
-          report float_generic_pkg'instance_name & "OREAD: "
+          report float_pkg'instance_name & "OREAD: "
             & "error encounted reading STRING " & L.all
             severity error;
           return;
@@ -5357,18 +5357,18 @@ package body float_generic_pkg is
       else
         OREAD (L, slv, ok);
         if not ok then
-          report float_generic_pkg'instance_name & "OREAD: "
+          report float_pkg'instance_name & "OREAD: "
             & "Error encounted during read"
             severity error;
           return;
         end if;
-        if (or (slv(ne-1 downto VALUE'high-VALUE'low+1)) = '1') then
-          report float_generic_pkg'instance_name & "OREAD: "
+        if (or_reduce (std_ulogic_vector (slv(ne-1 downto VALUE'high-VALUE'low+1))) = '1') then
+          report float_pkg'instance_name & "OREAD: "
             & "Vector truncated."
             severity error;
           return;
         end if;
-        VALUE := to_float (slv(VALUE'high-VALUE'low downto 0),
+        VALUE := to_float (std_ulogic_vector (slv(VALUE'high-VALUE'low downto 0)),
                            VALUE'high, -VALUE'low);
       end if;
     end if;
@@ -5376,11 +5376,11 @@ package body float_generic_pkg is
 
   procedure OREAD(L : inout LINE; VALUE : out UNRESOLVED_float; GOOD : out BOOLEAN) is
     constant ne         : INTEGER := ((VALUE'length+2)/3) * 3;   -- pad
-    variable slv        : STD_LOGIC_VECTOR (ne-1 downto 0);      -- slv
+    variable slv        : STD_ULOGIC_VECTOR (ne-1 downto 0);      -- slv
     variable slvu       : ufixed (VALUE'range);  -- Unsigned fixed point
     variable c          : CHARACTER;
     variable ok         : BOOLEAN;
-    variable nybble     : STD_LOGIC_VECTOR (2 downto 0);         -- 3 bits
+    variable nybble     : STD_ULOGIC_VECTOR (2 downto 0);         -- 3 bits
     variable colon, dot : BOOLEAN;
   begin
     VALUE := (VALUE'range => 'U');      -- initialize to a "U"
@@ -5422,10 +5422,10 @@ package body float_generic_pkg is
         if not ok then
           return;
         end if;
-        if (or (slv(ne-1 downto VALUE'high-VALUE'low+1)) = '1') then
+        if (or_reduce (std_ulogic_vector(slv(ne-1 downto VALUE'high-VALUE'low+1))) = '1') then
           return;
         end if;
-        VALUE := to_float (slv(VALUE'high-VALUE'low downto 0),
+        VALUE := to_float (std_ulogic_vector (slv(VALUE'high-VALUE'low downto 0)),
                            VALUE'high, -VALUE'low);
       end if;
       GOOD := true;
@@ -5446,11 +5446,11 @@ package body float_generic_pkg is
 
   procedure HREAD (L : inout LINE; VALUE : out UNRESOLVED_float) is
     constant ne         : INTEGER := ((VALUE'length+3)/4) * 4;   -- pad
-    variable slv        : STD_LOGIC_VECTOR (ne-1 downto 0);      -- slv
+    variable slv        : STD_ULOGIC_VECTOR (ne-1 downto 0);      -- slv
     variable slvu       : ufixed (VALUE'range);  -- Unsigned fixed point
     variable c          : CHARACTER;
     variable ok         : BOOLEAN;
-    variable nybble     : STD_LOGIC_VECTOR (3 downto 0);         -- 4 bits
+    variable nybble     : STD_ULOGIC_VECTOR (3 downto 0);         -- 4 bits
     variable colon, dot : BOOLEAN;
   begin
     VALUE := (VALUE'range => 'U');      -- initialize to a "U"
@@ -5462,7 +5462,7 @@ package body float_generic_pkg is
                          good  => ok,
                          chars => ne/4);
       if not ok then
-        report float_generic_pkg'instance_name & "HREAD: "
+        report float_pkg'instance_name & "HREAD: "
           & "short string encounted: " & L.all
           & " needs to have " & integer'image (ne/4)
           & " valid hex characters."
@@ -5471,7 +5471,7 @@ package body float_generic_pkg is
       elsif dot then
         HREAD (L, slvu, ok);            -- read it like a UFIXED number
         if not ok then
-          report float_generic_pkg'instance_name & "HREAD: "
+          report float_pkg'instance_name & "HREAD: "
             & "error encounted reading STRING " & L.all
             severity error;
           return;
@@ -5481,12 +5481,12 @@ package body float_generic_pkg is
       elsif colon then
         HREAD (L, nybble, ok);          -- read the sign bit
         if not ok then
-          report float_generic_pkg'instance_name & "HREAD: "
+          report float_pkg'instance_name & "HREAD: "
             & "End of string encountered"
             severity error;
           return;
         elsif nybble (3 downto 1) /= "000" then
-          report float_generic_pkg'instance_name & "HREAD: "
+          report float_pkg'instance_name & "HREAD: "
             & "Illegal sign bit STRING encounted "
             severity error;
           return;
@@ -5495,7 +5495,7 @@ package body float_generic_pkg is
         fix_colon (L.all, ne/4);         -- replaces the colon with a ".".
         HREAD (L, slvu (slvu'high-1 downto slvu'low), ok);  -- read it like a UFIXED number
         if not ok then
-          report float_generic_pkg'instance_name & "HREAD: "
+          report float_pkg'instance_name & "HREAD: "
             & "error encounted reading STRING " & L.all
             severity error;
           return;
@@ -5506,18 +5506,18 @@ package body float_generic_pkg is
       else
         HREAD (L, slv, ok);
         if not ok then
-          report float_generic_pkg'instance_name & "HREAD: "
+          report float_pkg'instance_name & "HREAD: "
             & "Error encounted during read"
             severity error;
           return;
         end if;
-        if (or (slv(ne-1 downto VALUE'high-VALUE'low+1)) = '1') then
-          report float_generic_pkg'instance_name & "HREAD: "
+        if (or_reduce (std_ulogic_vector (slv(ne-1 downto VALUE'high-VALUE'low+1))) = '1') then
+          report float_pkg'instance_name & "HREAD: "
             & "Vector truncated."
             severity error;
           return;
         end if;
-        VALUE := to_float (slv(VALUE'high-VALUE'low downto 0),
+        VALUE := to_float (std_ulogic_vector (slv(VALUE'high-VALUE'low downto 0)),
                            VALUE'high, -VALUE'low);
       end if;
     end if;
@@ -5525,11 +5525,11 @@ package body float_generic_pkg is
 
   procedure HREAD (L : inout LINE; VALUE : out UNRESOLVED_float; GOOD : out BOOLEAN) is
     constant ne         : INTEGER := ((VALUE'length+3)/4) * 4;   -- pad
-    variable slv        : STD_LOGIC_VECTOR (ne-1 downto 0);      -- slv
+    variable slv        : STD_ULOGIC_VECTOR (ne-1 downto 0);      -- slv
     variable slvu       : ufixed (VALUE'range);  -- Unsigned fixed point
     variable c          : CHARACTER;
     variable ok         : BOOLEAN;
-    variable nybble     : STD_LOGIC_VECTOR (3 downto 0);         -- 4 bits
+    variable nybble     : STD_ULOGIC_VECTOR (3 downto 0);         -- 4 bits
     variable colon, dot : BOOLEAN;
   begin
     VALUE := (VALUE'range => 'U');      -- initialize to a "U"
@@ -5571,10 +5571,10 @@ package body float_generic_pkg is
         if not ok then
           return;
         end if;
-        if (or (slv(ne-1 downto VALUE'high-VALUE'low+1)) = '1') then
+        if (or_reduce (std_ulogic_vector (slv(ne-1 downto VALUE'high-VALUE'low+1))) = '1') then
           return;
         end if;
-        VALUE := to_float (slv(VALUE'high-VALUE'low downto 0),
+        VALUE := to_float (std_ulogic_vector(slv(VALUE'high-VALUE'low downto 0)),
                            VALUE'high, -VALUE'low);
       end if;
       GOOD := true;
@@ -5607,7 +5607,7 @@ package body float_generic_pkg is
     floop : for i in slv'range loop
       slv(i) := to_X01Z (value(i + value'low));
     end loop floop;
-    return to_hstring (slv);
+    return to_hstring (std_ulogic_vector(slv));
   end function to_hstring;
 
   function to_ostring (value : UNRESOLVED_float) return STRING is
@@ -5616,7 +5616,7 @@ package body float_generic_pkg is
     floop : for i in slv'range loop
       slv(i) := to_X01Z (value(i + value'low));
     end loop floop;
-    return to_ostring (slv);
+    return to_ostring (std_ulogic_vector (slv));
   end function to_ostring;
 
   function from_string (
@@ -5633,7 +5633,7 @@ package body float_generic_pkg is
     READ (L, result, good);
     deallocate (L);
     assert (good)
-      report float_generic_pkg'instance_name
+      report float_pkg'instance_name
       & "from_string: Bad string " & bstring
       severity error;
     return result;
@@ -5653,7 +5653,7 @@ package body float_generic_pkg is
     OREAD (L, result, good);
     deallocate (L);
     assert (good)
-      report float_generic_pkg'instance_name
+      report float_pkg'instance_name
       & "from_ostring: Bad string " & ostring
       severity error;
     return result;
@@ -5673,7 +5673,7 @@ package body float_generic_pkg is
     HREAD (L, result, good);
     deallocate (L);
     assert (good)
-      report float_generic_pkg'instance_name
+      report float_pkg'instance_name
       & "from_hstring: Bad string " & hstring
       severity error;
     return result;
@@ -5709,4 +5709,4 @@ package body float_generic_pkg is
                          fraction_width => -size_res'low);
   end function from_hstring;
 
-end package body float_generic_pkg;
+end package body float_pkg;

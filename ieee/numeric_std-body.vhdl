@@ -403,22 +403,22 @@ package body NUMERIC_STD is
     return (XL + R);
   end function "+";
 
-  -- Id: A.4
-  function "+" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
-    variable R01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAS;
-    end if;
-    L01 := TO_01(RESIZE(L, SIZE), 'X');
-    if (L01(L01'left) = 'X') then return L01;
-    end if;
-    R01 := TO_01(RESIZE(R, SIZE), 'X');
-    if (R01(R01'left) = 'X') then return R01;
-    end if;
-    return ADD_SIGNED(L01, R01, '0');
-  end function "+";
+  -- -- Id: A.4
+  -- function "+" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
+  --   variable R01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAS;
+  --   end if;
+  --   L01 := TO_01(RESIZE(L, SIZE), 'X');
+  --   if (L01(L01'left) = 'X') then return L01;
+  --   end if;
+  --   R01 := TO_01(RESIZE(R, SIZE), 'X');
+  --   if (R01(R01'left) = 'X') then return R01;
+  --   end if;
+  --   return ADD_SIGNED(L01, R01, '0');
+  -- end function "+";
 
   -- Id: A.4R
   function "+" (L : UNRESOLVED_SIGNED; R : STD_ULOGIC)
@@ -440,52 +440,52 @@ package body NUMERIC_STD is
     return (XL + R);
   end function "+";
 
-  -- Id: A.5
-  function "+" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    return L + TO_UNSIGNED(R, L'length);
-  end function "+";
+  -- -- Id: A.5
+  -- function "+" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   return L + TO_UNSIGNED(R, L'length);
+  -- end function "+";
 
-  -- Id: A.6
-  function "+" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    return TO_UNSIGNED(L, R'length) + R;
-  end function "+";
+  -- -- Id: A.6
+  -- function "+" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   return TO_UNSIGNED(L, R'length) + R;
+  -- end function "+";
 
-  -- Id: A.7
-  function "+" (L : UNRESOLVED_SIGNED; R : INTEGER)
-    return UNRESOLVED_SIGNED is
-  begin
-    return L + TO_SIGNED(R, L'length);
-  end function "+";
+  -- -- Id: A.7
+  -- function "+" (L : UNRESOLVED_SIGNED; R : INTEGER)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   return L + TO_SIGNED(R, L'length);
+  -- end function "+";
 
-  -- Id: A.8
-  function "+" (L : INTEGER; R : UNRESOLVED_SIGNED)
-    return UNRESOLVED_SIGNED is
-  begin
-    return TO_SIGNED(L, R'length) + R;
-  end function "+";
+  -- -- Id: A.8
+  -- function "+" (L : INTEGER; R : UNRESOLVED_SIGNED)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   return TO_SIGNED(L, R'length) + R;
+  -- end function "+";
 
-  -- ============================================================================
+  -- -- ============================================================================
 
-  -- Id: A.9
-  function "-" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01  : UNRESOLVED_UNSIGNED(SIZE-1 downto 0);
-    variable R01  : UNRESOLVED_UNSIGNED(SIZE-1 downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAU;
-    end if;
-    L01 := TO_01(RESIZE(L, SIZE), 'X');
-    if (L01(L01'left) = 'X') then return L01;
-    end if;
-    R01 := TO_01(RESIZE(R, SIZE), 'X');
-    if (R01(R01'left) = 'X') then return R01;
-    end if;
-    return ADD_UNSIGNED(L01, not(R01), '1');
-  end function "-";
+  -- -- Id: A.9
+  -- function "-" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01  : UNRESOLVED_UNSIGNED(SIZE-1 downto 0);
+  --   variable R01  : UNRESOLVED_UNSIGNED(SIZE-1 downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAU;
+  --   end if;
+  --   L01 := TO_01(RESIZE(L, SIZE), 'X');
+  --   if (L01(L01'left) = 'X') then return L01;
+  --   end if;
+  --   R01 := TO_01(RESIZE(R, SIZE), 'X');
+  --   if (R01(R01'left) = 'X') then return R01;
+  --   end if;
+  --   return ADD_UNSIGNED(L01, not(R01), '1');
+  -- end function "-";
 
   -- Id: A.9R
   function "-" (L : UNRESOLVED_UNSIGNED; R : STD_ULOGIC)
@@ -507,22 +507,22 @@ package body NUMERIC_STD is
     return (XL - R);
   end function "-";
 
-  -- Id: A.10
-  function "-" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
-    variable R01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAS;
-    end if;
-    L01 := TO_01(RESIZE(L, SIZE), 'X');
-    if (L01(L01'left) = 'X') then return L01;
-    end if;
-    R01 := TO_01(RESIZE(R, SIZE), 'X');
-    if (R01(R01'left) = 'X') then return R01;
-    end if;
-    return ADD_SIGNED(L01, not(R01), '1');
-  end function "-";
+  -- -- Id: A.10
+  -- function "-" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
+  --   variable R01  : UNRESOLVED_SIGNED(SIZE-1 downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAS;
+  --   end if;
+  --   L01 := TO_01(RESIZE(L, SIZE), 'X');
+  --   if (L01(L01'left) = 'X') then return L01;
+  --   end if;
+  --   R01 := TO_01(RESIZE(R, SIZE), 'X');
+  --   if (R01(R01'left) = 'X') then return R01;
+  --   end if;
+  --   return ADD_SIGNED(L01, not(R01), '1');
+  -- end function "-";
 
   -- Id: A.10R
   function "-" (L : UNRESOLVED_SIGNED; R : STD_ULOGIC)
@@ -544,564 +544,564 @@ package body NUMERIC_STD is
     return (XL - R);
   end function "-";
 
-  -- Id: A.11
-  function "-" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    return L - TO_UNSIGNED(R, L'length);
-  end function "-";
+  -- -- Id: A.11
+  -- function "-" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   return L - TO_UNSIGNED(R, L'length);
+  -- end function "-";
 
-  -- Id: A.12
-  function "-" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    return TO_UNSIGNED(L, R'length) - R;
-  end function "-";
+  -- -- Id: A.12
+  -- function "-" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   return TO_UNSIGNED(L, R'length) - R;
+  -- end function "-";
 
-  -- Id: A.13
-  function "-" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED is
-  begin
-    return L - TO_SIGNED(R, L'length);
-  end function "-";
+  -- -- Id: A.13
+  -- function "-" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED is
+  -- begin
+  --   return L - TO_SIGNED(R, L'length);
+  -- end function "-";
 
-  -- Id: A.14
-  function "-" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-  begin
-    return TO_SIGNED(L, R'length) - R;
-  end function "-";
-
-  -- ============================================================================
-
-  -- Id: A.15
-  function "*" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XXL       : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XXR       : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable XL     : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable XR     : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-    variable RESULT : UNRESOLVED_UNSIGNED((L'length+R'length-1) downto 0) :=
-      (others => '0');
-    variable ADVAL : UNRESOLVED_UNSIGNED((L'length+R'length-1) downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAU;
-    end if;
-    XL := TO_01(XXL, 'X');
-    XR := TO_01(XXR, 'X');
-    if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
-      RESULT := (others => 'X');
-      return RESULT;
-    end if;
-    ADVAL := RESIZE(XR, RESULT'length);
-    for I in 0 to L_LEFT loop
-      if XL(I) = '1' then RESULT := RESULT + ADVAL;
-      end if;
-      ADVAL                      := SHIFT_LEFT(ADVAL, 1);
-    end loop;
-    return RESULT;
-  end function "*";
-
-  -- Id: A.16
-  function "*" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    variable XL     : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable XR     : UNRESOLVED_SIGNED(R_LEFT downto 0);
-    variable RESULT : UNRESOLVED_SIGNED((L_LEFT+R_LEFT+1) downto 0) :=
-      (others => '0');
-    variable ADVAL  : UNRESOLVED_SIGNED((L_LEFT+R_LEFT+1) downto 0);
-  begin
-    if ((L_LEFT < 0) or (R_LEFT < 0)) then return NAS;
-    end if;
-    XL := TO_01(L, 'X');
-    XR := TO_01(R, 'X');
-    if ((XL(L_LEFT) = 'X') or (XR(R_LEFT) = 'X')) then
-      RESULT := (others => 'X');
-      return RESULT;
-    end if;
-    ADVAL := RESIZE(XR, RESULT'length);
-    for I in 0 to L_LEFT-1 loop
-      if XL(I) = '1' then RESULT := RESULT + ADVAL;
-      end if;
-      ADVAL                      := SHIFT_LEFT(ADVAL, 1);
-    end loop;
-    if XL(L_LEFT) = '1' then
-      RESULT := RESULT - ADVAL;
-    end if;
-    return RESULT;
-  end function "*";
-
-  -- Id: A.17
-  function "*" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    return L * TO_UNSIGNED(R, L'length);
-  end function "*";
-
-  -- Id: A.18
-  function "*" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    return TO_UNSIGNED(L, R'length) * R;
-  end function "*";
-
-  -- Id: A.19
-  function "*" (L : UNRESOLVED_SIGNED; R : INTEGER)
-    return UNRESOLVED_SIGNED is
-  begin
-    return L * TO_SIGNED(R, L'length);
-  end function "*";
-
-  -- Id: A.20
-  function "*" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-  begin
-    return TO_SIGNED(L, R'length) * R;
-  end function "*";
+  -- -- Id: A.14
+  -- function "-" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  -- begin
+  --   return TO_SIGNED(L, R'length) - R;
+  -- end function "-";
 
   -- ============================================================================
 
-  -- Id: A.21
-  function "/" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    constant L_LEFT  : INTEGER := L'length-1;
-    constant R_LEFT  : INTEGER := R'length-1;
-    alias XXL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XXR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable XL      : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable XR      : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-    variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAU;
-    end if;
-    XL := TO_01(XXL, 'X');
-    XR := TO_01(XXR, 'X');
-    if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
-      FQUOT := (others => 'X');
-      return FQUOT;
-    end if;
-    DIVMOD(XL, XR, FQUOT, FREMAIN);
-    return FQUOT;
-  end function "/";
+  -- -- Id: A.15
+  -- function "*" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XXL       : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XXR       : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable XL     : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable XR     : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  --   variable RESULT : UNRESOLVED_UNSIGNED((L'length+R'length-1) downto 0) :=
+  --     (others => '0');
+  --   variable ADVAL : UNRESOLVED_UNSIGNED((L'length+R'length-1) downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAU;
+  --   end if;
+  --   XL := TO_01(XXL, 'X');
+  --   XR := TO_01(XXR, 'X');
+  --   if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
+  --     RESULT := (others => 'X');
+  --     return RESULT;
+  --   end if;
+  --   ADVAL := RESIZE(XR, RESULT'length);
+  --   for I in 0 to L_LEFT loop
+  --     if XL(I) = '1' then RESULT := RESULT + ADVAL;
+  --     end if;
+  --     ADVAL                      := SHIFT_LEFT(ADVAL, 1);
+  --   end loop;
+  --   return RESULT;
+  -- end function "*";
 
-  -- Id: A.22
-  function "/" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant L_LEFT  : INTEGER := L'length-1;
-    constant R_LEFT  : INTEGER := R'length-1;
-    alias XXL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XXR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable XL      : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable XR      : UNRESOLVED_SIGNED(R_LEFT downto 0);
-    variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-    variable XNUM    : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable XDENOM  : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-    variable QNEG    : BOOLEAN := false;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAS;
-    end if;
-    XL := TO_01(XXL, 'X');
-    XR := TO_01(XXR, 'X');
-    if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
-      FQUOT := (others => 'X');
-      return UNRESOLVED_SIGNED(FQUOT);
-    end if;
-    if XL(XL'left) = '1' then
-      XNUM := UNRESOLVED_UNSIGNED(-XL);
-      QNEG := true;
-    else
-      XNUM := UNRESOLVED_UNSIGNED(XL);
-    end if;
-    if XR(XR'left) = '1' then
-      XDENOM := UNRESOLVED_UNSIGNED(-XR);
-      QNEG   := not QNEG;
-    else
-      XDENOM := UNRESOLVED_UNSIGNED(XR);
-    end if;
-    DIVMOD(XNUM, XDENOM, FQUOT, FREMAIN);
-    if QNEG then FQUOT := "0"-FQUOT;
-    end if;
-    return UNRESOLVED_SIGNED(FQUOT);
-  end function "/";
+  -- -- Id: A.16
+  -- function "*" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   variable XL     : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable XR     : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  --   variable RESULT : UNRESOLVED_SIGNED((L_LEFT+R_LEFT+1) downto 0) :=
+  --     (others => '0');
+  --   variable ADVAL  : UNRESOLVED_SIGNED((L_LEFT+R_LEFT+1) downto 0);
+  -- begin
+  --   if ((L_LEFT < 0) or (R_LEFT < 0)) then return NAS;
+  --   end if;
+  --   XL := TO_01(L, 'X');
+  --   XR := TO_01(R, 'X');
+  --   if ((XL(L_LEFT) = 'X') or (XR(R_LEFT) = 'X')) then
+  --     RESULT := (others => 'X');
+  --     return RESULT;
+  --   end if;
+  --   ADVAL := RESIZE(XR, RESULT'length);
+  --   for I in 0 to L_LEFT-1 loop
+  --     if XL(I) = '1' then RESULT := RESULT + ADVAL;
+  --     end if;
+  --     ADVAL                      := SHIFT_LEFT(ADVAL, 1);
+  --   end loop;
+  --   if XL(L_LEFT) = '1' then
+  --     RESULT := RESULT - ADVAL;
+  --   end if;
+  --   return RESULT;
+  -- end function "*";
 
-  -- Id: A.23
-  function "/" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant R_LENGTH : NATURAL := MAXIMUM(L'length, UNSIGNED_NUM_BITS(R));
-    variable XR, QUOT : UNRESOLVED_UNSIGNED(R_LENGTH-1 downto 0);
-  begin
-    if (L'length < 1) then return NAU;
-    end if;
-    if (R_LENGTH > L'length) then
-      QUOT := (others => '0');
-      return RESIZE(QUOT, L'length);
-    end if;
-    XR   := TO_UNSIGNED(R, R_LENGTH);
-    QUOT := RESIZE((L / XR), QUOT'length);
-    return RESIZE(QUOT, L'length);
-  end function "/";
+  -- -- Id: A.17
+  -- function "*" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   return L * TO_UNSIGNED(R, L'length);
+  -- end function "*";
 
-  -- Id: A.24
-  function "/" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant L_LENGTH : NATURAL := MAXIMUM(UNSIGNED_NUM_BITS(L), R'length);
-    variable XL, QUOT : UNRESOLVED_UNSIGNED(L_LENGTH-1 downto 0);
-  begin
-    if (R'length < 1) then return NAU;
-    end if;
-    XL   := TO_UNSIGNED(L, L_LENGTH);
-    QUOT := RESIZE((XL / R), QUOT'length);
-    if L_LENGTH > R'length and QUOT(0) /= 'X'
-      and QUOT(L_LENGTH-1 downto R'length)
-      /= (L_LENGTH-1 downto R'length => '0')
-    then
-      assert NO_WARNING report "NUMERIC_STD.""/"": Quotient Truncated"
-        severity warning;
-    end if;
-    return RESIZE(QUOT, R'length);
-  end function "/";
+  -- -- Id: A.18
+  -- function "*" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   return TO_UNSIGNED(L, R'length) * R;
+  -- end function "*";
 
-  -- Id: A.25
-  function "/" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED is
-    constant R_LENGTH : NATURAL := MAXIMUM(L'length, SIGNED_NUM_BITS(R));
-    variable XR, QUOT : UNRESOLVED_SIGNED(R_LENGTH-1 downto 0);
-  begin
-    if (L'length < 1) then return NAS;
-    end if;
-    if (R_LENGTH > L'length) then
-      QUOT := (others => '0');
-      return RESIZE(QUOT, L'length);
-    end if;
-    XR   := TO_SIGNED(R, R_LENGTH);
-    QUOT := RESIZE((L / XR), QUOT'length);
-    return RESIZE(QUOT, L'length);
-  end function "/";
+  -- -- Id: A.19
+  -- function "*" (L : UNRESOLVED_SIGNED; R : INTEGER)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   return L * TO_SIGNED(R, L'length);
+  -- end function "*";
 
-  -- Id: A.26
-  function "/" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant L_LENGTH : NATURAL := MAXIMUM(SIGNED_NUM_BITS(L), R'length);
-    variable XL, QUOT : UNRESOLVED_SIGNED(L_LENGTH-1 downto 0);
-  begin
-    if (R'length < 1) then return NAS;
-    end if;
-    XL   := TO_SIGNED(L, L_LENGTH);
-    QUOT := RESIZE((XL / R), QUOT'length);
-    if L_LENGTH > R'length and QUOT(0) /= 'X'
-      and QUOT(L_LENGTH-1 downto R'length)
-      /= (L_LENGTH-1 downto R'length => QUOT(R'length-1))
-    then
-      assert NO_WARNING report "NUMERIC_STD.""/"": Quotient Truncated"
-        severity warning;
-    end if;
-    return RESIZE(QUOT, R'length);
-  end function "/";
+  -- -- Id: A.20
+  -- function "*" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  -- begin
+  --   return TO_SIGNED(L, R'length) * R;
+  -- end function "*";
 
   -- ============================================================================
 
-  -- Id: A.27
-  function "rem" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    constant L_LEFT  : INTEGER := L'length-1;
-    constant R_LEFT  : INTEGER := R'length-1;
-    alias XXL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XXR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable XL      : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable XR      : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-    variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAU;
-    end if;
-    XL := TO_01(XXL, 'X');
-    XR := TO_01(XXR, 'X');
-    if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
-      FREMAIN := (others => 'X');
-      return FREMAIN;
-    end if;
-    DIVMOD(XL, XR, FQUOT, FREMAIN);
-    return FREMAIN;
-  end function "rem";
+  -- -- Id: A.21
+  -- function "/" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   constant L_LEFT  : INTEGER := L'length-1;
+  --   constant R_LEFT  : INTEGER := R'length-1;
+  --   alias XXL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XXR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable XL      : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable XR      : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  --   variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAU;
+  --   end if;
+  --   XL := TO_01(XXL, 'X');
+  --   XR := TO_01(XXR, 'X');
+  --   if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
+  --     FQUOT := (others => 'X');
+  --     return FQUOT;
+  --   end if;
+  --   DIVMOD(XL, XR, FQUOT, FREMAIN);
+  --   return FQUOT;
+  -- end function "/";
 
-  -- Id: A.28
-  function "rem" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant L_LEFT  : INTEGER := L'length-1;
-    constant R_LEFT  : INTEGER := R'length-1;
-    alias XXL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XXR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-    variable XNUM    : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable XDENOM  : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-    variable RNEG    : BOOLEAN := false;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAS;
-    end if;
-    XNUM   := UNRESOLVED_UNSIGNED(TO_01(XXL, 'X'));
-    XDENOM := UNRESOLVED_UNSIGNED(TO_01(XXR, 'X'));
-    if ((XNUM(XNUM'left) = 'X') or (XDENOM(XDENOM'left) = 'X')) then
-      FREMAIN := (others => 'X');
-      return UNRESOLVED_SIGNED(FREMAIN);
-    end if;
-    if XNUM(XNUM'left) = '1' then
-      XNUM := UNRESOLVED_UNSIGNED(-UNRESOLVED_SIGNED(XNUM));
-      RNEG := true;
-    else
-      XNUM := UNRESOLVED_UNSIGNED(XNUM);
-    end if;
-    if XDENOM(XDENOM'left) = '1' then
-      XDENOM := UNRESOLVED_UNSIGNED(-UNRESOLVED_SIGNED(XDENOM));
-    else
-      XDENOM := UNRESOLVED_UNSIGNED(XDENOM);
-    end if;
-    DIVMOD(XNUM, XDENOM, FQUOT, FREMAIN);
-    if RNEG then
-      FREMAIN := "0"-FREMAIN;
-    end if;
-    return UNRESOLVED_SIGNED(FREMAIN);
-  end function "rem";
+  -- -- Id: A.22
+  -- function "/" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant L_LEFT  : INTEGER := L'length-1;
+  --   constant R_LEFT  : INTEGER := R'length-1;
+  --   alias XXL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XXR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable XL      : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable XR      : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  --   variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  --   variable XNUM    : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable XDENOM  : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  --   variable QNEG    : BOOLEAN := false;
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAS;
+  --   end if;
+  --   XL := TO_01(XXL, 'X');
+  --   XR := TO_01(XXR, 'X');
+  --   if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
+  --     FQUOT := (others => 'X');
+  --     return UNRESOLVED_SIGNED(FQUOT);
+  --   end if;
+  --   if XL(XL'left) = '1' then
+  --     XNUM := UNRESOLVED_UNSIGNED(-XL);
+  --     QNEG := true;
+  --   else
+  --     XNUM := UNRESOLVED_UNSIGNED(XL);
+  --   end if;
+  --   if XR(XR'left) = '1' then
+  --     XDENOM := UNRESOLVED_UNSIGNED(-XR);
+  --     QNEG   := not QNEG;
+  --   else
+  --     XDENOM := UNRESOLVED_UNSIGNED(XR);
+  --   end if;
+  --   DIVMOD(XNUM, XDENOM, FQUOT, FREMAIN);
+  --   if QNEG then FQUOT := "0"-FQUOT;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(FQUOT);
+  -- end function "/";
 
-  -- Id: A.29
-  function "rem" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant R_LENGTH : NATURAL := MAXIMUM(L'length, UNSIGNED_NUM_BITS(R));
-    variable XR, XREM : UNRESOLVED_UNSIGNED(R_LENGTH-1 downto 0);
-  begin
-    if (L'length < 1) then return NAU;
-    end if;
-    XR   := TO_UNSIGNED(R, R_LENGTH);
-    XREM := L rem XR;
-    if R_LENGTH > L'length and XREM(0) /= 'X'
-      and XREM(R_LENGTH-1 downto L'length)
-      /= (R_LENGTH-1 downto L'length => '0')
-    then
-      assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, L'length);
-  end function "rem";
+  -- -- Id: A.23
+  -- function "/" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant R_LENGTH : NATURAL := MAXIMUM(L'length, UNSIGNED_NUM_BITS(R));
+  --   variable XR, QUOT : UNRESOLVED_UNSIGNED(R_LENGTH-1 downto 0);
+  -- begin
+  --   if (L'length < 1) then return NAU;
+  --   end if;
+  --   if (R_LENGTH > L'length) then
+  --     QUOT := (others => '0');
+  --     return RESIZE(QUOT, L'length);
+  --   end if;
+  --   XR   := TO_UNSIGNED(R, R_LENGTH);
+  --   QUOT := RESIZE((L / XR), QUOT'length);
+  --   return RESIZE(QUOT, L'length);
+  -- end function "/";
 
-  -- Id: A.30
-  function "rem" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant L_LENGTH : NATURAL := MAXIMUM(UNSIGNED_NUM_BITS(L), R'length);
-    variable XL, XREM : UNRESOLVED_UNSIGNED(L_LENGTH-1 downto 0);
-  begin
-    XL   := TO_UNSIGNED(L, L_LENGTH);
-    XREM := XL rem R;
-    if L_LENGTH > R'length and XREM(0) /= 'X'
-      and XREM(L_LENGTH-1 downto R'length)
-      /= (L_LENGTH-1 downto R'length => '0')
-    then
-      assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, R'length);
-  end function "rem";
+  -- -- Id: A.24
+  -- function "/" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant L_LENGTH : NATURAL := MAXIMUM(UNSIGNED_NUM_BITS(L), R'length);
+  --   variable XL, QUOT : UNRESOLVED_UNSIGNED(L_LENGTH-1 downto 0);
+  -- begin
+  --   if (R'length < 1) then return NAU;
+  --   end if;
+  --   XL   := TO_UNSIGNED(L, L_LENGTH);
+  --   QUOT := RESIZE((XL / R), QUOT'length);
+  --   if L_LENGTH > R'length and QUOT(0) /= 'X'
+  --     and QUOT(L_LENGTH-1 downto R'length)
+  --     /= (L_LENGTH-1 downto R'length => '0')
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""/"": Quotient Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(QUOT, R'length);
+  -- end function "/";
 
-  -- Id: A.31
-  function "rem" (L : UNRESOLVED_SIGNED; R : INTEGER)
-    return UNRESOLVED_SIGNED
-  is
-    constant R_LENGTH : NATURAL := MAXIMUM(L'length, SIGNED_NUM_BITS(R));
-    variable XR, XREM : UNRESOLVED_SIGNED(R_LENGTH-1 downto 0);
-  begin
-    if (L'length < 1) then return NAS;
-    end if;
-    XR   := TO_SIGNED(R, R_LENGTH);
-    XREM := RESIZE((L rem XR), XREM'length);
-    if R_LENGTH > L'length and XREM(0) /= 'X'
-      and XREM(R_LENGTH-1 downto L'length)
-      /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
-    then
-      assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, L'length);
-  end function "rem";
+  -- -- Id: A.25
+  -- function "/" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED is
+  --   constant R_LENGTH : NATURAL := MAXIMUM(L'length, SIGNED_NUM_BITS(R));
+  --   variable XR, QUOT : UNRESOLVED_SIGNED(R_LENGTH-1 downto 0);
+  -- begin
+  --   if (L'length < 1) then return NAS;
+  --   end if;
+  --   if (R_LENGTH > L'length) then
+  --     QUOT := (others => '0');
+  --     return RESIZE(QUOT, L'length);
+  --   end if;
+  --   XR   := TO_SIGNED(R, R_LENGTH);
+  --   QUOT := RESIZE((L / XR), QUOT'length);
+  --   return RESIZE(QUOT, L'length);
+  -- end function "/";
 
-  -- Id: A.32
-  function "rem" (L : INTEGER; R : UNRESOLVED_SIGNED)
-    return UNRESOLVED_SIGNED
-  is
-    constant L_LENGTH : NATURAL := MAXIMUM(SIGNED_NUM_BITS(L), R'length);
-    variable XL, XREM : UNRESOLVED_SIGNED(L_LENGTH-1 downto 0);
-  begin
-    if (R'length < 1) then return NAS;
-    end if;
-    XL   := TO_SIGNED(L, L_LENGTH);
-    XREM := RESIZE((XL rem R), XREM'length);
-    if L_LENGTH > R'length and XREM(0) /= 'X'
-      and XREM(L_LENGTH-1 downto R'length)
-      /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
-    then
-      assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, R'length);
-  end function "rem";
+  -- -- Id: A.26
+  -- function "/" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant L_LENGTH : NATURAL := MAXIMUM(SIGNED_NUM_BITS(L), R'length);
+  --   variable XL, QUOT : UNRESOLVED_SIGNED(L_LENGTH-1 downto 0);
+  -- begin
+  --   if (R'length < 1) then return NAS;
+  --   end if;
+  --   XL   := TO_SIGNED(L, L_LENGTH);
+  --   QUOT := RESIZE((XL / R), QUOT'length);
+  --   if L_LENGTH > R'length and QUOT(0) /= 'X'
+  --     and QUOT(L_LENGTH-1 downto R'length)
+  --     /= (L_LENGTH-1 downto R'length => QUOT(R'length-1))
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""/"": Quotient Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(QUOT, R'length);
+  -- end function "/";
 
   -- ============================================================================
 
-  -- Id: A.33
-  function "mod" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    constant L_LEFT  : INTEGER := L'length-1;
-    constant R_LEFT  : INTEGER := R'length-1;
-    alias XXL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XXR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable XL      : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable XR      : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-    variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAU;
-    end if;
-    XL := TO_01(XXL, 'X');
-    XR := TO_01(XXR, 'X');
-    if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
-      FREMAIN := (others => 'X');
-      return FREMAIN;
-    end if;
-    DIVMOD(XL, XR, FQUOT, FREMAIN);
-    return FREMAIN;
-  end function "mod";
+  -- -- Id: A.27
+  -- function "rem" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   constant L_LEFT  : INTEGER := L'length-1;
+  --   constant R_LEFT  : INTEGER := R'length-1;
+  --   alias XXL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XXR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable XL      : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable XR      : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  --   variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAU;
+  --   end if;
+  --   XL := TO_01(XXL, 'X');
+  --   XR := TO_01(XXR, 'X');
+  --   if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
+  --     FREMAIN := (others => 'X');
+  --     return FREMAIN;
+  --   end if;
+  --   DIVMOD(XL, XR, FQUOT, FREMAIN);
+  --   return FREMAIN;
+  -- end function "rem";
 
-  -- Id: A.34
-  function "mod" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    constant L_LEFT  : INTEGER := L'length-1;
-    constant R_LEFT  : INTEGER := R'length-1;
-    alias XXL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XXR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable XL      : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable XR      : UNRESOLVED_SIGNED(R_LEFT downto 0);
-    variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-    variable XNUM    : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-    variable XDENOM  : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
-    variable RNEG    : BOOLEAN := false;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAS;
-    end if;
-    XL := TO_01(XXL, 'X');
-    XR := TO_01(XXR, 'X');
-    if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
-      FREMAIN := (others => 'X');
-      return UNRESOLVED_SIGNED(FREMAIN);
-    end if;
-    if XL(XL'left) = '1' then
-      XNUM := UNRESOLVED_UNSIGNED(-XL);
-    else
-      XNUM := UNRESOLVED_UNSIGNED(XL);
-    end if;
-    if XR(XR'left) = '1' then
-      XDENOM := UNRESOLVED_UNSIGNED(-XR);
-      RNEG   := true;
-    else
-      XDENOM := UNRESOLVED_UNSIGNED(XR);
-    end if;
-    DIVMOD(XNUM, XDENOM, FQUOT, FREMAIN);
-    if RNEG and L(L'left) = '1' then
-      FREMAIN := "0"-FREMAIN;
-    elsif RNEG and FREMAIN /= "0" then
-      FREMAIN := FREMAIN-XDENOM;
-    elsif L(L'left) = '1' and FREMAIN /= "0" then
-      FREMAIN := XDENOM-FREMAIN;
-    end if;
-    return UNRESOLVED_SIGNED(FREMAIN);
-  end function "mod";
+  -- -- Id: A.28
+  -- function "rem" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant L_LEFT  : INTEGER := L'length-1;
+  --   constant R_LEFT  : INTEGER := R'length-1;
+  --   alias XXL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XXR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  --   variable XNUM    : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable XDENOM  : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  --   variable RNEG    : BOOLEAN := false;
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAS;
+  --   end if;
+  --   XNUM   := UNRESOLVED_UNSIGNED(TO_01(XXL, 'X'));
+  --   XDENOM := UNRESOLVED_UNSIGNED(TO_01(XXR, 'X'));
+  --   if ((XNUM(XNUM'left) = 'X') or (XDENOM(XDENOM'left) = 'X')) then
+  --     FREMAIN := (others => 'X');
+  --     return UNRESOLVED_SIGNED(FREMAIN);
+  --   end if;
+  --   if XNUM(XNUM'left) = '1' then
+  --     XNUM := UNRESOLVED_UNSIGNED(-UNRESOLVED_SIGNED(XNUM));
+  --     RNEG := true;
+  --   else
+  --     XNUM := UNRESOLVED_UNSIGNED(XNUM);
+  --   end if;
+  --   if XDENOM(XDENOM'left) = '1' then
+  --     XDENOM := UNRESOLVED_UNSIGNED(-UNRESOLVED_SIGNED(XDENOM));
+  --   else
+  --     XDENOM := UNRESOLVED_UNSIGNED(XDENOM);
+  --   end if;
+  --   DIVMOD(XNUM, XDENOM, FQUOT, FREMAIN);
+  --   if RNEG then
+  --     FREMAIN := "0"-FREMAIN;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(FREMAIN);
+  -- end function "rem";
 
-  -- Id: A.35
-  function "mod" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant R_LENGTH : NATURAL := MAXIMUM(L'length, UNSIGNED_NUM_BITS(R));
-    variable XR, XREM : UNRESOLVED_UNSIGNED(R_LENGTH-1 downto 0);
-  begin
-    if (L'length < 1) then return NAU;
-    end if;
-    XR   := TO_UNSIGNED(R, R_LENGTH);
-    XREM := RESIZE((L mod XR), XREM'length);
-    if R_LENGTH > L'length and XREM(0) /= 'X'
-      and XREM(R_LENGTH-1 downto L'length)
-      /= (R_LENGTH-1 downto L'length => '0')
-    then
-      assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, L'length);
-  end function "mod";
+  -- -- Id: A.29
+  -- function "rem" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant R_LENGTH : NATURAL := MAXIMUM(L'length, UNSIGNED_NUM_BITS(R));
+  --   variable XR, XREM : UNRESOLVED_UNSIGNED(R_LENGTH-1 downto 0);
+  -- begin
+  --   if (L'length < 1) then return NAU;
+  --   end if;
+  --   XR   := TO_UNSIGNED(R, R_LENGTH);
+  --   XREM := L rem XR;
+  --   if R_LENGTH > L'length and XREM(0) /= 'X'
+  --     and XREM(R_LENGTH-1 downto L'length)
+  --     /= (R_LENGTH-1 downto L'length => '0')
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, L'length);
+  -- end function "rem";
 
-  -- Id: A.36
-  function "mod" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant L_LENGTH : NATURAL := MAXIMUM(UNSIGNED_NUM_BITS(L), R'length);
-    variable XL, XREM : UNRESOLVED_UNSIGNED(L_LENGTH-1 downto 0);
-  begin
-    if (R'length < 1) then return NAU;
-    end if;
-    XL   := TO_UNSIGNED(L, L_LENGTH);
-    XREM := RESIZE((XL mod R), XREM'length);
-    if L_LENGTH > R'length and XREM(0) /= 'X'
-      and XREM(L_LENGTH-1 downto R'length)
-      /= (L_LENGTH-1 downto R'length => '0')
-    then
-      assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, R'length);
-  end function "mod";
+  -- -- Id: A.30
+  -- function "rem" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant L_LENGTH : NATURAL := MAXIMUM(UNSIGNED_NUM_BITS(L), R'length);
+  --   variable XL, XREM : UNRESOLVED_UNSIGNED(L_LENGTH-1 downto 0);
+  -- begin
+  --   XL   := TO_UNSIGNED(L, L_LENGTH);
+  --   XREM := XL rem R;
+  --   if L_LENGTH > R'length and XREM(0) /= 'X'
+  --     and XREM(L_LENGTH-1 downto R'length)
+  --     /= (L_LENGTH-1 downto R'length => '0')
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, R'length);
+  -- end function "rem";
 
-  -- Id: A.37
-  function "mod" (L : UNRESOLVED_SIGNED; R : INTEGER)
-    return UNRESOLVED_SIGNED
-  is
-    constant R_LENGTH : NATURAL := MAXIMUM(L'length, SIGNED_NUM_BITS(R));
-    variable XR, XREM : UNRESOLVED_SIGNED(R_LENGTH-1 downto 0);
-  begin
-    if (L'length < 1) then return NAS;
-    end if;
-    XR   := TO_SIGNED(R, R_LENGTH);
-    XREM := RESIZE((L mod XR), XREM'length);
-    if R_LENGTH > L'length and XREM(0) /= 'X'
-      and XREM(R_LENGTH-1 downto L'length)
-      /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
-    then
-      assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, L'length);
-  end function "mod";
+  -- -- Id: A.31
+  -- function "rem" (L : UNRESOLVED_SIGNED; R : INTEGER)
+  --   return UNRESOLVED_SIGNED
+  -- is
+  --   constant R_LENGTH : NATURAL := MAXIMUM(L'length, SIGNED_NUM_BITS(R));
+  --   variable XR, XREM : UNRESOLVED_SIGNED(R_LENGTH-1 downto 0);
+  -- begin
+  --   if (L'length < 1) then return NAS;
+  --   end if;
+  --   XR   := TO_SIGNED(R, R_LENGTH);
+  --   XREM := RESIZE((L rem XR), XREM'length);
+  --   if R_LENGTH > L'length and XREM(0) /= 'X'
+  --     and XREM(R_LENGTH-1 downto L'length)
+  --     /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, L'length);
+  -- end function "rem";
 
-  -- Id: A.38
-  function "mod" (L : INTEGER; R : UNRESOLVED_SIGNED)
-    return UNRESOLVED_SIGNED
-  is
-    constant L_LENGTH : NATURAL := MAXIMUM(SIGNED_NUM_BITS(L), R'length);
-    variable XL, XREM : UNRESOLVED_SIGNED(L_LENGTH-1 downto 0);
-  begin
-    if (R'length < 1) then return NAS;
-    end if;
-    XL   := TO_SIGNED(L, L_LENGTH);
-    XREM := RESIZE((XL mod R), XREM'length);
-    if L_LENGTH > R'length and XREM(0) /= 'X'
-      and XREM(L_LENGTH-1 downto R'length)
-      /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
-    then
-      assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
-        severity warning;
-    end if;
-    return RESIZE(XREM, R'length);
-  end function "mod";
+  -- -- Id: A.32
+  -- function "rem" (L : INTEGER; R : UNRESOLVED_SIGNED)
+  --   return UNRESOLVED_SIGNED
+  -- is
+  --   constant L_LENGTH : NATURAL := MAXIMUM(SIGNED_NUM_BITS(L), R'length);
+  --   variable XL, XREM : UNRESOLVED_SIGNED(L_LENGTH-1 downto 0);
+  -- begin
+  --   if (R'length < 1) then return NAS;
+  --   end if;
+  --   XL   := TO_SIGNED(L, L_LENGTH);
+  --   XREM := RESIZE((XL rem R), XREM'length);
+  --   if L_LENGTH > R'length and XREM(0) /= 'X'
+  --     and XREM(L_LENGTH-1 downto R'length)
+  --     /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""rem"": Remainder Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, R'length);
+  -- end function "rem";
 
-  -- ============================================================================
+  -- -- ============================================================================
+
+  -- -- Id: A.33
+  -- function "mod" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   constant L_LEFT  : INTEGER := L'length-1;
+  --   constant R_LEFT  : INTEGER := R'length-1;
+  --   alias XXL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XXR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable XL      : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable XR      : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  --   variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAU;
+  --   end if;
+  --   XL := TO_01(XXL, 'X');
+  --   XR := TO_01(XXR, 'X');
+  --   if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
+  --     FREMAIN := (others => 'X');
+  --     return FREMAIN;
+  --   end if;
+  --   DIVMOD(XL, XR, FQUOT, FREMAIN);
+  --   return FREMAIN;
+  -- end function "mod";
+
+  -- -- Id: A.34
+  -- function "mod" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   constant L_LEFT  : INTEGER := L'length-1;
+  --   constant R_LEFT  : INTEGER := R'length-1;
+  --   alias XXL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XXR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable XL      : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable XR      : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  --   variable FQUOT   : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable FREMAIN : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  --   variable XNUM    : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  --   variable XDENOM  : UNRESOLVED_UNSIGNED(R'length-1 downto 0);
+  --   variable RNEG    : BOOLEAN := false;
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then return NAS;
+  --   end if;
+  --   XL := TO_01(XXL, 'X');
+  --   XR := TO_01(XXR, 'X');
+  --   if ((XL(XL'left) = 'X') or (XR(XR'left) = 'X')) then
+  --     FREMAIN := (others => 'X');
+  --     return UNRESOLVED_SIGNED(FREMAIN);
+  --   end if;
+  --   if XL(XL'left) = '1' then
+  --     XNUM := UNRESOLVED_UNSIGNED(-XL);
+  --   else
+  --     XNUM := UNRESOLVED_UNSIGNED(XL);
+  --   end if;
+  --   if XR(XR'left) = '1' then
+  --     XDENOM := UNRESOLVED_UNSIGNED(-XR);
+  --     RNEG   := true;
+  --   else
+  --     XDENOM := UNRESOLVED_UNSIGNED(XR);
+  --   end if;
+  --   DIVMOD(XNUM, XDENOM, FQUOT, FREMAIN);
+  --   if RNEG and L(L'left) = '1' then
+  --     FREMAIN := "0"-FREMAIN;
+  --   elsif RNEG and FREMAIN /= "0" then
+  --     FREMAIN := FREMAIN-XDENOM;
+  --   elsif L(L'left) = '1' and FREMAIN /= "0" then
+  --     FREMAIN := XDENOM-FREMAIN;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(FREMAIN);
+  -- end function "mod";
+
+  -- -- Id: A.35
+  -- function "mod" (L : UNRESOLVED_UNSIGNED; R : NATURAL)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant R_LENGTH : NATURAL := MAXIMUM(L'length, UNSIGNED_NUM_BITS(R));
+  --   variable XR, XREM : UNRESOLVED_UNSIGNED(R_LENGTH-1 downto 0);
+  -- begin
+  --   if (L'length < 1) then return NAU;
+  --   end if;
+  --   XR   := TO_UNSIGNED(R, R_LENGTH);
+  --   XREM := RESIZE((L mod XR), XREM'length);
+  --   if R_LENGTH > L'length and XREM(0) /= 'X'
+  --     and XREM(R_LENGTH-1 downto L'length)
+  --     /= (R_LENGTH-1 downto L'length => '0')
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, L'length);
+  -- end function "mod";
+
+  -- -- Id: A.36
+  -- function "mod" (L : NATURAL; R : UNRESOLVED_UNSIGNED)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant L_LENGTH : NATURAL := MAXIMUM(UNSIGNED_NUM_BITS(L), R'length);
+  --   variable XL, XREM : UNRESOLVED_UNSIGNED(L_LENGTH-1 downto 0);
+  -- begin
+  --   if (R'length < 1) then return NAU;
+  --   end if;
+  --   XL   := TO_UNSIGNED(L, L_LENGTH);
+  --   XREM := RESIZE((XL mod R), XREM'length);
+  --   if L_LENGTH > R'length and XREM(0) /= 'X'
+  --     and XREM(L_LENGTH-1 downto R'length)
+  --     /= (L_LENGTH-1 downto R'length => '0')
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, R'length);
+  -- end function "mod";
+
+  -- -- Id: A.37
+  -- function "mod" (L : UNRESOLVED_SIGNED; R : INTEGER)
+  --   return UNRESOLVED_SIGNED
+  -- is
+  --   constant R_LENGTH : NATURAL := MAXIMUM(L'length, SIGNED_NUM_BITS(R));
+  --   variable XR, XREM : UNRESOLVED_SIGNED(R_LENGTH-1 downto 0);
+  -- begin
+  --   if (L'length < 1) then return NAS;
+  --   end if;
+  --   XR   := TO_SIGNED(R, R_LENGTH);
+  --   XREM := RESIZE((L mod XR), XREM'length);
+  --   if R_LENGTH > L'length and XREM(0) /= 'X'
+  --     and XREM(R_LENGTH-1 downto L'length)
+  --     /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, L'length);
+  -- end function "mod";
+
+  -- -- Id: A.38
+  -- function "mod" (L : INTEGER; R : UNRESOLVED_SIGNED)
+  --   return UNRESOLVED_SIGNED
+  -- is
+  --   constant L_LENGTH : NATURAL := MAXIMUM(SIGNED_NUM_BITS(L), R'length);
+  --   variable XL, XREM : UNRESOLVED_SIGNED(L_LENGTH-1 downto 0);
+  -- begin
+  --   if (R'length < 1) then return NAS;
+  --   end if;
+  --   XL   := TO_SIGNED(L, L_LENGTH);
+  --   XREM := RESIZE((XL mod R), XREM'length);
+  --   if L_LENGTH > R'length and XREM(0) /= 'X'
+  --     and XREM(L_LENGTH-1 downto R'length)
+  --     /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
+  --   then
+  --     assert NO_WARNING report "NUMERIC_STD.""mod"": Modulus Truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESIZE(XREM, R'length);
+  -- end function "mod";
+
+  -- -- ============================================================================
   -- Id: A.39
   function find_leftmost (ARG : UNRESOLVED_UNSIGNED; Y : STD_ULOGIC)
     return INTEGER is
   begin
     for INDEX in ARG'range loop
-      if ARG(INDEX) ?= Y then
+      if \?=\(ARG(INDEX), Y) = '1' then
         return INDEX;
       end if;
     end loop;
@@ -1113,7 +1113,7 @@ package body NUMERIC_STD is
     return INTEGER is
   begin
     for INDEX in ARG'range loop
-      if ARG(INDEX) ?= Y then
+      if \?=\(ARG(INDEX), Y) = '1' then
         return INDEX;
       end if;
     end loop;
@@ -1125,7 +1125,7 @@ package body NUMERIC_STD is
     return INTEGER is
   begin
     for INDEX in ARG'reverse_range loop
-      if ARG(INDEX) ?= Y then
+      if \?=\(ARG(INDEX), Y) = '1' then
         return INDEX;
       end if;
     end loop;
@@ -1137,926 +1137,935 @@ package body NUMERIC_STD is
     return INTEGER is
   begin
     for INDEX in ARG'reverse_range loop
-      if ARG(INDEX) ?= Y then
+      if \?=\(ARG(INDEX), Y) = '1' then
         return INDEX;
       end if;
     end loop;
     return -1;
   end function find_rightmost;
 
+  -- -- ============================================================================
+
+  -- -- Id: C.1
+  -- function ">" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return not UNSIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function ">";
+
+  -- -- Id: C.2
+  -- function ">" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return not SIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function ">";
+
+  -- -- Id: C.3
+  -- function ">" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(L) > R'length then return true;
+  --   end if;
+  --   return not UNSIGNED_LESS_OR_EQUAL(TO_UNSIGNED(L, R01'length), R01);
+  -- end function ">";
+
+  -- -- Id: C.4
+  -- function ">" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(L) > R'length then return L > 0;
+  --   end if;
+  --   return not SIGNED_LESS_OR_EQUAL(TO_SIGNED(L, R01'length), R01);
+  -- end function ">";
+
+  -- -- Id: C.5
+  -- function ">" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(R) > L'length then return false;
+  --   end if;
+  --   return not UNSIGNED_LESS_OR_EQUAL(L01, TO_UNSIGNED(R, L01'length));
+  -- end function ">";
+
+  -- -- Id: C.6
+  -- function ">" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(R) > L'length then return 0 > R;
+  --   end if;
+  --   return not SIGNED_LESS_OR_EQUAL(L01, TO_SIGNED(R, L01'length));
+  -- end function ">";
+
+  -- -- ============================================================================
+
+  -- -- Id: C.7
+  -- function "<" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return UNSIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function "<";
+
+  -- -- Id: C.8
+  -- function "<" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return SIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function "<";
+
+  -- -- Id: C.9
+  -- function "<" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(L) > R'length then return L < 0;
+  --   end if;
+  --   return UNSIGNED_LESS(TO_UNSIGNED(L, R01'length), R01);
+  -- end function "<";
+
+  -- -- Id: C.10
+  -- function "<" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(L) > R'length then return L < 0;
+  --   end if;
+  --   return SIGNED_LESS(TO_SIGNED(L, R01'length), R01);
+  -- end function "<";
+
+  -- -- Id: C.11
+  -- function "<" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(R) > L'length then return 0 < R;
+  --   end if;
+  --   return UNSIGNED_LESS(L01, TO_UNSIGNED(R, L01'length));
+  -- end function "<";
+
+  -- -- Id: C.12
+  -- function "<" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(R) > L'length then return 0 < R;
+  --   end if;
+  --   return SIGNED_LESS(L01, TO_SIGNED(R, L01'length));
+  -- end function "<";
+
+  -- -- ============================================================================
+
+  -- -- Id: C.13
+  -- function "<=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return UNSIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function "<=";
+
+  -- -- Id: C.14
+  -- function "<=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return SIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function "<=";
+
+  -- -- Id: C.15
+  -- function "<=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(L) > R'length then return L < 0;
+  --   end if;
+  --   return UNSIGNED_LESS_OR_EQUAL(TO_UNSIGNED(L, R01'length), R01);
+  -- end function "<=";
+
+  -- -- Id: C.16
+  -- function "<=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(L) > R'length then return L < 0;
+  --   end if;
+  --   return SIGNED_LESS_OR_EQUAL(TO_SIGNED(L, R01'length), R01);
+  -- end function "<=";
+
+  -- -- Id: C.17
+  -- function "<=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L_LEFT < 0) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(R) > L'length then return 0 < R;
+  --   end if;
+  --   return UNSIGNED_LESS_OR_EQUAL(L01, TO_UNSIGNED(R, L01'length));
+  -- end function "<=";
+
+  -- -- Id: C.18
+  -- function "<=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L_LEFT < 0) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(R) > L'length then return 0 < R;
+  --   end if;
+  --   return SIGNED_LESS_OR_EQUAL(L01, TO_SIGNED(R, L01'length));
+  -- end function "<=";
+
+  -- -- ============================================================================
+
+  -- -- Id: C.19
+  -- function ">=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return not UNSIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function ">=";
+
+  -- -- Id: C.20
+  -- function ">=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return not SIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function ">=";
+
+  -- -- Id: C.21
+  -- function ">=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(L) > R'length then return L > 0;
+  --   end if;
+  --   return not UNSIGNED_LESS(TO_UNSIGNED(L, R01'length), R01);
+  -- end function ">=";
+
+  -- -- Id: C.22
+  -- function ">=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(L) > R'length then return L > 0;
+  --   end if;
+  --   return not SIGNED_LESS(TO_SIGNED(L, R01'length), R01);
+  -- end function ">=";
+
+  -- -- Id: C.23
+  -- function ">=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(R) > L'length then return 0 > R;
+  --   end if;
+  --   return not UNSIGNED_LESS(L01, TO_UNSIGNED(R, L01'length));
+  -- end function ">=";
+
+  -- -- Id: C.24
+  -- function ">=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(R) > L'length then return 0 > R;
+  --   end if;
+  --   return not SIGNED_LESS(L01, TO_SIGNED(R, L01'length));
+  -- end function ">=";
+
+  -- -- ============================================================================
+
+  -- -- Id: C.25
+  -- function "=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return UNSIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function "=";
+
+  -- -- Id: C.26
+  -- function "=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   return SIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
+  -- end function "=";
+
+  -- -- Id: C.27
+  -- function "=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(L) > R'length then return false;
+  --   end if;
+  --   return UNSIGNED_EQUAL(TO_UNSIGNED(L, R01'length), R01);
+  -- end function "=";
+
+  -- -- Id: C.28
+  -- function "=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(L) > R'length then return false;
+  --   end if;
+  --   return SIGNED_EQUAL(TO_SIGNED(L, R01'length), R01);
+  -- end function "=";
+
+  -- -- Id: C.29
+  -- function "=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(R) > L'length then return false;
+  --   end if;
+  --   return UNSIGNED_EQUAL(L01, TO_UNSIGNED(R, L01'length));
+  -- end function "=";
+
+  -- -- Id: C.30
+  -- function "=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": null argument detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if SIGNED_NUM_BITS(R) > L'length then return false;
+  --   end if;
+  --   return SIGNED_EQUAL(L01, TO_SIGNED(R, L01'length));
+  -- end function "=";
+
+  -- -- ============================================================================
+
+  -- -- Id: C.31
+  -- function "/=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   return not(UNSIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE)));
+  -- end function "/=";
+
+  -- -- Id: C.32
+  -- function "/=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   R01 := TO_01(XR, 'X');
+  --   if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   return not(SIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE)));
+  -- end function "/=";
+
+  -- -- Id: C.33
+  -- function "/=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(L) > R'length then return true;
+  --   end if;
+  --   return not(UNSIGNED_EQUAL(TO_UNSIGNED(L, R01'length), R01));
+  -- end function "/=";
+
+  -- -- Id: C.34
+  -- function "/=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   constant R_LEFT : INTEGER := R'length-1;
+  --   alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
+  --   variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
+  -- begin
+  --   if (R'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   R01 := TO_01(XR, 'X');
+  --   if (R01(R01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   if SIGNED_NUM_BITS(L) > R'length then return true;
+  --   end if;
+  --   return not(SIGNED_EQUAL(TO_SIGNED(L, R01'length), R01));
+  -- end function "/=";
+
+  -- -- Id: C.35
+  -- function "/=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   if UNSIGNED_NUM_BITS(R) > L'length then return true;
+  --   end if;
+  --   return not(UNSIGNED_EQUAL(L01, TO_UNSIGNED(R, L01'length)));
+  -- end function "/=";
+
+  -- -- Id: C.36
+  -- function "/=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
+  --   constant L_LEFT : INTEGER := L'length-1;
+  --   alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
+  --   variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
+  -- begin
+  --   if (L'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   L01 := TO_01(XL, 'X');
+  --   if (L01(L01'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
+  --       severity warning;
+  --     return true;
+  --   end if;
+  --   if SIGNED_NUM_BITS(R) > L'length then return true;
+  --   end if;
+  --   return not(SIGNED_EQUAL(L01, TO_SIGNED(R, L01'length)));
+  -- end function "/=";
+
   -- ============================================================================
 
-  -- Id: C.1
-  function ">" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
+  function MINIMUM (L, R : INTEGER) return INTEGER is
   begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return not UNSIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function ">";
-
-  -- Id: C.2
-  function ">" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return not SIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function ">";
-
-  -- Id: C.3
-  function ">" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(L) > R'length then return true;
-    end if;
-    return not UNSIGNED_LESS_OR_EQUAL(TO_UNSIGNED(L, R01'length), R01);
-  end function ">";
-
-  -- Id: C.4
-  function ">" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(L) > R'length then return L > 0;
-    end if;
-    return not SIGNED_LESS_OR_EQUAL(TO_SIGNED(L, R01'length), R01);
-  end function ">";
-
-  -- Id: C.5
-  function ">" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(R) > L'length then return false;
-    end if;
-    return not UNSIGNED_LESS_OR_EQUAL(L01, TO_UNSIGNED(R, L01'length));
-  end function ">";
-
-  -- Id: C.6
-  function ">" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(R) > L'length then return 0 > R;
-    end if;
-    return not SIGNED_LESS_OR_EQUAL(L01, TO_SIGNED(R, L01'length));
-  end function ">";
-
-  -- ============================================================================
-
-  -- Id: C.7
-  function "<" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return UNSIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function "<";
-
-  -- Id: C.8
-  function "<" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return SIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function "<";
-
-  -- Id: C.9
-  function "<" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(L) > R'length then return L < 0;
-    end if;
-    return UNSIGNED_LESS(TO_UNSIGNED(L, R01'length), R01);
-  end function "<";
-
-  -- Id: C.10
-  function "<" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(L) > R'length then return L < 0;
-    end if;
-    return SIGNED_LESS(TO_SIGNED(L, R01'length), R01);
-  end function "<";
-
-  -- Id: C.11
-  function "<" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(R) > L'length then return 0 < R;
-    end if;
-    return UNSIGNED_LESS(L01, TO_UNSIGNED(R, L01'length));
-  end function "<";
-
-  -- Id: C.12
-  function "<" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<"": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(R) > L'length then return 0 < R;
-    end if;
-    return SIGNED_LESS(L01, TO_SIGNED(R, L01'length));
-  end function "<";
-
-  -- ============================================================================
-
-  -- Id: C.13
-  function "<=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return UNSIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function "<=";
-
-  -- Id: C.14
-  function "<=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return SIGNED_LESS_OR_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function "<=";
-
-  -- Id: C.15
-  function "<=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(L) > R'length then return L < 0;
-    end if;
-    return UNSIGNED_LESS_OR_EQUAL(TO_UNSIGNED(L, R01'length), R01);
-  end function "<=";
-
-  -- Id: C.16
-  function "<=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(L) > R'length then return L < 0;
-    end if;
-    return SIGNED_LESS_OR_EQUAL(TO_SIGNED(L, R01'length), R01);
-  end function "<=";
-
-  -- Id: C.17
-  function "<=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-  begin
-    if (L_LEFT < 0) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(R) > L'length then return 0 < R;
-    end if;
-    return UNSIGNED_LESS_OR_EQUAL(L01, TO_UNSIGNED(R, L01'length));
-  end function "<=";
-
-  -- Id: C.18
-  function "<=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-  begin
-    if (L_LEFT < 0) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""<="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(R) > L'length then return 0 < R;
-    end if;
-    return SIGNED_LESS_OR_EQUAL(L01, TO_SIGNED(R, L01'length));
-  end function "<=";
-
-  -- ============================================================================
-
-  -- Id: C.19
-  function ">=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return not UNSIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function ">=";
-
-  -- Id: C.20
-  function ">=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return not SIGNED_LESS(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function ">=";
-
-  -- Id: C.21
-  function ">=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(L) > R'length then return L > 0;
-    end if;
-    return not UNSIGNED_LESS(TO_UNSIGNED(L, R01'length), R01);
-  end function ">=";
-
-  -- Id: C.22
-  function ">=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(L) > R'length then return L > 0;
-    end if;
-    return not SIGNED_LESS(TO_SIGNED(L, R01'length), R01);
-  end function ">=";
-
-  -- Id: C.23
-  function ">=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(R) > L'length then return 0 > R;
-    end if;
-    return not UNSIGNED_LESS(L01, TO_UNSIGNED(R, L01'length));
-  end function ">=";
-
-  -- Id: C.24
-  function ">=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD."">="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(R) > L'length then return 0 > R;
-    end if;
-    return not SIGNED_LESS(L01, TO_SIGNED(R, L01'length));
-  end function ">=";
-
-  -- ============================================================================
-
-  -- Id: C.25
-  function "=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return UNSIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function "=";
-
-  -- Id: C.26
-  function "=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    return SIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE));
-  end function "=";
-
-  -- Id: C.27
-  function "=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(L) > R'length then return false;
-    end if;
-    return UNSIGNED_EQUAL(TO_UNSIGNED(L, R01'length), R01);
-  end function "=";
-
-  -- Id: C.28
-  function "=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(L) > R'length then return false;
-    end if;
-    return SIGNED_EQUAL(TO_SIGNED(L, R01'length), R01);
-  end function "=";
-
-  -- Id: C.29
-  function "=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if UNSIGNED_NUM_BITS(R) > L'length then return false;
-    end if;
-    return UNSIGNED_EQUAL(L01, TO_UNSIGNED(R, L01'length));
-  end function "=";
-
-  -- Id: C.30
-  function "=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": null argument detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""="": metavalue detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if SIGNED_NUM_BITS(R) > L'length then return false;
-    end if;
-    return SIGNED_EQUAL(L01, TO_SIGNED(R, L01'length));
-  end function "=";
-
-  -- ============================================================================
-
-  -- Id: C.31
-  function "/=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    return not(UNSIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE)));
-  end function "/=";
-
-  -- Id: C.32
-  function "/=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    L01 := TO_01(XL, 'X');
-    R01 := TO_01(XR, 'X');
-    if ((L01(L01'left) = 'X') or (R01(R01'left) = 'X')) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    return not(SIGNED_EQUAL(RESIZE(L01, SIZE), RESIZE(R01, SIZE)));
-  end function "/=";
-
-  -- Id: C.33
-  function "/=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_UNSIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_UNSIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    if UNSIGNED_NUM_BITS(L) > R'length then return true;
-    end if;
-    return not(UNSIGNED_EQUAL(TO_UNSIGNED(L, R01'length), R01));
-  end function "/=";
-
-  -- Id: C.34
-  function "/=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN is
-    constant R_LEFT : INTEGER := R'length-1;
-    alias XR        : UNRESOLVED_SIGNED(R_LEFT downto 0) is R;
-    variable R01    : UNRESOLVED_SIGNED(R_LEFT downto 0);
-  begin
-    if (R'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    R01 := TO_01(XR, 'X');
-    if (R01(R01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    if SIGNED_NUM_BITS(L) > R'length then return true;
-    end if;
-    return not(SIGNED_EQUAL(TO_SIGNED(L, R01'length), R01));
-  end function "/=";
-
-  -- Id: C.35
-  function "/=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_UNSIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    if UNSIGNED_NUM_BITS(R) > L'length then return true;
-    end if;
-    return not(UNSIGNED_EQUAL(L01, TO_UNSIGNED(R, L01'length)));
-  end function "/=";
-
-  -- Id: C.36
-  function "/=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
-    variable L01    : UNRESOLVED_SIGNED(L_LEFT downto 0);
-  begin
-    if (L'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": null argument detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    L01 := TO_01(XL, 'X');
-    if (L01(L01'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.""/="": metavalue detected, returning TRUE"
-        severity warning;
-      return true;
-    end if;
-    if SIGNED_NUM_BITS(R) > L'length then return true;
-    end if;
-    return not(SIGNED_EQUAL(L01, TO_SIGNED(R, L01'length)));
-  end function "/=";
-
-  -- ============================================================================
+    if (L > R) then
+      return R;
+    else
+      return L;
+    end if;
+  end function MINIMUM;
 
   -- Id: C.37
   function MINIMUM (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
@@ -2129,6 +2138,15 @@ package body NUMERIC_STD is
   end function MINIMUM;
 
   -- ============================================================================
+
+  function MAXIMUM (L, R : INTEGER) return INTEGER is
+  begin
+    if (L < R) then
+      return R;
+    else
+      return L;
+    end if;
+  end function MAXIMUM;
 
   -- Id: C.43
   function MAXIMUM (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
@@ -2203,7 +2221,7 @@ package body NUMERIC_STD is
   -- ============================================================================
 
   -- Id: C.49
-  function "?>" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2233,10 +2251,10 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.50
-  function "?>" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?>\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2266,36 +2284,36 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?>";
+  end function \?>\;
 
   -- Id: C.51
-  function "?>" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?>\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return TO_UNSIGNED(L, R'length) ?> R;
-  end function "?>";
+    return \?>\(TO_UNSIGNED(L, R'length), R);
+  end function \?>\;
 
   -- Id: C.52
-  function "?>" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?>\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return TO_SIGNED(L, R'length) ?> R;
-  end function "?>";
+    return \?>\(TO_SIGNED(L, R'length), R);
+  end function \?>\;
 
   -- Id: C.53
-  function "?>" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
+  function \?>\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
   begin
-    return L ?> TO_UNSIGNED(R, L'length);
-  end function "?>";
+    return \?>\(L, TO_UNSIGNED(R, L'length));
+  end function \?>\;
 
   -- Id: C.54
-  function "?>" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
+  function \?>\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
   begin
-    return L ?> TO_SIGNED(R, L'length);
-  end function "?>";
+    return \?>\(L, TO_SIGNED(R, L'length));
+  end function \?>\;
 
   -- ============================================================================
 
   -- Id: C.55
-  function "?<" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2325,10 +2343,10 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.56
-  function "?<" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?<\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2358,36 +2376,36 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?<";
+  end function \?<\;
 
   -- Id: C.57
-  function "?<" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?<\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return TO_UNSIGNED(L, R'length) ?< R;
-  end function "?<";
+    return \?<\(TO_UNSIGNED(L, R'length), R);
+  end function \?<\;
 
   -- Id: C.58
-  function "?<" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?<\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return TO_SIGNED(L, R'length) ?< R;
-  end function "?<";
+    return \?<\(TO_SIGNED(L, R'length), R);
+  end function \?<\;
 
   -- Id: C.59
-  function "?<" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
+  function \?<\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
   begin
-    return L ?< TO_UNSIGNED(R, L'length);
-  end function "?<";
+    return \?<\(L, TO_UNSIGNED(R, L'length));
+  end function \?<\;
 
   -- Id: C.60
-  function "?<" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
+  function \?<\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
   begin
-    return L ?< TO_SIGNED(R, L'length);
-  end function "?<";
+    return \?<\(L, TO_SIGNED(R, L'length));
+  end function \?<\;
 
   -- ============================================================================
 
   -- Id: C.61
-  function "?<=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2417,10 +2435,10 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.62
-  function "?<=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?<=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2450,36 +2468,36 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?<=";
+  end function \?<=\;
 
   -- Id: C.63
-  function "?<=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?<=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return TO_UNSIGNED(L, R'length) ?<= R;
-  end function "?<=";
+    return \?<=\(TO_UNSIGNED(L, R'length), R);
+  end function \?<=\;
 
   -- Id: C.64
-  function "?<=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?<=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return TO_SIGNED(L, R'length) ?<= R;
-  end function "?<=";
+    return \?<=\(TO_SIGNED(L, R'length), R);
+  end function \?<=\;
 
   -- Id: C.65
-  function "?<=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
+  function \?<=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
   begin
-    return L ?<= TO_UNSIGNED(R, L'length);
-  end function "?<=";
+    return \?<=\(L, TO_UNSIGNED(R, L'length));
+  end function \?<=\;
 
   -- Id: C.66
-  function "?<=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
+  function \?<=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
   begin
-    return L ?<= TO_SIGNED(R, L'length);
-  end function "?<=";
+    return \?<=\(L, TO_SIGNED(R, L'length));
+  end function \?<=\;
 
   -- ============================================================================
 
   -- Id: C.67
-  function "?>=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2509,10 +2527,10 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.68
-  function "?>=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?>=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
@@ -2542,36 +2560,36 @@ package body NUMERIC_STD is
         return '0';
       end if;
     end if;
-  end function "?>=";
+  end function \?>=\;
 
   -- Id: C.69
-  function "?>=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?>=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return TO_UNSIGNED(L, R'length) ?>= R;
-  end function "?>=";
+    return \?>=\(TO_UNSIGNED(L, R'length), R);
+  end function \?>=\;
 
   -- Id: C.70
-  function "?>=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?>=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return TO_SIGNED(L, R'length) ?>= R;
-  end function "?>=";
+    return \?>=\(TO_SIGNED(L, R'length), R);
+  end function \?>=\;
 
   -- Id: C.71
-  function "?>=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
+  function \?>=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
   begin
-    return L ?>= TO_UNSIGNED(R, L'length);
-  end function "?>=";
+    return \?>=\(L, TO_UNSIGNED(R, L'length));
+  end function \?>=\;
 
   -- Id: C.72
-  function "?>=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
+  function \?>=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
   begin
-    return L ?>= TO_SIGNED(R, L'length);
-  end function "?>=";
+    return \?>=\(L, TO_SIGNED(R, L'length));
+  end function \?>=\;
 
   -- ============================================================================
 
   -- Id: C.73
-  function "?=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
     constant L_LEFT          : INTEGER := L'length-1;
     constant R_LEFT          : INTEGER := R'length-1;
     alias XL                 : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
@@ -2592,7 +2610,7 @@ package body NUMERIC_STD is
       RX     := RESIZE(XR, SIZE);
       result := '1';
       for i in LX'low to LX'high loop
-        result1 := LX(i) ?= RX(i);
+        result1 := \?=\(LX(i), RX(i));
         if result1 = 'U' then
           return 'U';
         elsif result1 = 'X' or result = 'X' then
@@ -2603,10 +2621,10 @@ package body NUMERIC_STD is
       end loop;
       return result;
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.74
-  function "?=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
     constant L_LEFT          : INTEGER := L'length-1;
     constant R_LEFT          : INTEGER := R'length-1;
     alias XL                 : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
@@ -2626,7 +2644,7 @@ package body NUMERIC_STD is
       RX     := RESIZE(XR, SIZE);
       result := '1';
       for i in LX'low to LX'high loop
-        result1 := LX(i) ?= RX(i);
+        result1 := \?=\(LX(i), RX(i));
         if result1 = 'U' then
           return 'U';
         elsif result1 = 'X' or result = 'X' then
@@ -2637,36 +2655,36 @@ package body NUMERIC_STD is
       end loop;
       return result;
     end if;
-  end function "?=";
+  end function \?=\;
 
   -- Id: C.75
-  function "?=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return TO_UNSIGNED(L, R'length) ?= R;
-  end function "?=";
+    return \?=\(TO_UNSIGNED(L, R'length), R);
+  end function \?=\;
 
   -- Id: C.76
-  function "?=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return TO_SIGNED(L, R'length) ?= R;
-  end function "?=";
+    return \?=\(TO_SIGNED(L, R'length), R);
+  end function \?=\;
 
   -- Id: C.77
-  function "?=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
+  function \?=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
   begin
-    return L ?= TO_UNSIGNED(R, L'length);
-  end function "?=";
+    return \?=\(L, TO_UNSIGNED(R, L'length));
+  end function \?=\;
 
   -- Id: C.78
-  function "?=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
+  function \?=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
   begin
-    return L ?= TO_SIGNED(R, L'length);
-  end function "?=";
+    return \?=\(L, TO_SIGNED(R, L'length));
+  end function \?=\;
 
   -- ============================================================================
 
   -- Id: C.79
-  function "?/=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
     constant L_LEFT          : INTEGER := L'length-1;
     constant R_LEFT          : INTEGER := R'length-1;
     alias XL                 : UNRESOLVED_UNSIGNED(L_LEFT downto 0) is L;
@@ -2686,7 +2704,7 @@ package body NUMERIC_STD is
       RX     := RESIZE(XR, SIZE);
       result := '0';
       for i in LX'low to LX'high loop
-        result1 := LX(i) ?/= RX(i);
+        result1 := \?/=\(LX(i), RX(i));
         if result1 = 'U' then
           return 'U';
         elsif result1 = 'X' or result = 'X' then
@@ -2697,10 +2715,10 @@ package body NUMERIC_STD is
       end loop;
       return result;
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.80
-  function "?/=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?/=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC is
     constant L_LEFT          : INTEGER := L'length-1;
     constant R_LEFT          : INTEGER := R'length-1;
     alias XL                 : UNRESOLVED_SIGNED(L_LEFT downto 0) is L;
@@ -2720,7 +2738,7 @@ package body NUMERIC_STD is
       RX     := RESIZE(XR, SIZE);
       result := '0';
       for i in LX'low to LX'high loop
-        result1 := LX(i) ?/= RX(i);
+        result1 := \?/=\(LX(i), RX(i));
         if result1 = 'U' then
           return 'U';
         elsif result1 = 'X' or result = 'X' then
@@ -2731,230 +2749,230 @@ package body NUMERIC_STD is
       end loop;
       return result;
     end if;
-  end function "?/=";
+  end function \?/=\;
 
   -- Id: C.81
-  function "?/=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function \?/=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return TO_UNSIGNED(L, R'length) ?/= R;
-  end function "?/=";
+    return \?/=\(TO_UNSIGNED(L, R'length), R);
+  end function \?/=\;
 
   -- Id: C.82
-  function "?/=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function \?/=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return TO_SIGNED(L, R'length) ?/= R;
-  end function "?/=";
+    return \?/=\(TO_SIGNED(L, R'length), R);
+  end function \?/=\;
 
   -- Id: C.83
-  function "?/=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
+  function \?/=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC is
   begin
-    return L ?/= TO_UNSIGNED(R, L'length);
-  end function "?/=";
+    return \?/=\(L, TO_UNSIGNED(R, L'length));
+  end function \?/=\;
 
   -- Id: C.84
-  function "?/=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
+  function \?/=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC is
   begin
-    return L ?/= TO_SIGNED(R, L'length);
-  end function "?/=";
+    return \?/=\(L, TO_SIGNED(R, L'length));
+  end function \?/=\;
 
   -- ============================================================================
 
-  -- Id: S.1
-  function SHIFT_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (ARG'length < 1) then return NAU;
-    end if;
-    return UNRESOLVED_UNSIGNED(XSLL(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function SHIFT_LEFT;
+  -- -- Id: S.1
+  -- function SHIFT_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAU;
+  --   end if;
+  --   return UNRESOLVED_UNSIGNED(XSLL(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function SHIFT_LEFT;
 
-  -- Id: S.2
-  function SHIFT_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (ARG'length < 1) then return NAU;
-    end if;
-    return UNRESOLVED_UNSIGNED(XSRL(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function SHIFT_RIGHT;
+  -- -- Id: S.2
+  -- function SHIFT_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAU;
+  --   end if;
+  --   return UNRESOLVED_UNSIGNED(XSRL(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function SHIFT_RIGHT;
 
-  -- Id: S.3
-  function SHIFT_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (ARG'length < 1) then return NAS;
-    end if;
-    return UNRESOLVED_SIGNED(XSLL(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function SHIFT_LEFT;
+  -- -- Id: S.3
+  -- function SHIFT_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAS;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(XSLL(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function SHIFT_LEFT;
 
-  -- Id: S.4
-  function SHIFT_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (ARG'length < 1) then return NAS;
-    end if;
-    return UNRESOLVED_SIGNED(XSRA(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function SHIFT_RIGHT;
+  -- -- Id: S.4
+  -- function SHIFT_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAS;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(XSRA(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function SHIFT_RIGHT;
 
-  -- ============================================================================
+  -- -- ============================================================================
 
-  -- Id: S.5
-  function ROTATE_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (ARG'length < 1) then return NAU;
-    end if;
-    return UNRESOLVED_UNSIGNED(XROL(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function ROTATE_LEFT;
+  -- -- Id: S.5
+  -- function ROTATE_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAU;
+  --   end if;
+  --   return UNRESOLVED_UNSIGNED(XROL(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function ROTATE_LEFT;
 
-  -- Id: S.6
-  function ROTATE_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (ARG'length < 1) then return NAU;
-    end if;
-    return UNRESOLVED_UNSIGNED(XROR(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function ROTATE_RIGHT;
+  -- -- Id: S.6
+  -- function ROTATE_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAU;
+  --   end if;
+  --   return UNRESOLVED_UNSIGNED(XROR(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function ROTATE_RIGHT;
 
 
-  -- Id: S.7
-  function ROTATE_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (ARG'length < 1) then return NAS;
-    end if;
-    return UNRESOLVED_SIGNED(XROL(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function ROTATE_LEFT;
+  -- -- Id: S.7
+  -- function ROTATE_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAS;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(XROL(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function ROTATE_LEFT;
 
-  -- Id: S.8
-  function ROTATE_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (ARG'length < 1) then return NAS;
-    end if;
-    return UNRESOLVED_SIGNED(XROR(STD_ULOGIC_VECTOR(ARG), COUNT));
-  end function ROTATE_RIGHT;
+  -- -- Id: S.8
+  -- function ROTATE_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (ARG'length < 1) then return NAS;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(XROR(STD_ULOGIC_VECTOR(ARG), COUNT));
+  -- end function ROTATE_RIGHT;
 
-  -- ============================================================================
+  -- -- ============================================================================
 
-  ------------------------------------------------------------------------------
-  -- Note: Function S.9 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.9
-  function "sll" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (COUNT >= 0) then
-      return SHIFT_LEFT(ARG, COUNT);
-    else
-      return SHIFT_RIGHT(ARG, -COUNT);
-    end if;
-  end function "sll";
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function S.9 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.9
+  -- function "sll" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return SHIFT_LEFT(ARG, COUNT);
+  --   else
+  --     return SHIFT_RIGHT(ARG, -COUNT);
+  --   end if;
+  -- end function "sll";
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.10 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.10
-  function "sll" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (COUNT >= 0) then
-      return SHIFT_LEFT(ARG, COUNT);
-    else
-      return UNRESOLVED_SIGNED(SHIFT_RIGHT(UNRESOLVED_UNSIGNED(ARG), -COUNT));
-    end if;
-  end function "sll";
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.10 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.10
+  -- function "sll" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return SHIFT_LEFT(ARG, COUNT);
+  --   else
+  --     return UNRESOLVED_SIGNED(SHIFT_RIGHT(UNRESOLVED_UNSIGNED(ARG), -COUNT));
+  --   end if;
+  -- end function "sll";
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.11 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.11
-  function "srl" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (COUNT >= 0) then
-      return SHIFT_RIGHT(ARG, COUNT);
-    else
-      return SHIFT_LEFT(ARG, -COUNT);
-    end if;
-  end function "srl";
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.11 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.11
+  -- function "srl" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return SHIFT_RIGHT(ARG, COUNT);
+  --   else
+  --     return SHIFT_LEFT(ARG, -COUNT);
+  --   end if;
+  -- end function "srl";
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.12 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.12
-  function "srl" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (COUNT >= 0) then
-      return UNRESOLVED_SIGNED(SHIFT_RIGHT(UNRESOLVED_UNSIGNED(ARG), COUNT));
-    else
-      return SHIFT_LEFT(ARG, -COUNT);
-    end if;
-  end function "srl";
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.12 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.12
+  -- function "srl" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return UNRESOLVED_SIGNED(SHIFT_RIGHT(UNRESOLVED_UNSIGNED(ARG), COUNT));
+  --   else
+  --     return SHIFT_LEFT(ARG, -COUNT);
+  --   end if;
+  -- end function "srl";
 
-  ------------------------------------------------------------------------------
-  -- Note: Function S.13 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.13
-  function "rol" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (COUNT >= 0) then
-      return ROTATE_LEFT(ARG, COUNT);
-    else
-      return ROTATE_RIGHT(ARG, -COUNT);
-    end if;
-  end function "rol";
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function S.13 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.13
+  -- function "rol" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return ROTATE_LEFT(ARG, COUNT);
+  --   else
+  --     return ROTATE_RIGHT(ARG, -COUNT);
+  --   end if;
+  -- end function "rol";
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.14 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.14
-  function "rol" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (COUNT >= 0) then
-      return ROTATE_LEFT(ARG, COUNT);
-    else
-      return ROTATE_RIGHT(ARG, -COUNT);
-    end if;
-  end function "rol";
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.14 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.14
+  -- function "rol" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return ROTATE_LEFT(ARG, COUNT);
+  --   else
+  --     return ROTATE_RIGHT(ARG, -COUNT);
+  --   end if;
+  -- end function "rol";
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.15 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.15
-  function "ror" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (COUNT >= 0) then
-      return ROTATE_RIGHT(ARG, COUNT);
-    else
-      return ROTATE_LEFT(ARG, -COUNT);
-    end if;
-  end function "ror";
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.15 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.15
+  -- function "ror" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return ROTATE_RIGHT(ARG, COUNT);
+  --   else
+  --     return ROTATE_LEFT(ARG, -COUNT);
+  --   end if;
+  -- end function "ror";
 
-  ------------------------------------------------------------------------------
-  -- Note: Function S.16 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.16
-  function "ror" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
-    return UNRESOLVED_SIGNED is
-  begin
-    if (COUNT >= 0) then
-      return ROTATE_RIGHT(ARG, COUNT);
-    else
-      return ROTATE_LEFT(ARG, -COUNT);
-    end if;
-  end function "ror";
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function S.16 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.16
+  -- function "ror" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER)
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (COUNT >= 0) then
+  --     return ROTATE_RIGHT(ARG, COUNT);
+  --   else
+  --     return ROTATE_LEFT(ARG, -COUNT);
+  --   end if;
+  -- end function "ror";
 
   ------------------------------------------------------------------------------
   -- Note: Function S.17 is not compatible with IEEE Std 1076-1987. Comment
@@ -3018,80 +3036,80 @@ package body NUMERIC_STD is
 
   -- ============================================================================
 
-  -- Id: D.1
-  function TO_INTEGER (ARG : UNRESOLVED_UNSIGNED) return NATURAL is
-    constant ARG_LEFT : INTEGER := ARG'length-1;
-    alias XXARG       : UNRESOLVED_UNSIGNED(ARG_LEFT downto 0) is ARG;
-    variable XARG     : UNRESOLVED_UNSIGNED(ARG_LEFT downto 0);
-    variable RESULT   : NATURAL := 0;
-  begin
-    if (ARG'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_INTEGER: null detected, returning 0"
-        severity warning;
-      return 0;
-    end if;
-    XARG := TO_01(XXARG, 'X');
-    if (XARG(XARG'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0"
-        severity warning;
-      return 0;
-    end if;
-    for I in XARG'range loop
-      RESULT := RESULT+RESULT;
-      if XARG(I) = '1' then
-        RESULT := RESULT + 1;
-      end if;
-    end loop;
-    return RESULT;
-  end function TO_INTEGER;
+  -- -- Id: D.1
+  -- function TO_INTEGER (ARG : UNRESOLVED_UNSIGNED) return NATURAL is
+  --   constant ARG_LEFT : INTEGER := ARG'length-1;
+  --   alias XXARG       : UNRESOLVED_UNSIGNED(ARG_LEFT downto 0) is ARG;
+  --   variable XARG     : UNRESOLVED_UNSIGNED(ARG_LEFT downto 0);
+  --   variable RESULT   : NATURAL := 0;
+  -- begin
+  --   if (ARG'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_INTEGER: null detected, returning 0"
+  --       severity warning;
+  --     return 0;
+  --   end if;
+  --   XARG := TO_01(XXARG, 'X');
+  --   if (XARG(XARG'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0"
+  --       severity warning;
+  --     return 0;
+  --   end if;
+  --   for I in XARG'range loop
+  --     RESULT := RESULT+RESULT;
+  --     if XARG(I) = '1' then
+  --       RESULT := RESULT + 1;
+  --     end if;
+  --   end loop;
+  --   return RESULT;
+  -- end function TO_INTEGER;
 
-  -- Id: D.2
-  function TO_INTEGER (ARG : UNRESOLVED_SIGNED) return INTEGER is
-    variable XARG : UNRESOLVED_SIGNED(ARG'length-1 downto 0);
-  begin
-    if (ARG'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_INTEGER: null detected, returning 0"
-        severity warning;
-      return 0;
-    end if;
-    XARG := TO_01(ARG, 'X');
-    if (XARG(XARG'left) = 'X') then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0"
-        severity warning;
-      return 0;
-    end if;
-    if XARG(XARG'left) = '0' then
-      return TO_INTEGER(UNRESOLVED_UNSIGNED(XARG));
-    else
-      return (- (TO_INTEGER(UNRESOLVED_UNSIGNED(- (XARG + 1)))) -1);
-    end if;
-  end function TO_INTEGER;
+  -- -- Id: D.2
+  -- function TO_INTEGER (ARG : UNRESOLVED_SIGNED) return INTEGER is
+  --   variable XARG : UNRESOLVED_SIGNED(ARG'length-1 downto 0);
+  -- begin
+  --   if (ARG'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_INTEGER: null detected, returning 0"
+  --       severity warning;
+  --     return 0;
+  --   end if;
+  --   XARG := TO_01(ARG, 'X');
+  --   if (XARG(XARG'left) = 'X') then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0"
+  --       severity warning;
+  --     return 0;
+  --   end if;
+  --   if XARG(XARG'left) = '0' then
+  --     return TO_INTEGER(UNRESOLVED_UNSIGNED(XARG));
+  --   else
+  --     return (- (TO_INTEGER(UNRESOLVED_UNSIGNED(- (XARG + 1)))) -1);
+  --   end if;
+  -- end function TO_INTEGER;
 
-  -- Id: D.3
-  function TO_UNSIGNED (ARG, SIZE : NATURAL) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(SIZE-1 downto 0);
-    variable I_VAL  : NATURAL := ARG;
-  begin
-    if (SIZE < 1) then return NAU;
-    end if;
-    for I in 0 to RESULT'left loop
-      if (I_VAL mod 2) = 0 then
-        RESULT(I) := '0';
-      else RESULT(I) := '1';
-      end if;
-      I_VAL          := I_VAL/2;
-    end loop;
-    if not(I_VAL = 0) then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_UNSIGNED: vector truncated"
-        severity warning;
-    end if;
-    return RESULT;
-  end function TO_UNSIGNED;
+  -- -- Id: D.3
+  -- function TO_UNSIGNED (ARG, SIZE : NATURAL) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(SIZE-1 downto 0);
+  --   variable I_VAL  : NATURAL := ARG;
+  -- begin
+  --   if (SIZE < 1) then return NAU;
+  --   end if;
+  --   for I in 0 to RESULT'left loop
+  --     if (I_VAL mod 2) = 0 then
+  --       RESULT(I) := '0';
+  --     else RESULT(I) := '1';
+  --     end if;
+  --     I_VAL          := I_VAL/2;
+  --   end loop;
+  --   if not(I_VAL = 0) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_UNSIGNED: vector truncated"
+  --       severity warning;
+  --   end if;
+  --   return RESULT;
+  -- end function TO_UNSIGNED;
 
   -- Id: D.4
   function TO_SIGNED (ARG : INTEGER; SIZE : NATURAL) return UNRESOLVED_SIGNED is
@@ -3137,47 +3155,47 @@ package body NUMERIC_STD is
 
   -- ============================================================================
 
-  -- Id: R.1
-  function RESIZE (ARG : UNRESOLVED_SIGNED; NEW_SIZE : NATURAL)
-    return UNRESOLVED_SIGNED
-  is
-    alias INVEC     : UNRESOLVED_SIGNED(ARG'length-1 downto 0) is ARG;
-    variable RESULT : UNRESOLVED_SIGNED(NEW_SIZE-1 downto 0) :=
-      (others => '0');
-    constant BOUND  : INTEGER := MINIMUM(ARG'length, RESULT'length)-2;
-  begin
-    if (NEW_SIZE < 1) then return NAS;
-    end if;
-    if (ARG'length = 0) then return RESULT;
-    end if;
-    RESULT := (others => ARG(ARG'left));
-    if BOUND >= 0 then
-      RESULT(BOUND downto 0) := INVEC(BOUND downto 0);
-    end if;
-    return RESULT;
-  end function RESIZE;
+  -- -- Id: R.1
+  -- function RESIZE (ARG : UNRESOLVED_SIGNED; NEW_SIZE : NATURAL)
+  --   return UNRESOLVED_SIGNED
+  -- is
+  --   alias INVEC     : UNRESOLVED_SIGNED(ARG'length-1 downto 0) is ARG;
+  --   variable RESULT : UNRESOLVED_SIGNED(NEW_SIZE-1 downto 0) :=
+  --     (others => '0');
+  --   constant BOUND  : INTEGER := MINIMUM(ARG'length, RESULT'length)-2;
+  -- begin
+  --   if (NEW_SIZE < 1) then return NAS;
+  --   end if;
+  --   if (ARG'length = 0) then return RESULT;
+  --   end if;
+  --   RESULT := (others => ARG(ARG'left));
+  --   if BOUND >= 0 then
+  --     RESULT(BOUND downto 0) := INVEC(BOUND downto 0);
+  --   end if;
+  --   return RESULT;
+  -- end function RESIZE;
 
-  -- Id: R.2
-  function RESIZE (ARG : UNRESOLVED_UNSIGNED; NEW_SIZE : NATURAL)
-    return UNRESOLVED_UNSIGNED
-  is
-    constant ARG_LEFT : INTEGER := ARG'length-1;
-    alias XARG        : UNRESOLVED_UNSIGNED(ARG_LEFT downto 0) is ARG;
-    variable RESULT   : UNRESOLVED_UNSIGNED(NEW_SIZE-1 downto 0) :=
-      (others => '0');
-  begin
-    if (NEW_SIZE < 1) then return NAU;
-    end if;
-    if XARG'length = 0 then return RESULT;
-    end if;
-    if (RESULT'length < ARG'length) then
-      RESULT(RESULT'left downto 0) := XARG(RESULT'left downto 0);
-    else
-      RESULT(RESULT'left downto XARG'left+1) := (others => '0');
-      RESULT(XARG'left downto 0)             := XARG;
-    end if;
-    return RESULT;
-  end function RESIZE;
+  -- -- Id: R.2
+  -- function RESIZE (ARG : UNRESOLVED_UNSIGNED; NEW_SIZE : NATURAL)
+  --   return UNRESOLVED_UNSIGNED
+  -- is
+  --   constant ARG_LEFT : INTEGER := ARG'length-1;
+  --   alias XARG        : UNRESOLVED_UNSIGNED(ARG_LEFT downto 0) is ARG;
+  --   variable RESULT   : UNRESOLVED_UNSIGNED(NEW_SIZE-1 downto 0) :=
+  --     (others => '0');
+  -- begin
+  --   if (NEW_SIZE < 1) then return NAU;
+  --   end if;
+  --   if XARG'length = 0 then return RESULT;
+  --   end if;
+  --   if (RESULT'length < ARG'length) then
+  --     RESULT(RESULT'left downto 0) := XARG(RESULT'left downto 0);
+  --   else
+  --     RESULT(RESULT'left downto XARG'left+1) := (others => '0');
+  --     RESULT(XARG'left downto 0)             := XARG;
+  --   end if;
+  --   return RESULT;
+  -- end function RESIZE;
 
   function RESIZE (ARG, SIZE_RES : UNRESOLVED_UNSIGNED)
     return UNRESOLVED_UNSIGNED is
@@ -3195,133 +3213,133 @@ package body NUMERIC_STD is
 
   -- ============================================================================
 
-  -- Id: L.1
-  function "not" (L : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(not(STD_ULOGIC_VECTOR(L)));
-    return RESULT;
-  end function "not";
+  -- -- Id: L.1
+  -- function "not" (L : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(not(STD_ULOGIC_VECTOR(L)));
+  --   return RESULT;
+  -- end function "not";
 
-  -- Id: L.2
-  function "and" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) and
-                                  STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "and";
+  -- -- Id: L.2
+  -- function "and" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) and
+  --                                 STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "and";
 
-  -- Id: L.3
-  function "or" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) or
-                                  STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "or";
+  -- -- Id: L.3
+  -- function "or" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) or
+  --                                 STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "or";
 
-  -- Id: L.4
-  function "nand" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) nand
-                                  STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "nand";
+  -- -- Id: L.4
+  -- function "nand" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) nand
+  --                                 STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "nand";
 
-  -- Id: L.5
-  function "nor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) nor
-                                  STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "nor";
+  -- -- Id: L.5
+  -- function "nor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) nor
+  --                                 STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "nor";
 
-  -- Id: L.6
-  function "xor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) xor
-                                  STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "xor";
+  -- -- Id: L.6
+  -- function "xor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) xor
+  --                                 STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "xor";
 
-  ------------------------------------------------------------------------------
-  -- Note: Function L.7 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: L.7
-  function "xnor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
-    variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) xnor
-                                  STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "xnor";
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function L.7 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: L.7
+  -- function "xnor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is
+  --   variable RESULT : UNRESOLVED_UNSIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_UNSIGNED(STD_ULOGIC_VECTOR(L) xnor
+  --                                 STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "xnor";
 
-  -- Id: L.8
-  function "not" (L : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(not(STD_ULOGIC_VECTOR(L)));
-    return RESULT;
-  end function "not";
+  -- -- Id: L.8
+  -- function "not" (L : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(not(STD_ULOGIC_VECTOR(L)));
+  --   return RESULT;
+  -- end function "not";
 
-  -- Id: L.9
-  function "and" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) and STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "and";
+  -- -- Id: L.9
+  -- function "and" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) and STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "and";
 
-  -- Id: L.10
-  function "or" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) or STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "or";
+  -- -- Id: L.10
+  -- function "or" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) or STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "or";
 
-  -- Id: L.11
-  function "nand" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) nand
-                                STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "nand";
+  -- -- Id: L.11
+  -- function "nand" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) nand
+  --                               STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "nand";
 
-  -- Id: L.12
-  function "nor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) nor STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "nor";
+  -- -- Id: L.12
+  -- function "nor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) nor STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "nor";
 
-  -- Id: L.13
-  function "xor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) xor STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "xor";
+  -- -- Id: L.13
+  -- function "xor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) xor STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "xor";
 
-  ------------------------------------------------------------------------------
-  -- Note: Function L.14 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: L.14
-  function "xnor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
-    variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
-  begin
-    RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) xnor
-                                STD_ULOGIC_VECTOR(R));
-    return RESULT;
-  end function "xnor";
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function L.14 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: L.14
+  -- function "xnor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED is
+  --   variable RESULT : UNRESOLVED_SIGNED(L'length-1 downto 0);
+  -- begin
+  --   RESULT := UNRESOLVED_SIGNED(STD_ULOGIC_VECTOR(L) xnor
+  --                               STD_ULOGIC_VECTOR(R));
+  --   return RESULT;
+  -- end function "xnor";
 
   -- Id: L.15
   function "and" (L : STD_ULOGIC; R : UNRESOLVED_UNSIGNED)
@@ -3513,10 +3531,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.39
-  function "and" (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function and_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return and (STD_ULOGIC_VECTOR (L));
-  end function "and";
+    return and_reduce (STD_ULOGIC_VECTOR (L));
+  end function and_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.40 is not compatible with editions of IEEE Std 1076 from
@@ -3524,10 +3542,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.40
-  function "and" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function and_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return and (STD_ULOGIC_VECTOR (L));
-  end function "and";
+    return and_reduce (STD_ULOGIC_VECTOR (L));
+  end function and_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.41 is not compatible with editions of IEEE Std 1076 from
@@ -3535,10 +3553,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.41
-  function "nand" (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function nand_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return nand (STD_ULOGIC_VECTOR (L));
-  end function "nand";
+    return nand_reduce (STD_ULOGIC_VECTOR (L));
+  end function nand_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.42 is not compatible with editions of IEEE Std 1076 from
@@ -3546,10 +3564,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.42
-  function "nand" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function nand_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return nand (STD_ULOGIC_VECTOR (L));
-  end function "nand";
+    return nand_reduce (STD_ULOGIC_VECTOR (L));
+  end function nand_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.43 is not compatible with editions of IEEE Std 1076 from
@@ -3557,10 +3575,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.43
-  function "or" (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function or_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return or (STD_ULOGIC_VECTOR (L));
-  end function "or";
+    return or_reduce (STD_ULOGIC_VECTOR (L));
+  end function or_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.44 is not compatible with editions of IEEE Std 1076 from
@@ -3568,10 +3586,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.44
-  function "or" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function or_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return or (STD_ULOGIC_VECTOR (L));
-  end function "or";
+    return or_reduce (STD_ULOGIC_VECTOR (L));
+  end function or_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.45 is not compatible with editions of IEEE Std 1076 from
@@ -3579,10 +3597,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.45
-  function "nor" (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function nor_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return nor (STD_ULOGIC_VECTOR (L));
-  end function "nor";
+    return nor_reduce (STD_ULOGIC_VECTOR (L));
+  end function nor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.46 is not compatible with editions of IEEE Std 1076 from
@@ -3590,10 +3608,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.46
-  function "nor" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function nor_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return nor (STD_ULOGIC_VECTOR (L));
-  end function "nor";
+    return nor_reduce (STD_ULOGIC_VECTOR (L));
+  end function nor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.47 is not compatible with editions of IEEE Std 1076 from
@@ -3601,10 +3619,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.47
-  function "xor" (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function xor_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return xor (STD_ULOGIC_VECTOR (L));
-  end function "xor";
+    return xor_reduce (STD_ULOGIC_VECTOR (L));
+  end function xor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.48 is not compatible with editions of IEEE Std 1076 from
@@ -3612,10 +3630,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.48
-  function "xor" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function xor_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return xor (STD_ULOGIC_VECTOR (L));
-  end function "xor";
+    return xor_reduce (STD_ULOGIC_VECTOR (L));
+  end function xor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.49 is not compatible with editions of IEEE Std 1076 from
@@ -3623,10 +3641,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.49
-  function "xnor" (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
+  function xnor_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC is
   begin
-    return xnor (STD_ULOGIC_VECTOR (L));
-  end function "xnor";
+    return xnor_reduce (STD_ULOGIC_VECTOR (L));
+  end function xnor_reduce;
 
   ------------------------------------------------------------------------------
   -- Note: Function L.50 is not compatible with editions of IEEE Std 1076 from
@@ -3634,10 +3652,10 @@ package body NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.50
-  function "xnor" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
+  function xnor_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC is
   begin
-    return xnor (STD_ULOGIC_VECTOR (L));
-  end function "xnor";
+    return xnor_reduce (STD_ULOGIC_VECTOR (L));
+  end function xnor_reduce;
 
   -- ============================================================================
 
@@ -3660,122 +3678,122 @@ package body NUMERIC_STD is
     (true,  true,  true,  true,  true,  true,  true,  true,  true)   -- | - |
     );
 
-  -- Id: M.1
-  function STD_MATCH (L, R : STD_ULOGIC) return BOOLEAN is
-  begin
-    return MATCH_TABLE(L, R);
-  end function STD_MATCH;
+  -- -- Id: M.1
+  -- function STD_MATCH (L, R : STD_ULOGIC) return BOOLEAN is
+  -- begin
+  --   return MATCH_TABLE(L, R);
+  -- end function STD_MATCH;
 
-  -- Id: M.2
-  function STD_MATCH (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
-    alias LV : UNRESOLVED_UNSIGNED(1 to L'length) is L;
-    alias RV : UNRESOLVED_UNSIGNED(1 to R'length) is R;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.STD_MATCH: null detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if LV'length /= RV'length then
-      assert NO_WARNING
-        report "NUMERIC_STD.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
-        severity warning;
-      return false;
-    else
-      for I in LV'low to LV'high loop
-        if not (MATCH_TABLE(LV(I), RV(I))) then
-          return false;
-        end if;
-      end loop;
-      return true;
-    end if;
-  end function STD_MATCH;
+  -- -- Id: M.2
+  -- function STD_MATCH (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN is
+  --   alias LV : UNRESOLVED_UNSIGNED(1 to L'length) is L;
+  --   alias RV : UNRESOLVED_UNSIGNED(1 to R'length) is R;
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.STD_MATCH: null detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if LV'length /= RV'length then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   else
+  --     for I in LV'low to LV'high loop
+  --       if not (MATCH_TABLE(LV(I), RV(I))) then
+  --         return false;
+  --       end if;
+  --     end loop;
+  --     return true;
+  --   end if;
+  -- end function STD_MATCH;
 
-  -- Id: M.3
-  function STD_MATCH (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
-    alias LV : UNRESOLVED_SIGNED(1 to L'length) is L;
-    alias RV : UNRESOLVED_SIGNED(1 to R'length) is R;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.STD_MATCH: null detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if LV'length /= RV'length then
-      assert NO_WARNING
-        report "NUMERIC_STD.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
-        severity warning;
-      return false;
-    else
-      for I in LV'low to LV'high loop
-        if not (MATCH_TABLE(LV(I), RV(I))) then
-          return false;
-        end if;
-      end loop;
-      return true;
-    end if;
-  end function STD_MATCH;
+  -- -- Id: M.3
+  -- function STD_MATCH (L, R : UNRESOLVED_SIGNED) return BOOLEAN is
+  --   alias LV : UNRESOLVED_SIGNED(1 to L'length) is L;
+  --   alias RV : UNRESOLVED_SIGNED(1 to R'length) is R;
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.STD_MATCH: null detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if LV'length /= RV'length then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   else
+  --     for I in LV'low to LV'high loop
+  --       if not (MATCH_TABLE(LV(I), RV(I))) then
+  --         return false;
+  --       end if;
+  --     end loop;
+  --     return true;
+  --   end if;
+  -- end function STD_MATCH;
 
-  -- Id: M.5
-  function STD_MATCH (L, R : STD_ULOGIC_VECTOR) return BOOLEAN is
-    alias LV : STD_ULOGIC_VECTOR(1 to L'length) is L;
-    alias RV : STD_ULOGIC_VECTOR(1 to R'length) is R;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then
-      assert NO_WARNING
-        report "NUMERIC_STD.STD_MATCH: null detected, returning FALSE"
-        severity warning;
-      return false;
-    end if;
-    if LV'length /= RV'length then
-      assert NO_WARNING
-        report "NUMERIC_STD.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
-        severity warning;
-      return false;
-    else
-      for I in LV'low to LV'high loop
-        if not (MATCH_TABLE(LV(I), RV(I))) then
-          return false;
-        end if;
-      end loop;
-      return true;
-    end if;
-  end function STD_MATCH;
+  -- -- Id: M.5
+  -- function STD_MATCH (L, R : STD_ULOGIC_VECTOR) return BOOLEAN is
+  --   alias LV : STD_ULOGIC_VECTOR(1 to L'length) is L;
+  --   alias RV : STD_ULOGIC_VECTOR(1 to R'length) is R;
+  -- begin
+  --   if ((L'length < 1) or (R'length < 1)) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.STD_MATCH: null detected, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   end if;
+  --   if LV'length /= RV'length then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
+  --       severity warning;
+  --     return false;
+  --   else
+  --     for I in LV'low to LV'high loop
+  --       if not (MATCH_TABLE(LV(I), RV(I))) then
+  --         return false;
+  --       end if;
+  --     end loop;
+  --     return true;
+  --   end if;
+  -- end function STD_MATCH;
 
-  -- ============================================================================
+  -- -- ============================================================================
 
-  -- function TO_01 is used to convert vectors to the
-  --          correct form for exported functions,
-  --          and to report if there is an element which
-  --          is not in (0, 1, H, L).
+  -- -- function TO_01 is used to convert vectors to the
+  -- --          correct form for exported functions,
+  -- --          and to report if there is an element which
+  -- --          is not in (0, 1, H, L).
 
-  -- Id: T.1
-  function TO_01 (S : UNRESOLVED_UNSIGNED; XMAP : STD_ULOGIC := '0')
-    return UNRESOLVED_UNSIGNED is
-  begin
-    if (S'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_01: null detected, returning NAU"
-        severity warning;
-      return NAU;
-    end if;
-    return UNRESOLVED_UNSIGNED(TO_01(STD_ULOGIC_VECTOR(S), XMAP));
-  end function TO_01;
+  -- -- Id: T.1
+  -- function TO_01 (S : UNRESOLVED_UNSIGNED; XMAP : STD_ULOGIC := '0')
+  --   return UNRESOLVED_UNSIGNED is
+  -- begin
+  --   if (S'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_01: null detected, returning NAU"
+  --       severity warning;
+  --     return NAU;
+  --   end if;
+  --   return UNRESOLVED_UNSIGNED(TO_01(STD_ULOGIC_VECTOR(S), XMAP));
+  -- end function TO_01;
 
-  -- Id: T.2
-  function TO_01 (S : UNRESOLVED_SIGNED; XMAP : STD_ULOGIC := '0')
-    return UNRESOLVED_SIGNED is
-  begin
-    if (S'length < 1) then
-      assert NO_WARNING
-        report "NUMERIC_STD.TO_01: null detected, returning NAS"
-        severity warning;
-      return NAS;
-    end if;
-    return UNRESOLVED_SIGNED(TO_01(STD_ULOGIC_VECTOR(S), XMAP));
-  end function TO_01;
+  -- -- Id: T.2
+  -- function TO_01 (S : UNRESOLVED_SIGNED; XMAP : STD_ULOGIC := '0')
+  --   return UNRESOLVED_SIGNED is
+  -- begin
+  --   if (S'length < 1) then
+  --     assert NO_WARNING
+  --       report "NUMERIC_STD.TO_01: null detected, returning NAS"
+  --       severity warning;
+  --     return NAS;
+  --   end if;
+  --   return UNRESOLVED_SIGNED(TO_01(STD_ULOGIC_VECTOR(S), XMAP));
+  -- end function TO_01;
 
   -- Id: T.3
   function TO_X01 (S : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED is

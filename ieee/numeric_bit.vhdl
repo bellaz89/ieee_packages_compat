@@ -687,37 +687,37 @@ package NUMERIC_BIT is
   --============================================================================
 
   -- Id: C.49
-  function "?>" (L, R : UNSIGNED) return BIT;
+  function \?>\ (L, R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.50
-  function "?>" (L, R : SIGNED) return BIT;
+  function \?>\ (L, R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L and R are SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.51
-  function "?>" (L : NATURAL; R : UNSIGNED) return BIT;
+  function \?>\ (L : NATURAL; R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.52
-  function "?>" (L : INTEGER; R : SIGNED) return BIT;
+  function \?>\ (L : INTEGER; R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L is a INTEGER and
   --         R is a SIGNED vector.
 
   -- Id: C.53
-  function "?>" (L : UNSIGNED; R : NATURAL) return BIT;
+  function \?>\ (L : UNSIGNED; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.54
-  function "?>" (L : SIGNED; R : INTEGER) return BIT;
+  function \?>\ (L : SIGNED; R : INTEGER) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L is a SIGNED vector and
   --         R is a INTEGER.
@@ -725,37 +725,37 @@ package NUMERIC_BIT is
   --============================================================================
 
   -- Id: C.55
-  function "?<" (L, R : UNSIGNED) return BIT;
+  function \?<\ (L, R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.56
-  function "?<" (L, R : SIGNED) return BIT;
+  function \?<\ (L, R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L and R are SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.57
-  function "?<" (L : NATURAL; R : UNSIGNED) return BIT;
+  function \?<\ (L : NATURAL; R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.58
-  function "?<" (L : INTEGER; R : SIGNED) return BIT;
+  function \?<\ (L : INTEGER; R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L is an INTEGER and
   --         R is a SIGNED vector.
 
   -- Id: C.59
-  function "?<" (L : UNSIGNED; R : NATURAL) return BIT;
+  function \?<\ (L : UNSIGNED; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.60
-  function "?<" (L : SIGNED; R : INTEGER) return BIT;
+  function \?<\ (L : SIGNED; R : INTEGER) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L is a SIGNED vector and
   --         R is an INTEGER.
@@ -763,37 +763,37 @@ package NUMERIC_BIT is
   --============================================================================
 
   -- Id: C.61
-  function "?<=" (L, R : UNSIGNED) return BIT;
+  function \?<=\ (L, R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.62
-  function "?<=" (L, R : SIGNED) return BIT;
+  function \?<=\ (L, R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L and R are SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.63
-  function "?<=" (L : NATURAL; R : UNSIGNED) return BIT;
+  function \?<=\ (L : NATURAL; R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.64
-  function "?<=" (L : INTEGER; R : SIGNED) return BIT;
+  function \?<=\ (L : INTEGER; R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L is an INTEGER and
   --         R is a SIGNED vector.
 
   -- Id: C.65
-  function "?<=" (L : UNSIGNED; R : NATURAL) return BIT;
+  function \?<=\ (L : UNSIGNED; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.66
-  function "?<=" (L : SIGNED; R : INTEGER) return BIT;
+  function \?<=\ (L : SIGNED; R : INTEGER) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L is a SIGNED vector and
   --         R is an INTEGER.
@@ -801,37 +801,37 @@ package NUMERIC_BIT is
   --============================================================================
 
   -- Id: C.67
-  function "?>=" (L, R : UNSIGNED) return BIT;
+  function \?>=\ (L, R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.68
-  function "?>=" (L, R : SIGNED) return BIT;
+  function \?>=\ (L, R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L and R are SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.69
-  function "?>=" (L : NATURAL; R : UNSIGNED) return BIT;
+  function \?>=\ (L : NATURAL; R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.70
-  function "?>=" (L : INTEGER; R : SIGNED) return BIT;
+  function \?>=\ (L : INTEGER; R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L is an INTEGER and
   --         R is a SIGNED vector.
 
   -- Id: C.71
-  function "?>=" (L : UNSIGNED; R : NATURAL) return BIT;
+  function \?>=\ (L : UNSIGNED; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.72
-  function "?>=" (L : SIGNED; R : INTEGER) return BIT;
+  function \?>=\ (L : SIGNED; R : INTEGER) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L is a SIGNED vector and
   --         R is an INTEGER.
@@ -839,37 +839,37 @@ package NUMERIC_BIT is
   --============================================================================
 
   -- Id: C.73
-  function "?=" (L, R : UNSIGNED) return BIT;
+  function \?=\ (L, R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.74
-  function "?=" (L, R : SIGNED) return BIT;
+  function \?=\ (L, R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L and R are SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.75
-  function "?=" (L : NATURAL; R : UNSIGNED) return BIT;
+  function \?=\ (L : NATURAL; R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.76
-  function "?=" (L : INTEGER; R : SIGNED) return BIT;
+  function \?=\ (L : INTEGER; R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L is an INTEGER and
   --         R is an SIGNED vector.
 
   -- Id: C.77
-  function "?=" (L : UNSIGNED; R : NATURAL) return BIT;
+  function \?=\ (L : UNSIGNED; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.78
-  function "?=" (L : SIGNED; R : INTEGER) return BIT;
+  function \?=\ (L : SIGNED; R : INTEGER) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L is an SIGNED vector and
   --         R is an INTEGER.
@@ -877,37 +877,37 @@ package NUMERIC_BIT is
   --============================================================================
 
   -- Id: C.79
-  function "?/=" (L, R : UNSIGNED) return BIT;
+  function \?/=\ (L, R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.80
-  function "?/=" (L, R : SIGNED) return BIT;
+  function \?/=\ (L, R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L and R are SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.81
-  function "?/=" (L : NATURAL; R : UNSIGNED) return BIT;
+  function \?/=\ (L : NATURAL; R : UNSIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.82
-  function "?/=" (L : INTEGER; R : SIGNED) return BIT;
+  function \?/=\ (L : INTEGER; R : SIGNED) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L is an INTEGER and
   --         R is an SIGNED vector.
 
   -- Id: C.83
-  function "?/=" (L : UNSIGNED; R : NATURAL) return BIT;
+  function \?/=\ (L : UNSIGNED; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.84
-  function "?/=" (L : SIGNED; R : INTEGER) return BIT;
+  function \?/=\ (L : SIGNED; R : INTEGER) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L is an SIGNED vector and
   --         R is an INTEGER.
@@ -1348,7 +1348,7 @@ package NUMERIC_BIT is
   -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
   ------------------------------------------------------------------------------
   -- Id: L.38
-  function "xnor" (L : SIGNED; R : BIT) return SIGNED;
+  function xnor_reduce (L : SIGNED; R : BIT) return SIGNED;
   -- Result subtype: SIGNED(L'LENGTH-1 downto 0)
   -- Result: Vector/Scalar XNOR operation
 
@@ -1358,7 +1358,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.39
-  function "and" (L : SIGNED) return BIT;
+  function and_reduce (L : SIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of and'ing all of the bits of the vector.
 
@@ -1368,7 +1368,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.40
-  function "nand" (L : SIGNED) return BIT;
+  function nand_reduce (L : SIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of nand'ing all of the bits of the vector.
 
@@ -1378,7 +1378,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.41
-  function "or" (L : SIGNED) return BIT;
+  function or_reduce (L : SIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of or'ing all of the bits of the vector.
 
@@ -1388,7 +1388,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.42
-  function "nor" (L : SIGNED) return BIT;
+  function nor_reduce (L : SIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of nor'ing all of the bits of the vector.
 
@@ -1398,7 +1398,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.43
-  function "xor" (L : SIGNED) return BIT;
+  function xor_reduce (L : SIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of xor'ing all of the bits of the vector.
 
@@ -1408,7 +1408,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.44
-  function "xnor" (L : SIGNED) return BIT;
+  function xnor_reduce (L : SIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of xnor'ing all of the bits of the vector.
 
@@ -1418,7 +1418,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.45
-  function "and" (L : UNSIGNED) return BIT;
+  function and_reduce (L : UNSIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of and'ing all of the bits of the vector.
 
@@ -1428,7 +1428,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.46
-  function "nand" (L : UNSIGNED) return BIT;
+  function nand_reduce (L : UNSIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of nand'ing all of the bits of the vector.
 
@@ -1438,7 +1438,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.47
-  function "or" (L : UNSIGNED) return BIT;
+  function or_reduce (L : UNSIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of or'ing all of the bits of the vector.
 
@@ -1448,7 +1448,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.48
-  function "nor" (L : UNSIGNED) return BIT;
+  function nor_reduce (L : UNSIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of nor'ing all of the bits of the vector.
 
@@ -1458,7 +1458,7 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.49
-  function "xor" (L : UNSIGNED) return BIT;
+  function xor_reduce (L : UNSIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of xor'ing all of the bits of the vector.
 
@@ -1468,24 +1468,24 @@ package NUMERIC_BIT is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.50
-  function "xnor" (L : UNSIGNED) return BIT;
+  function xnor_reduce (L : UNSIGNED) return BIT;
   -- Result subtype: BIT.
   -- Result: Result of xnor'ing all of the bits of the vector.
 
   --============================================================================
   -- Edge Detection Functions
   --============================================================================
-
-  -- Id: E.1
-  alias RISING_EDGE is STD.STANDARD.RISING_EDGE
-    [STD.STANDARD.BIT return STD.STANDARD.BOOLEAN];
-  -- Result subtype: BOOLEAN
-  -- Result: Returns TRUE if an event is detected on signal S and the
-  --         value changed from a '0' to a '1'.
-
-  -- Id: E.2
-  alias FALLING_EDGE is STD.STANDARD.FALLING_EDGE
-    [STD.STANDARD.BIT return STD.STANDARD.BOOLEAN];
+  -- -- Unsupported in VHDL 93
+  --  -- Id: E.1
+  --  alias RISING_EDGE is STD.STANDARD.RISING_EDGE
+  --    [STD.STANDARD.BIT return STD.STANDARD.BOOLEAN];
+  --  -- Result subtype: BOOLEAN
+  --  -- Result: Returns TRUE if an event is detected on signal S and the
+  --  --         value changed from a '0' to a '1'.
+  --
+  --  -- Id: E.2
+  --  alias FALLING_EDGE is STD.STANDARD.FALLING_EDGE
+  --    [STD.STANDARD.BIT return STD.STANDARD.BOOLEAN];
   -- Result subtype: BOOLEAN
   -- Result: Returns TRUE if an event is detected on signal S and the
   --         value changed from a '1' to a '0'.
@@ -1499,11 +1499,11 @@ package NUMERIC_BIT is
   -- FUNCTION TO_STRING ( value : SIGNED   ) RETURN string;
 
   -- explicitly defined operations
-
-  alias TO_BSTRING is TO_STRING [UNSIGNED return STRING];
-  alias TO_BSTRING is TO_STRING [SIGNED return STRING];
-  alias to_binary_string is TO_STRING [UNSIGNED return STRING];
-  alias to_binary_string is TO_STRING [SIGNED return STRING];
+  -- -- Unsupported in VHDL 93
+  -- alias TO_BSTRING is TO_STRING [UNSIGNED return STRING];
+  -- alias TO_BSTRING is TO_STRING [SIGNED return STRING];
+  -- alias to_binary_string is TO_STRING [UNSIGNED return STRING];
+  -- alias to_binary_string is TO_STRING [SIGNED return STRING];
 
   function TO_OSTRING (value : UNSIGNED) return STRING;
   function TO_OSTRING (value : SIGNED) return STRING;

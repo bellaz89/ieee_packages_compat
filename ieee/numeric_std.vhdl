@@ -63,8 +63,13 @@
 -- --------------------------------------------------------------------
 
 use STD.TEXTIO.all;
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
 
 package NUMERIC_STD is
   constant CopyRightNotice : STRING
@@ -75,36 +80,36 @@ package NUMERIC_STD is
   -- Numeric Array Type Definitions
   --============================================================================
 
-  type UNRESOLVED_UNSIGNED is array (NATURAL range <>) of STD_ULOGIC;
-  type UNRESOLVED_SIGNED is array (NATURAL range <>) of STD_ULOGIC;
+  subtype UNRESOLVED_UNSIGNED is unsigned;
+  subtype UNRESOLVED_SIGNED is signed;
 
-  alias U_UNSIGNED is UNRESOLVED_UNSIGNED;
-  alias U_SIGNED is UNRESOLVED_SIGNED;
+  subtype U_UNSIGNED is unsigned;
+  subtype U_SIGNED is signed;
 
-  subtype UNSIGNED is (resolved) UNRESOLVED_UNSIGNED;
-  subtype SIGNED is (resolved) UNRESOLVED_SIGNED;
+  -- subtype UNSIGNED is (resolved) UNRESOLVED_UNSIGNED;
+  -- subtype SIGNED is (resolved) UNRESOLVED_SIGNED;
 
   --============================================================================
   -- Arithmetic Operators:
   --===========================================================================
 
-  -- Id: A.1
-  function "abs" (ARG : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Returns the absolute value of an UNRESOLVED_SIGNED vector ARG.
+  -- -- Id: A.1
+  -- function "abs" (ARG : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Returns the absolute value of an UNRESOLVED_SIGNED vector ARG.
 
-  -- Id: A.2
-  function "-" (ARG : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Returns the value of the unary minus operation on a
-  --         UNRESOLVED_SIGNED vector ARG.
+  -- -- Id: A.2
+  -- function "-" (ARG : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Returns the value of the unary minus operation on a
+  -- --         UNRESOLVED_SIGNED vector ARG.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: A.3
-  function "+" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
-  -- Result: Adds two UNRESOLVED_UNSIGNED vectors that may be of different lengths.
+  -- -- Id: A.3
+  -- function "+" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
+  -- -- Result: Adds two UNRESOLVED_UNSIGNED vectors that may be of different lengths.
 
   -- Id: A.3R
   function "+"(L : UNRESOLVED_UNSIGNED; R : STD_ULOGIC) return UNRESOLVED_UNSIGNED;
@@ -116,10 +121,10 @@ package NUMERIC_STD is
   -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
   -- Result: Similar to A.3 where L is a one bit UNRESOLVED_UNSIGNED
 
-  -- Id: A.4
-  function "+" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
-  -- Result: Adds two UNRESOLVED_SIGNED vectors that may be of different lengths.
+  -- -- Id: A.4
+  -- function "+" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
+  -- -- Result: Adds two UNRESOLVED_SIGNED vectors that may be of different lengths.
 
   -- Id: A.4R
   function "+"(L : UNRESOLVED_SIGNED; R : STD_ULOGIC) return UNRESOLVED_SIGNED;
@@ -131,33 +136,33 @@ package NUMERIC_STD is
   -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
   -- Result: Similar to A.4 where L is bit 0 of a non-negative.
 
-  -- Id: A.5
-  function "+" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Adds an UNRESOLVED_UNSIGNED vector, L, with a nonnegative INTEGER, R.
+  -- -- Id: A.5
+  -- function "+" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Adds an UNRESOLVED_UNSIGNED vector, L, with a nonnegative INTEGER, R.
 
-  -- Id: A.6
-  function "+" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Adds a nonnegative INTEGER, L, with an UNRESOLVED_UNSIGNED vector, R.
+  -- -- Id: A.6
+  -- function "+" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Adds a nonnegative INTEGER, L, with an UNRESOLVED_UNSIGNED vector, R.
 
-  -- Id: A.7
-  function "+" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Adds an INTEGER, L(may be positive or negative), to an UNRESOLVED_SIGNED
-  --         vector, R.
+  -- -- Id: A.7
+  -- function "+" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Adds an INTEGER, L(may be positive or negative), to an UNRESOLVED_SIGNED
+  -- --         vector, R.
 
-  -- Id: A.8
-  function "+" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Adds an UNRESOLVED_SIGNED vector, L, to an INTEGER, R.
+  -- -- Id: A.8
+  -- function "+" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Adds an UNRESOLVED_SIGNED vector, L, to an INTEGER, R.
 
   --============================================================================
 
-  -- Id: A.9
-  function "-" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
-  -- Result: Subtracts two UNRESOLVED_UNSIGNED vectors that may be of different lengths.
+  -- -- Id: A.9
+  -- function "-" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
+  -- -- Result: Subtracts two UNRESOLVED_UNSIGNED vectors that may be of different lengths.
 
   -- Id: A.9R
   function "-"(L : UNRESOLVED_UNSIGNED; R : STD_ULOGIC) return UNRESOLVED_UNSIGNED;
@@ -169,11 +174,11 @@ package NUMERIC_STD is
   -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
   -- Result: Similar to A.9 where L is a one bit UNRESOLVED_UNSIGNED
 
-  -- Id: A.10
-  function "-" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
-  -- Result: Subtracts an UNRESOLVED_SIGNED vector, R, from another UNRESOLVED_SIGNED vector, L,
-  --         that may possibly be of different lengths.
+  -- -- Id: A.10
+  -- function "-" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(MAXIMUM(L'LENGTH, R'LENGTH)-1 downto 0)
+  -- -- Result: Subtracts an UNRESOLVED_SIGNED vector, R, from another UNRESOLVED_SIGNED vector, L,
+  -- --         that may possibly be of different lengths.
 
   -- Id: A.10R
   function "-"(L : UNRESOLVED_SIGNED; R : STD_ULOGIC) return UNRESOLVED_SIGNED;
@@ -185,192 +190,192 @@ package NUMERIC_STD is
   -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
   -- Result: Similar to A.10 where R is bit 0 of a non-negative.
 
-  -- Id: A.11
-  function "-" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Subtracts a nonnegative INTEGER, R, from an UNRESOLVED_UNSIGNED vector, L.
+  -- -- Id: A.11
+  -- function "-" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Subtracts a nonnegative INTEGER, R, from an UNRESOLVED_UNSIGNED vector, L.
 
-  -- Id: A.12
-  function "-" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Subtracts an UNRESOLVED_UNSIGNED vector, R, from a nonnegative INTEGER, L.
+  -- -- Id: A.12
+  -- function "-" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Subtracts an UNRESOLVED_UNSIGNED vector, R, from a nonnegative INTEGER, L.
 
-  -- Id: A.13
-  function "-" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Subtracts an INTEGER, R, from an UNRESOLVED_SIGNED vector, L.
+  -- -- Id: A.13
+  -- function "-" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Subtracts an INTEGER, R, from an UNRESOLVED_SIGNED vector, L.
 
-  -- Id: A.14
-  function "-" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Subtracts an UNRESOLVED_SIGNED vector, R, from an INTEGER, L.
+  -- -- Id: A.14
+  -- function "-" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Subtracts an UNRESOLVED_SIGNED vector, R, from an INTEGER, L.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: A.15
-  function "*" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED((L'LENGTH+R'LENGTH-1) downto 0)
-  -- Result: Performs the multiplication operation on two UNRESOLVED_UNSIGNED vectors
-  --         that may possibly be of different lengths.
+  -- -- Id: A.15
+  -- function "*" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED((L'LENGTH+R'LENGTH-1) downto 0)
+  -- -- Result: Performs the multiplication operation on two UNRESOLVED_UNSIGNED vectors
+  -- --         that may possibly be of different lengths.
 
-  -- Id: A.16
-  function "*" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED((L'LENGTH+R'LENGTH-1) downto 0)
-  -- Result: Multiplies two UNRESOLVED_SIGNED vectors that may possibly be of
-  --         different lengths.
+  -- -- Id: A.16
+  -- function "*" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED((L'LENGTH+R'LENGTH-1) downto 0)
+  -- -- Result: Multiplies two UNRESOLVED_SIGNED vectors that may possibly be of
+  -- --         different lengths.
 
-  -- Id: A.17
-  function "*" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED((L'LENGTH+L'LENGTH-1) downto 0)
-  -- Result: Multiplies an UNRESOLVED_UNSIGNED vector, L, with a nonnegative
-  --         INTEGER, R. R is converted to an UNRESOLVED_UNSIGNED vector of
-  --         SIZE L'LENGTH before multiplication.
+  -- -- Id: A.17
+  -- function "*" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED((L'LENGTH+L'LENGTH-1) downto 0)
+  -- -- Result: Multiplies an UNRESOLVED_UNSIGNED vector, L, with a nonnegative
+  -- --         INTEGER, R. R is converted to an UNRESOLVED_UNSIGNED vector of
+  -- --         SIZE L'LENGTH before multiplication.
 
-  -- Id: A.18
-  function "*" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED((R'LENGTH+R'LENGTH-1) downto 0)
-  -- Result: Multiplies an UNRESOLVED_UNSIGNED vector, R, with a nonnegative
-  --         INTEGER, L. L is converted to an UNRESOLVED_UNSIGNED vector of
-  --         SIZE R'LENGTH before multiplication.
+  -- -- Id: A.18
+  -- function "*" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED((R'LENGTH+R'LENGTH-1) downto 0)
+  -- -- Result: Multiplies an UNRESOLVED_UNSIGNED vector, R, with a nonnegative
+  -- --         INTEGER, L. L is converted to an UNRESOLVED_UNSIGNED vector of
+  -- --         SIZE R'LENGTH before multiplication.
 
-  -- Id: A.19
-  function "*" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED((L'LENGTH+L'LENGTH-1) downto 0)
-  -- Result: Multiplies an UNRESOLVED_SIGNED vector, L, with an INTEGER, R. R is
-  --         converted to an UNRESOLVED_SIGNED vector of SIZE L'LENGTH before
-  --         multiplication.
+  -- -- Id: A.19
+  -- function "*" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED((L'LENGTH+L'LENGTH-1) downto 0)
+  -- -- Result: Multiplies an UNRESOLVED_SIGNED vector, L, with an INTEGER, R. R is
+  -- --         converted to an UNRESOLVED_SIGNED vector of SIZE L'LENGTH before
+  -- --         multiplication.
 
-  -- Id: A.20
-  function "*" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED((R'LENGTH+R'LENGTH-1) downto 0)
-  -- Result: Multiplies an UNRESOLVED_SIGNED vector, R, with an INTEGER, L. L is
-  --         converted to an UNRESOLVED_SIGNED vector of SIZE R'LENGTH before
-  --         multiplication.
+  -- -- Id: A.20
+  -- function "*" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED((R'LENGTH+R'LENGTH-1) downto 0)
+  -- -- Result: Multiplies an UNRESOLVED_SIGNED vector, R, with an INTEGER, L. L is
+  -- --         converted to an UNRESOLVED_SIGNED vector of SIZE R'LENGTH before
+  -- --         multiplication.
 
-  --============================================================================
-  --
-  -- NOTE: If second argument is zero for "/" operator, a severity level
-  --       of ERROR is issued.
+  -- --============================================================================
+  -- --
+  -- -- NOTE: If second argument is zero for "/" operator, a severity level
+  -- --       of ERROR is issued.
 
-  -- Id: A.21
-  function "/" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Divides an UNRESOLVED_UNSIGNED vector, L, by another UNRESOLVED_UNSIGNED vector, R.
+  -- -- Id: A.21
+  -- function "/" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Divides an UNRESOLVED_UNSIGNED vector, L, by another UNRESOLVED_UNSIGNED vector, R.
 
-  -- Id: A.22
-  function "/" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Divides an UNRESOLVED_SIGNED vector, L, by another UNRESOLVED_SIGNED vector, R.
+  -- -- Id: A.22
+  -- function "/" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Divides an UNRESOLVED_SIGNED vector, L, by another UNRESOLVED_SIGNED vector, R.
 
-  -- Id: A.23
-  function "/" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Divides an UNRESOLVED_UNSIGNED vector, L, by a nonnegative INTEGER, R.
-  --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
+  -- -- Id: A.23
+  -- function "/" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Divides an UNRESOLVED_UNSIGNED vector, L, by a nonnegative INTEGER, R.
+  -- --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
 
-  -- Id: A.24
-  function "/" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Divides a nonnegative INTEGER, L, by an UNRESOLVED_UNSIGNED vector, R.
-  --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
+  -- -- Id: A.24
+  -- function "/" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Divides a nonnegative INTEGER, L, by an UNRESOLVED_UNSIGNED vector, R.
+  -- --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
 
-  -- Id: A.25
-  function "/" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Divides an UNRESOLVED_SIGNED vector, L, by an INTEGER, R.
-  --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
+  -- -- Id: A.25
+  -- function "/" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Divides an UNRESOLVED_SIGNED vector, L, by an INTEGER, R.
+  -- --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
 
-  -- Id: A.26
-  function "/" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Divides an INTEGER, L, by an UNRESOLVED_SIGNED vector, R.
-  --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
+  -- -- Id: A.26
+  -- function "/" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Divides an INTEGER, L, by an UNRESOLVED_SIGNED vector, R.
+  -- --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
 
   --============================================================================
   --
   -- NOTE: If second argument is zero for "rem" operator, a severity level
   --       of ERROR is issued.
 
-  -- Id: A.27
-  function "rem" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L rem R" where L and R are UNRESOLVED_UNSIGNED vectors.
+  -- -- Id: A.27
+  -- function "rem" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L rem R" where L and R are UNRESOLVED_UNSIGNED vectors.
 
-  -- Id: A.28
-  function "rem" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L rem R" where L and R are UNRESOLVED_SIGNED vectors.
+  -- -- Id: A.28
+  -- function "rem" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L rem R" where L and R are UNRESOLVED_SIGNED vectors.
 
-  -- Id: A.29
-  function "rem" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Computes "L rem R" where L is an UNRESOLVED_UNSIGNED vector and R is a
-  --         nonnegative INTEGER.
-  --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
+  -- -- Id: A.29
+  -- function "rem" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Computes "L rem R" where L is an UNRESOLVED_UNSIGNED vector and R is a
+  -- --         nonnegative INTEGER.
+  -- --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
 
-  -- Id: A.30
-  function "rem" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L rem R" where R is an UNRESOLVED_UNSIGNED vector and L is a
-  --         nonnegative INTEGER.
-  --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
+  -- -- Id: A.30
+  -- function "rem" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L rem R" where R is an UNRESOLVED_UNSIGNED vector and L is a
+  -- --         nonnegative INTEGER.
+  -- --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
 
-  -- Id: A.31
-  function "rem" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Computes "L rem R" where L is UNRESOLVED_SIGNED vector and R is an INTEGER.
-  --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
+  -- -- Id: A.31
+  -- function "rem" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Computes "L rem R" where L is UNRESOLVED_SIGNED vector and R is an INTEGER.
+  -- --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
 
-  -- Id: A.32
-  function "rem" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L rem R" where R is UNRESOLVED_SIGNED vector and L is an INTEGER.
-  --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
+  -- -- Id: A.32
+  -- function "rem" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L rem R" where R is UNRESOLVED_SIGNED vector and L is an INTEGER.
+  -- --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
 
-  --============================================================================
-  --
-  -- NOTE: If second argument is zero for "mod" operator, a severity level
-  --       of ERROR is issued.
+  -- --============================================================================
+  -- --
+  -- -- NOTE: If second argument is zero for "mod" operator, a severity level
+  -- --       of ERROR is issued.
 
-  -- Id: A.33
-  function "mod" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L mod R" where L and R are UNRESOLVED_UNSIGNED vectors.
+  -- -- Id: A.33
+  -- function "mod" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L mod R" where L and R are UNRESOLVED_UNSIGNED vectors.
 
-  -- Id: A.34
-  function "mod" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L mod R" where L and R are UNRESOLVED_SIGNED vectors.
+  -- -- Id: A.34
+  -- function "mod" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L mod R" where L and R are UNRESOLVED_SIGNED vectors.
 
-  -- Id: A.35
-  function "mod" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Computes "L mod R" where L is an UNRESOLVED_UNSIGNED vector and R
-  --         is a nonnegative INTEGER.
-  --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
+  -- -- Id: A.35
+  -- function "mod" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Computes "L mod R" where L is an UNRESOLVED_UNSIGNED vector and R
+  -- --         is a nonnegative INTEGER.
+  -- --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
 
-  -- Id: A.36
-  function "mod" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L mod R" where R is an UNRESOLVED_UNSIGNED vector and L
-  --         is a nonnegative INTEGER.
-  --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
+  -- -- Id: A.36
+  -- function "mod" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L mod R" where R is an UNRESOLVED_UNSIGNED vector and L
+  -- --         is a nonnegative INTEGER.
+  -- --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
 
-  -- Id: A.37
-  function "mod" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Computes "L mod R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is an INTEGER.
-  --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
+  -- -- Id: A.37
+  -- function "mod" (L : UNRESOLVED_SIGNED; R : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Computes "L mod R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is an INTEGER.
+  -- --         If NO_OF_BITS(R) > L'LENGTH, result is truncated to L'LENGTH.
 
-  -- Id: A.38
-  function "mod" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
-  -- Result: Computes "L mod R" where L is an INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
-  --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
+  -- -- Id: A.38
+  -- function "mod" (L : INTEGER; R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(R'LENGTH-1 downto 0)
+  -- -- Result: Computes "L mod R" where L is an INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
+  -- --         If NO_OF_BITS(L) > R'LENGTH, result is truncated to R'LENGTH.
 
-  --============================================================================
+  -- --============================================================================
   -- Id: A.39
   function find_leftmost (ARG : UNRESOLVED_UNSIGNED; Y : STD_ULOGIC) return INTEGER;
   -- Result subtype: INTEGER
@@ -395,237 +400,241 @@ package NUMERIC_STD is
   -- Result: Finds the leftmost occurrence of the value of Y in ARG.
   --         Returns the index of the occurrence if it exists, or -1 otherwise.
 
-  --============================================================================
-  -- Comparison Operators
-  --============================================================================
+  -- --============================================================================
+  -- -- Comparison Operators
+  -- --============================================================================
 
-  -- Id: C.1
-  function ">" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L > R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.1
+  -- function ">" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L > R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.2
-  function ">" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L > R" where L and R are UNRESOLVED_SIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.2
+  -- function ">" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L > R" where L and R are UNRESOLVED_SIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.3
-  function ">" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L > R" where L is a nonnegative INTEGER and
-  --         R is an UNRESOLVED_UNSIGNED vector.
+  -- -- Id: C.3
+  -- function ">" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L > R" where L is a nonnegative INTEGER and
+  -- --         R is an UNRESOLVED_UNSIGNED vector.
 
-  -- Id: C.4
-  function ">" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L > R" where L is a INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
+  -- -- Id: C.4
+  -- function ">" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L > R" where L is a INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
 
-  -- Id: C.5
-  function ">" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L > R" where L is an UNRESOLVED_UNSIGNED vector and
-  --         R is a nonnegative INTEGER.
+  -- -- Id: C.5
+  -- function ">" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L > R" where L is an UNRESOLVED_UNSIGNED vector and
+  -- --         R is a nonnegative INTEGER.
 
-  -- Id: C.6
-  function ">" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L > R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is a INTEGER.
+  -- -- Id: C.6
+  -- function ">" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L > R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is a INTEGER.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: C.7
-  function "<" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L < R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.7
+  -- function "<" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L < R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.8
-  function "<" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L < R" where L and R are UNRESOLVED_SIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.8
+  -- function "<" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L < R" where L and R are UNRESOLVED_SIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.9
-  function "<" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L < R" where L is a nonnegative INTEGER and
-  --         R is an UNRESOLVED_UNSIGNED vector.
+  -- -- Id: C.9
+  -- function "<" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L < R" where L is a nonnegative INTEGER and
+  -- --         R is an UNRESOLVED_UNSIGNED vector.
 
-  -- Id: C.10
-  function "<" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L < R" where L is an INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
+  -- -- Id: C.10
+  -- function "<" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L < R" where L is an INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
 
-  -- Id: C.11
-  function "<" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L < R" where L is an UNRESOLVED_UNSIGNED vector and
-  --         R is a nonnegative INTEGER.
+  -- -- Id: C.11
+  -- function "<" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L < R" where L is an UNRESOLVED_UNSIGNED vector and
+  -- --         R is a nonnegative INTEGER.
 
-  -- Id: C.12
-  function "<" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L < R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is an INTEGER.
+  -- -- Id: C.12
+  -- function "<" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L < R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is an INTEGER.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: C.13
-  function "<=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L <= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.13
+  -- function "<=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L <= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.14
-  function "<=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L <= R" where L and R are UNRESOLVED_SIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.14
+  -- function "<=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L <= R" where L and R are UNRESOLVED_SIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.15
-  function "<=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L <= R" where L is a nonnegative INTEGER and
-  --         R is an UNRESOLVED_UNSIGNED vector.
+  -- -- Id: C.15
+  -- function "<=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L <= R" where L is a nonnegative INTEGER and
+  -- --         R is an UNRESOLVED_UNSIGNED vector.
 
-  -- Id: C.16
-  function "<=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L <= R" where L is an INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
+  -- -- Id: C.16
+  -- function "<=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L <= R" where L is an INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
 
-  -- Id: C.17
-  function "<=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L <= R" where L is an UNRESOLVED_UNSIGNED vector and
-  --         R is a nonnegative INTEGER.
+  -- -- Id: C.17
+  -- function "<=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L <= R" where L is an UNRESOLVED_UNSIGNED vector and
+  -- --         R is a nonnegative INTEGER.
 
-  -- Id: C.18
-  function "<=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L <= R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is an INTEGER.
+  -- -- Id: C.18
+  -- function "<=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L <= R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is an INTEGER.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: C.19
-  function ">=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L >= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.19
+  -- function ">=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L >= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.20
-  function ">=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L >= R" where L and R are UNRESOLVED_SIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.20
+  -- function ">=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L >= R" where L and R are UNRESOLVED_SIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.21
-  function ">=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L >= R" where L is a nonnegative INTEGER and
-  --         R is an UNRESOLVED_UNSIGNED vector.
+  -- -- Id: C.21
+  -- function ">=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L >= R" where L is a nonnegative INTEGER and
+  -- --         R is an UNRESOLVED_UNSIGNED vector.
 
-  -- Id: C.22
-  function ">=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L >= R" where L is an INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
+  -- -- Id: C.22
+  -- function ">=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L >= R" where L is an INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
 
-  -- Id: C.23
-  function ">=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L >= R" where L is an UNRESOLVED_UNSIGNED vector and
-  --         R is a nonnegative INTEGER.
+  -- -- Id: C.23
+  -- function ">=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L >= R" where L is an UNRESOLVED_UNSIGNED vector and
+  -- --         R is a nonnegative INTEGER.
 
-  -- Id: C.24
-  function ">=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L >= R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is an INTEGER.
+  -- -- Id: C.24
+  -- function ">=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L >= R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is an INTEGER.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: C.25
-  function "=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L = R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.25
+  -- function "=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L = R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.26
-  function "=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L = R" where L and R are UNRESOLVED_SIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.26
+  -- function "=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L = R" where L and R are UNRESOLVED_SIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.27
-  function "=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L = R" where L is a nonnegative INTEGER and
-  --         R is an UNRESOLVED_UNSIGNED vector.
+  -- -- Id: C.27
+  -- function "=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L = R" where L is a nonnegative INTEGER and
+  -- --         R is an UNRESOLVED_UNSIGNED vector.
 
-  -- Id: C.28
-  function "=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L = R" where L is an INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
+  -- -- Id: C.28
+  -- function "=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L = R" where L is an INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
 
-  -- Id: C.29
-  function "=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L = R" where L is an UNRESOLVED_UNSIGNED vector and
-  --         R is a nonnegative INTEGER.
+  -- -- Id: C.29
+  -- function "=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L = R" where L is an UNRESOLVED_UNSIGNED vector and
+  -- --         R is a nonnegative INTEGER.
 
-  -- Id: C.30
-  function "=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L = R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is an INTEGER.
+  -- -- Id: C.30
+  -- function "=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L = R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is an INTEGER.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: C.31
-  function "/=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L /= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.31
+  -- function "/=" (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L /= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.32
-  function "/=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L /= R" where L and R are UNRESOLVED_SIGNED vectors possibly
-  --         of different lengths.
+  -- -- Id: C.32
+  -- function "/=" (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L /= R" where L and R are UNRESOLVED_SIGNED vectors possibly
+  -- --         of different lengths.
 
-  -- Id: C.33
-  function "/=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L /= R" where L is a nonnegative INTEGER and
-  --         R is an UNRESOLVED_UNSIGNED vector.
+  -- -- Id: C.33
+  -- function "/=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L /= R" where L is a nonnegative INTEGER and
+  -- --         R is an UNRESOLVED_UNSIGNED vector.
 
-  -- Id: C.34
-  function "/=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L /= R" where L is an INTEGER and
-  --         R is an UNRESOLVED_SIGNED vector.
+  -- -- Id: C.34
+  -- function "/=" (L : INTEGER; R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L /= R" where L is an INTEGER and
+  -- --         R is an UNRESOLVED_SIGNED vector.
 
-  -- Id: C.35
-  function "/=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L /= R" where L is an UNRESOLVED_UNSIGNED vector and
-  --         R is a nonnegative INTEGER.
+  -- -- Id: C.35
+  -- function "/=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L /= R" where L is an UNRESOLVED_UNSIGNED vector and
+  -- --         R is a nonnegative INTEGER.
 
-  -- Id: C.36
-  function "/=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: Computes "L /= R" where L is an UNRESOLVED_SIGNED vector and
-  --         R is an INTEGER.
+  -- -- Id: C.36
+  -- function "/=" (L : UNRESOLVED_SIGNED; R : INTEGER) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: Computes "L /= R" where L is an UNRESOLVED_SIGNED vector and
+  -- --         R is an INTEGER.
 
-  --============================================================================
+  -- --============================================================================
+
+  function MINIMUM (L, R : INTEGER) return INTEGER;
+  -- Result subtype: INTEGER
+  -- Result: Returns the lesser of two integer values
 
   -- Id: C.37
   function MINIMUM (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
@@ -664,6 +673,10 @@ package NUMERIC_STD is
   --         an INTEGER, R.
 
   --============================================================================
+
+  function MAXIMUM (L, R : INTEGER) return INTEGER;
+  -- Result subtype: INTEGER
+  -- Result: Returns the greater of two integer values
 
   -- Id: C.43
   function MAXIMUM (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
@@ -704,37 +717,37 @@ package NUMERIC_STD is
   --============================================================================
 
   -- Id: C.49
-  function "?>" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?>\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L > R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.50
-  function "?>" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?>\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L > R" where L and R are UNRESOLVED_SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.51
-  function "?>" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?>\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L > R" where L is a nonnegative INTEGER and
   --         R is an UNRESOLVED_UNSIGNED vector.
 
   -- Id: C.52
-  function "?>" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?>\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L > R" where L is a INTEGER and
   --         R is an UNRESOLVED_SIGNED vector.
 
   -- Id: C.53
-  function "?>" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
+  function \?>\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L > R" where L is an UNRESOLVED_UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.54
-  function "?>" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
+  function \?>\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L > R" where L is an UNRESOLVED_SIGNED vector and
   --         R is a INTEGER.
@@ -742,37 +755,37 @@ package NUMERIC_STD is
   --============================================================================
 
   -- Id: C.55
-  function "?<" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?<\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L < R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.56
-  function "?<" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?<\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L < R" where L and R are UNRESOLVED_SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.57
-  function "?<" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?<\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L < R" where L is a nonnegative INTEGER and
   --         R is an UNRESOLVED_UNSIGNED vector.
 
   -- Id: C.58
-  function "?<" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?<\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L < R" where L is an INTEGER and
   --         R is an UNRESOLVED_SIGNED vector.
 
   -- Id: C.59
-  function "?<" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
+  function \?<\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L < R" where L is an UNRESOLVED_UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.60
-  function "?<" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
+  function \?<\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L < R" where L is an UNRESOLVED_SIGNED vector and
   --         R is an INTEGER.
@@ -780,37 +793,37 @@ package NUMERIC_STD is
   --============================================================================
 
   -- Id: C.61
-  function "?<=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?<=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L <= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.62
-  function "?<=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?<=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L <= R" where L and R are UNRESOLVED_SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.63
-  function "?<=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?<=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L <= R" where L is a nonnegative INTEGER and
   --         R is an UNRESOLVED_UNSIGNED vector.
 
   -- Id: C.64
-  function "?<=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?<=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L <= R" where L is an INTEGER and
   --         R is an UNRESOLVED_SIGNED vector.
 
   -- Id: C.65
-  function "?<=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
+  function \?<=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L <= R" where L is an UNRESOLVED_UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.66
-  function "?<=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
+  function \?<=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L <= R" where L is an UNRESOLVED_SIGNED vector and
   --         R is an INTEGER.
@@ -818,37 +831,37 @@ package NUMERIC_STD is
   --============================================================================
 
   -- Id: C.67
-  function "?>=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?>=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L >= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.68
-  function "?>=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?>=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L >= R" where L and R are UNRESOLVED_SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.69
-  function "?>=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?>=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L >= R" where L is a nonnegative INTEGER and
   --         R is an UNRESOLVED_UNSIGNED vector.
 
   -- Id: C.70
-  function "?>=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?>=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L >= R" where L is an INTEGER and
   --         R is an UNRESOLVED_SIGNED vector.
 
   -- Id: C.71
-  function "?>=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
+  function \?>=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L >= R" where L is an UNRESOLVED_UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.72
-  function "?>=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
+  function \?>=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L >= R" where L is an UNRESOLVED_SIGNED vector and
   --         R is an INTEGER.
@@ -856,37 +869,37 @@ package NUMERIC_STD is
   --============================================================================
 
   -- Id: C.73
-  function "?=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L = R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.74
-  function "?=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L = R" where L and R are UNRESOLVED_SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.75
-  function "?=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L = R" where L is a nonnegative INTEGER and
   --         R is an UNRESOLVED_UNSIGNED vector.
 
   -- Id: C.76
-  function "?=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L = R" where L is an INTEGER and
   --         R is an UNRESOLVED_SIGNED vector.
 
   -- Id: C.77
-  function "?=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
+  function \?=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L = R" where L is an UNRESOLVED_UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.78
-  function "?=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
+  function \?=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L = R" where L is an UNRESOLVED_SIGNED vector and
   --         R is an INTEGER.
@@ -894,37 +907,37 @@ package NUMERIC_STD is
   --============================================================================
 
   -- Id: C.79
-  function "?/=" (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?/=\ (L, R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L /= R" where L and R are UNRESOLVED_UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.80
-  function "?/=" (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?/=\ (L, R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L /= R" where L and R are UNRESOLVED_SIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.81
-  function "?/=" (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function \?/=\ (L : NATURAL; R : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L /= R" where L is a nonnegative INTEGER and
   --         R is an UNRESOLVED_UNSIGNED vector.
 
   -- Id: C.82
-  function "?/=" (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function \?/=\ (L : INTEGER; R : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L /= R" where L is an INTEGER and
   --         R is an UNRESOLVED_SIGNED vector.
 
   -- Id: C.83
-  function "?/=" (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
+  function \?/=\ (L : UNRESOLVED_UNSIGNED; R : NATURAL) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L /= R" where L is an UNRESOLVED_UNSIGNED vector and
   --         R is a nonnegative INTEGER.
 
   -- Id: C.84
-  function "?/=" (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
+  function \?/=\ (L : UNRESOLVED_SIGNED; R : INTEGER) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC
   -- Result: Computes "L /= R" where L is an UNRESOLVED_SIGNED vector and
   --         R is an INTEGER.
@@ -933,133 +946,133 @@ package NUMERIC_STD is
   -- Shift and Rotate Functions
   --============================================================================
 
-  -- Id: S.1
-  function SHIFT_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a shift-left on an UNRESOLVED_UNSIGNED vector COUNT times.
-  --         The vacated positions are filled with '0'.
-  --         The COUNT leftmost elements are lost.
+  -- -- Id: S.1
+  -- function SHIFT_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a shift-left on an UNRESOLVED_UNSIGNED vector COUNT times.
+  -- --         The vacated positions are filled with '0'.
+  -- --         The COUNT leftmost elements are lost.
 
-  -- Id: S.2
-  function SHIFT_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a shift-right on an UNRESOLVED_UNSIGNED vector COUNT times.
-  --         The vacated positions are filled with '0'.
-  --         The COUNT rightmost elements are lost.
+  -- -- Id: S.2
+  -- function SHIFT_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a shift-right on an UNRESOLVED_UNSIGNED vector COUNT times.
+  -- --         The vacated positions are filled with '0'.
+  -- --         The COUNT rightmost elements are lost.
 
-  -- Id: S.3
-  function SHIFT_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a shift-left on an UNRESOLVED_SIGNED vector COUNT times.
-  --         The vacated positions are filled with '0'.
-  --         The COUNT leftmost elements are lost.
+  -- -- Id: S.3
+  -- function SHIFT_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a shift-left on an UNRESOLVED_SIGNED vector COUNT times.
+  -- --         The vacated positions are filled with '0'.
+  -- --         The COUNT leftmost elements are lost.
 
-  -- Id: S.4
-  function SHIFT_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a shift-right on an UNRESOLVED_SIGNED vector COUNT times.
-  --         The vacated positions are filled with the leftmost
-  --         element, ARG'LEFT. The COUNT rightmost elements are lost.
+  -- -- Id: S.4
+  -- function SHIFT_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a shift-right on an UNRESOLVED_SIGNED vector COUNT times.
+  -- --         The vacated positions are filled with the leftmost
+  -- --         element, ARG'LEFT. The COUNT rightmost elements are lost.
 
-  --============================================================================
+  -- --============================================================================
 
-  -- Id: S.5
-  function ROTATE_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a rotate-left of an UNRESOLVED_UNSIGNED vector COUNT times.
+  -- -- Id: S.5
+  -- function ROTATE_LEFT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a rotate-left of an UNRESOLVED_UNSIGNED vector COUNT times.
 
-  -- Id: S.6
-  function ROTATE_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a rotate-right of an UNRESOLVED_UNSIGNED vector COUNT times.
+  -- -- Id: S.6
+  -- function ROTATE_RIGHT (ARG : UNRESOLVED_UNSIGNED; COUNT : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a rotate-right of an UNRESOLVED_UNSIGNED vector COUNT times.
 
-  -- Id: S.7
-  function ROTATE_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a logical rotate-left of an UNRESOLVED_SIGNED
-  --         vector COUNT times.
+  -- -- Id: S.7
+  -- function ROTATE_LEFT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a logical rotate-left of an UNRESOLVED_SIGNED
+  -- --         vector COUNT times.
 
-  -- Id: S.8
-  function ROTATE_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: Performs a logical rotate-right of an UNRESOLVED_SIGNED
-  --         vector COUNT times.
-
-  --============================================================================
+  -- -- Id: S.8
+  -- function ROTATE_RIGHT (ARG : UNRESOLVED_SIGNED; COUNT : NATURAL) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: Performs a logical rotate-right of an UNRESOLVED_SIGNED
+  -- --         vector COUNT times.
 
   --============================================================================
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.9 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.9
-  function "sll" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: SHIFT_LEFT(ARG, COUNT)
+  --============================================================================
 
-  ------------------------------------------------------------------------------
-  -- Note: Function S.10 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.10
-  function "sll" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: SHIFT_LEFT(ARG, COUNT)
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.9 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.9
+  -- function "sll" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: SHIFT_LEFT(ARG, COUNT)
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.11 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE StdL 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.11
-  function "srl" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: SHIFT_RIGHT(ARG, COUNT)
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function S.10 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.10
+  -- function "sll" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: SHIFT_LEFT(ARG, COUNT)
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.12 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.12
-  function "srl" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: UNRESOLVED_SIGNED(SHIFT_RIGHT(UNRESOLVED_UNSIGNED(ARG), COUNT))
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.11 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE StdL 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.11
+  -- function "srl" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: SHIFT_RIGHT(ARG, COUNT)
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.13 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.13
-  function "rol" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: ROTATE_LEFT(ARG, COUNT)
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.12 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.12
+  -- function "srl" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: UNRESOLVED_SIGNED(SHIFT_RIGHT(UNRESOLVED_UNSIGNED(ARG), COUNT))
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.14 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.14
-  function "rol" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: ROTATE_LEFT(ARG, COUNT)
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.13 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.13
+  -- function "rol" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: ROTATE_LEFT(ARG, COUNT)
 
-  ------------------------------------------------------------------------------
-  -- Note: Function S.15 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.15
-  function "ror" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: ROTATE_RIGHT(ARG, COUNT)
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.14 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.14
+  -- function "rol" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: ROTATE_LEFT(ARG, COUNT)
 
-  ------------------------------------------------------------------------------
-  --   Note: Function S.16 is not compatible with IEEE Std 1076-1987. Comment
-  --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  ------------------------------------------------------------------------------
-  -- Id: S.16
-  function "ror" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
-  -- Result: ROTATE_RIGHT(ARG, COUNT)
+  -- ------------------------------------------------------------------------------
+  -- -- Note: Function S.15 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.15
+  -- function "ror" (ARG : UNRESOLVED_UNSIGNED; COUNT : INTEGER) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: ROTATE_RIGHT(ARG, COUNT)
+
+  -- ------------------------------------------------------------------------------
+  -- --   Note: Function S.16 is not compatible with IEEE Std 1076-1987. Comment
+  -- --   out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- ------------------------------------------------------------------------------
+  -- -- Id: S.16
+  -- function "ror" (ARG : UNRESOLVED_SIGNED; COUNT : INTEGER) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(ARG'LENGTH-1 downto 0)
+  -- -- Result: ROTATE_RIGHT(ARG, COUNT)
 
   ------------------------------------------------------------------------------
   -- Note: Function S.17 is not compatible with IEEE Std 1076-1987. Comment
@@ -1101,21 +1114,21 @@ package NUMERIC_STD is
   --   RESIZE Functions
   --============================================================================
 
-  -- Id: R.1
-  function RESIZE (ARG : UNRESOLVED_SIGNED; NEW_SIZE : NATURAL) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(NEW_SIZE-1 downto 0)
-  -- Result: Resizes the UNRESOLVED_SIGNED vector ARG to the specified size.
-  --         To create a larger vector, the new [leftmost] bit positions
-  --         are filled with the sign bit (ARG'LEFT). When truncating,
-  --         the sign bit is retained along with the rightmost part.
+  -- -- Id: R.1
+  -- function RESIZE (ARG : UNRESOLVED_SIGNED; NEW_SIZE : NATURAL) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(NEW_SIZE-1 downto 0)
+  -- -- Result: Resizes the UNRESOLVED_SIGNED vector ARG to the specified size.
+  -- --         To create a larger vector, the new [leftmost] bit positions
+  -- --         are filled with the sign bit (ARG'LEFT). When truncating,
+  -- --         the sign bit is retained along with the rightmost part.
 
-  -- Id: R.2
-  function RESIZE (ARG : UNRESOLVED_UNSIGNED; NEW_SIZE : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(NEW_SIZE-1 downto 0)
-  -- Result: Resizes the UNRESOLVED_SIGNED vector ARG to the specified size.
-  --         To create a larger vector, the new [leftmost] bit positions
-  --         are filled with '0'. When truncating, the leftmost bits
-  --         are dropped.
+  -- -- Id: R.2
+  -- function RESIZE (ARG : UNRESOLVED_UNSIGNED; NEW_SIZE : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(NEW_SIZE-1 downto 0)
+  -- -- Result: Resizes the UNRESOLVED_SIGNED vector ARG to the specified size.
+  -- --         To create a larger vector, the new [leftmost] bit positions
+  -- --         are filled with '0'. When truncating, the leftmost bits
+  -- --         are dropped.
 
   function RESIZE (ARG, SIZE_RES : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
   -- Result subtype: UNRESOLVED_UNSIGNED (SIZE_RES'length-1 downto 0)
@@ -1127,27 +1140,27 @@ package NUMERIC_STD is
   -- Conversion Functions
   --============================================================================
 
-  -- Id: D.1
-  function TO_INTEGER (ARG : UNRESOLVED_UNSIGNED) return NATURAL;
-  -- Result subtype: NATURAL. Value cannot be negative since parameter is an
-  --             UNRESOLVED_UNSIGNED vector.
-  -- Result: Converts the UNRESOLVED_UNSIGNED vector to an INTEGER.
+  -- -- Id: D.1
+  -- function TO_INTEGER (ARG : UNRESOLVED_UNSIGNED) return NATURAL;
+  -- -- Result subtype: NATURAL. Value cannot be negative since parameter is an
+  -- --             UNRESOLVED_UNSIGNED vector.
+  -- -- Result: Converts the UNRESOLVED_UNSIGNED vector to an INTEGER.
 
-  -- Id: D.2
-  function TO_INTEGER (ARG : UNRESOLVED_SIGNED) return INTEGER;
-  -- Result subtype: INTEGER
-  -- Result: Converts an UNRESOLVED_SIGNED vector to an INTEGER.
+  -- -- Id: D.2
+  -- function TO_INTEGER (ARG : UNRESOLVED_SIGNED) return INTEGER;
+  -- -- Result subtype: INTEGER
+  -- -- Result: Converts an UNRESOLVED_SIGNED vector to an INTEGER.
 
-  -- Id: D.3
-  function TO_UNSIGNED (ARG, SIZE : NATURAL) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(SIZE-1 downto 0)
-  -- Result: Converts a nonnegative INTEGER to an UNRESOLVED_UNSIGNED vector with
-  --         the specified SIZE.
+  -- -- Id: D.3
+  -- function TO_UNSIGNED (ARG, SIZE : NATURAL) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(SIZE-1 downto 0)
+  -- -- Result: Converts a nonnegative INTEGER to an UNRESOLVED_UNSIGNED vector with
+  -- --         the specified SIZE.
 
-  -- Id: D.4
-  function TO_SIGNED (ARG : INTEGER; SIZE : NATURAL) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(SIZE-1 downto 0)
-  -- Result: Converts an INTEGER to a UNRESOLVED_SIGNED vector of the specified SIZE.
+  -- -- Id: D.4
+  -- function TO_SIGNED (ARG : INTEGER; SIZE : NATURAL) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(SIZE-1 downto 0)
+  -- -- Result: Converts an INTEGER to a UNRESOLVED_SIGNED vector of the specified SIZE.
 
   function TO_UNSIGNED (ARG : NATURAL; SIZE_RES : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
   -- Result subtype: UNRESOLVED_UNSIGNED(SIZE_RES'length-1 downto 0)
@@ -1159,83 +1172,83 @@ package NUMERIC_STD is
   -- Logical Operators
   --============================================================================
 
-  -- Id: L.1
-  function "not" (L : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Termwise inversion
+  -- -- Id: L.1
+  -- function "not" (L : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Termwise inversion
 
-  -- Id: L.2
-  function "and" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector AND operation
+  -- -- Id: L.2
+  -- function "and" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector AND operation
 
-  -- Id: L.3
-  function "or" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector OR operation
+  -- -- Id: L.3
+  -- function "or" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector OR operation
 
-  -- Id: L.4
-  function "nand" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector NAND operation
+  -- -- Id: L.4
+  -- function "nand" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector NAND operation
 
-  -- Id: L.5
-  function "nor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector NOR operation
+  -- -- Id: L.5
+  -- function "nor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector NOR operation
 
-  -- Id: L.6
-  function "xor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector XOR operation
+  -- -- Id: L.6
+  -- function "xor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector XOR operation
 
-  -- ---------------------------------------------------------------------------
-  -- Note: Function L.7 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  -- ---------------------------------------------------------------------------
-  -- Id: L.7
-  function "xnor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector XNOR operation
+  -- -- ---------------------------------------------------------------------------
+  -- -- Note: Function L.7 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- -- ---------------------------------------------------------------------------
+  -- -- Id: L.7
+  -- function "xnor" (L, R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector XNOR operation
 
-  -- Id: L.8
-  function "not" (L : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Termwise inversion
+  -- -- Id: L.8
+  -- function "not" (L : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Termwise inversion
 
-  -- Id: L.9
-  function "and" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector AND operation
+  -- -- Id: L.9
+  -- function "and" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector AND operation
 
-  -- Id: L.10
-  function "or" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector OR operation
+  -- -- Id: L.10
+  -- function "or" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector OR operation
 
-  -- Id: L.11
-  function "nand" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector NAND operation
+  -- -- Id: L.11
+  -- function "nand" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector NAND operation
 
-  -- Id: L.12
-  function "nor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector NOR operation
+  -- -- Id: L.12
+  -- function "nor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector NOR operation
 
-  -- Id: L.13
-  function "xor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector XOR operation
+  -- -- Id: L.13
+  -- function "xor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector XOR operation
 
-  -- ---------------------------------------------------------------------------
-  -- Note: Function L.14 is not compatible with IEEE Std 1076-1987. Comment
-  -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
-  -- ---------------------------------------------------------------------------
-  -- Id: L.14
-  function "xnor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
-  -- Result: Vector XNOR operation
+  -- -- ---------------------------------------------------------------------------
+  -- -- Note: Function L.14 is not compatible with IEEE Std 1076-1987. Comment
+  -- -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
+  -- -- ---------------------------------------------------------------------------
+  -- -- Id: L.14
+  -- function "xnor" (L, R : UNRESOLVED_SIGNED) return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(L'LENGTH-1 downto 0)
+  -- -- Result: Vector XNOR operation
 
   -- Id: L.15
   function "and" (L : STD_ULOGIC; R : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
@@ -1379,7 +1392,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.39
-  function "and" (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function and_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of and'ing all of the bits of the vector.
 
@@ -1389,7 +1402,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.40
-  function "nand" (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function nand_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of nand'ing all of the bits of the vector.
 
@@ -1399,7 +1412,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.41
-  function "or" (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function or_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of or'ing all of the bits of the vector.
 
@@ -1409,7 +1422,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.42
-  function "nor" (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function nor_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of nor'ing all of the bits of the vector.
 
@@ -1419,7 +1432,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.43
-  function "xor" (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function xor_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of xor'ing all of the bits of the vector.
 
@@ -1429,7 +1442,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.44
-  function "xnor" (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
+  function xnor_reduce (L : UNRESOLVED_SIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of xnor'ing all of the bits of the vector.
 
@@ -1439,7 +1452,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.45
-  function "and" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function and_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of and'ing all of the bits of the vector.
 
@@ -1449,7 +1462,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.46
-  function "nand" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function nand_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of nand'ing all of the bits of the vector.
 
@@ -1459,7 +1472,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.47
-  function "or" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function or_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of or'ing all of the bits of the vector.
 
@@ -1469,7 +1482,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.48
-  function "nor" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function nor_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of nor'ing all of the bits of the vector.
 
@@ -1479,7 +1492,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.49
-  function "xor" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function xor_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of xor'ing all of the bits of the vector.
 
@@ -1489,7 +1502,7 @@ package NUMERIC_STD is
   -- compatibility with these editions.
   ------------------------------------------------------------------------------
   -- Id: L.50
-  function "xnor" (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
+  function xnor_reduce (L : UNRESOLVED_UNSIGNED) return STD_ULOGIC;
   -- Result subtype: STD_ULOGIC.
   -- Result: Result of xnor'ing all of the bits of the vector.
 
@@ -1497,45 +1510,45 @@ package NUMERIC_STD is
   -- Match Functions
   --============================================================================
 
-  -- Id: M.1
-  function STD_MATCH (L, R : STD_ULOGIC) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: terms compared per STD_LOGIC_1164 intent
+  -- -- Id: M.1
+  -- function STD_MATCH (L, R : STD_ULOGIC) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: terms compared per STD_LOGIC_1164 intent
 
-  -- Id: M.2
-  function STD_MATCH (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: terms compared per STD_LOGIC_1164 intent
+  -- -- Id: M.2
+  -- function STD_MATCH (L, R : UNRESOLVED_UNSIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: terms compared per STD_LOGIC_1164 intent
 
-  -- Id: M.3
-  function STD_MATCH (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: terms compared per STD_LOGIC_1164 intent
+  -- -- Id: M.3
+  -- function STD_MATCH (L, R : UNRESOLVED_SIGNED) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: terms compared per STD_LOGIC_1164 intent
 
-  -- Id: M.5
-  function STD_MATCH (L, R : STD_ULOGIC_VECTOR) return BOOLEAN;
-  -- Result subtype: BOOLEAN
-  -- Result: terms compared per STD_LOGIC_1164 intent
+  -- -- Id: M.5
+  -- function STD_MATCH (L, R : STD_ULOGIC_VECTOR) return BOOLEAN;
+  -- -- Result subtype: BOOLEAN
+  -- -- Result: terms compared per STD_LOGIC_1164 intent
 
   --============================================================================
   -- Translation Functions
   --============================================================================
 
-  -- Id: T.1
-  function TO_01 (S : UNRESOLVED_UNSIGNED; XMAP : STD_ULOGIC := '0') return UNRESOLVED_UNSIGNED;
-  -- Result subtype: UNRESOLVED_UNSIGNED(S'RANGE)
-  -- Result: Termwise, 'H' is translated to '1', and 'L' is translated
-  --         to '0'. If a value other than '0'|'1'|'H'|'L' is found,
-  --         the array is set to (others => XMAP), and a warning is
-  --         issued.
+  -- -- Id: T.1
+  -- function TO_01 (S : UNRESOLVED_UNSIGNED; XMAP : STD_ULOGIC := '0') return UNRESOLVED_UNSIGNED;
+  -- -- Result subtype: UNRESOLVED_UNSIGNED(S'RANGE)
+  -- -- Result: Termwise, 'H' is translated to '1', and 'L' is translated
+  -- --         to '0'. If a value other than '0'|'1'|'H'|'L' is found,
+  -- --         the array is set to (others => XMAP), and a warning is
+  -- --         issued.
 
-  -- Id: T.2
-  function TO_01 (S : UNRESOLVED_SIGNED; XMAP : STD_ULOGIC := '0') return UNRESOLVED_SIGNED;
-  -- Result subtype: UNRESOLVED_SIGNED(S'RANGE)
-  -- Result: Termwise, 'H' is translated to '1', and 'L' is translated
-  --         to '0'. If a value other than '0'|'1'|'H'|'L' is found,
-  --         the array is set to (others => XMAP), and a warning is
-  --         issued.
+  -- -- Id: T.2
+  -- function TO_01 (S : UNRESOLVED_SIGNED; XMAP : STD_ULOGIC := '0') return UNRESOLVED_SIGNED;
+  -- -- Result subtype: UNRESOLVED_SIGNED(S'RANGE)
+  -- -- Result: Termwise, 'H' is translated to '1', and 'L' is translated
+  -- --         to '0'. If a value other than '0'|'1'|'H'|'L' is found,
+  -- --         the array is set to (others => XMAP), and a warning is
+  -- --         issued.
 
   -- Id: T.3
   function TO_X01 (S : UNRESOLVED_UNSIGNED) return UNRESOLVED_UNSIGNED;
@@ -1593,10 +1606,11 @@ package NUMERIC_STD is
 
   -- explicitly defined operations
 
-  alias TO_BSTRING is TO_STRING [UNRESOLVED_UNSIGNED return STRING];
-  alias TO_BSTRING is TO_STRING [UNRESOLVED_SIGNED return STRING];
-  alias to_binary_string is TO_STRING [UNRESOLVED_UNSIGNED return STRING];
-  alias to_binary_string is TO_STRING [UNRESOLVED_SIGNED return STRING];
+  -- -- Not supported in VHDL 93
+  -- alias TO_BSTRING is TO_STRING [UNRESOLVED_UNSIGNED return STRING];
+  -- alias TO_BSTRING is TO_STRING [UNRESOLVED_SIGNED return STRING];
+  -- alias to_binary_string is TO_STRING [UNRESOLVED_UNSIGNED return STRING];
+  -- alias to_binary_string is TO_STRING [UNRESOLVED_SIGNED return STRING];
 
   function TO_OSTRING (value : UNRESOLVED_UNSIGNED) return STRING;
   function TO_OSTRING (value : UNRESOLVED_SIGNED) return STRING;

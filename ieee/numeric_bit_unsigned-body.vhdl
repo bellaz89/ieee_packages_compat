@@ -50,8 +50,9 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
-library ieee;
-use ieee.numeric_bit.all;
+library ieee_compat;
+use ieee_compat.numeric_bit.all;
+use ieee_compat.std_logic_1164.all;
 
 package body NUMERIC_BIT_UNSIGNED is
 
