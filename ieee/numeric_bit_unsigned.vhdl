@@ -50,6 +50,10 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
+library ieee_compat;
+use ieee_compat.numeric_bit.all;
+use ieee_compat.std_logic_1164.all;
+
 package NUMERIC_BIT_UNSIGNED is
   constant CopyRightNotice : STRING :=
     "Copyright IEEE P1076 WG. Licensed Apache 2.0";
@@ -370,19 +374,19 @@ package NUMERIC_BIT_UNSIGNED is
 
   --============================================================================
   -- Id: C.49
-  function "?>" (L, R : BIT_VECTOR) return BIT;
+  function \?>\ (L, R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.51
-  function "?>" (L : NATURAL; R : BIT_VECTOR) return BIT;
+  function \?>\ (L : NATURAL; R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.53
-  function "?>" (L : BIT_VECTOR; R : NATURAL) return BIT;
+  function \?>\ (L : BIT_VECTOR; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L > R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
@@ -390,19 +394,19 @@ package NUMERIC_BIT_UNSIGNED is
   --============================================================================
 
   -- Id: C.55
-  function "?<" (L, R : BIT_VECTOR) return BIT;
+  function \?<\ (L, R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.57
-  function "?<" (L : NATURAL; R : BIT_VECTOR) return BIT;
+  function \?<\ (L : NATURAL; R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.59
-  function "?<" (L : BIT_VECTOR; R : NATURAL) return BIT;
+  function \?<\ (L : BIT_VECTOR; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L < R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
@@ -410,19 +414,19 @@ package NUMERIC_BIT_UNSIGNED is
   --============================================================================
 
   -- Id: C.61
-  function "?<=" (L, R : BIT_VECTOR) return BIT;
+  function \?<=\ (L, R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.63
-  function "?<=" (L : NATURAL; R : BIT_VECTOR) return BIT;
+  function \?<=\ (L : NATURAL; R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.65
-  function "?<=" (L : BIT_VECTOR; R : NATURAL) return BIT;
+  function \?<=\ (L : BIT_VECTOR; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L <= R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
@@ -430,19 +434,19 @@ package NUMERIC_BIT_UNSIGNED is
   --============================================================================
 
   -- Id: C.67
-  function "?>=" (L, R : BIT_VECTOR) return BIT;
+  function \?>=\ (L, R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.69
-  function "?>=" (L : NATURAL; R : BIT_VECTOR) return BIT;
+  function \?>=\ (L : NATURAL; R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.71
-  function "?>=" (L : BIT_VECTOR; R : NATURAL) return BIT;
+  function \?>=\ (L : BIT_VECTOR; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L >= R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
@@ -450,19 +454,19 @@ package NUMERIC_BIT_UNSIGNED is
   --============================================================================
 
   -- Id: C.73
-  function "?=" (L, R : BIT_VECTOR) return BIT;
+  function \?=\ (L, R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.75
-  function "?=" (L : NATURAL; R : BIT_VECTOR) return BIT;
+  function \?=\ (L : NATURAL; R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.77
-  function "?=" (L : BIT_VECTOR; R : NATURAL) return BIT;
+  function \?=\ (L : BIT_VECTOR; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L = R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
@@ -470,19 +474,19 @@ package NUMERIC_BIT_UNSIGNED is
   --============================================================================
 
   -- Id: C.79
-  function "?/=" (L, R : BIT_VECTOR) return BIT;
+  function \?/=\ (L, R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L and R are UNSIGNED vectors possibly
   --         of different lengths.
 
   -- Id: C.81
-  function "?/=" (L : NATURAL; R : BIT_VECTOR) return BIT;
+  function \?/=\ (L : NATURAL; R : BIT_VECTOR) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L is a nonnegative INTEGER and
   --         R is an UNSIGNED vector.
 
   -- Id: C.83
-  function "?/=" (L : BIT_VECTOR; R : NATURAL) return BIT;
+  function \?/=\ (L : BIT_VECTOR; R : NATURAL) return BIT;
   -- Result subtype: BIT
   -- Result: Computes "L /= R" where L is an UNSIGNED vector and
   --         R is a nonnegative INTEGER.
