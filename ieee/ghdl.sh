@@ -14,8 +14,8 @@ ghdl -a -v --work=ieee_compat --std=93c math_complex.vhdl
 ghdl -a -v --work=ieee_compat --std=93c math_complex-body.vhdl
 ghdl -a -v --work=ieee_compat --std=93c numeric_std.vhdl
 ghdl -a -v --work=ieee_compat --std=93c numeric_std-body.vhdl
-# ghdl -a -v --work=ieee_compat --std=93c numeric_bit.vhdl
-# ghdl -a -v --work=ieee_compat --std=93c numeric_bit-body.vhdl
+ghdl -a -v --work=ieee_compat --std=93c numeric_bit.vhdl
+ghdl -a -v --work=ieee_compat --std=93c numeric_bit-body.vhdl
 # ghdl -a -v --work=ieee_compat --std=93c numeric_bit_unsigned.vhdl
 # ghdl -a -v --work=ieee_compat --std=93c numeric_bit_unsigned-body.vhdl
 ghdl -a -v --work=ieee_compat --std=93c fixed_float_types.vhdl

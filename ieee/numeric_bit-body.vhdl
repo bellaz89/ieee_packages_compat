@@ -54,14 +54,6 @@
 -- $Date: 2008-04-10 17:16:09 +0930 (Thu, 10 Apr 2008) $
 -- --------------------------------------------------------------------
 
-library ieee;
-use ieee.std_logic_1164.STD_ULOGIC;
-use ieee.std_logic_1164.STD_ULOGIC_VECTOR;
-
-library ieee_compat;
-use ieee_compat.std_logic_1164.all;
-use ieee_compat.numeric_std.all;
-
 package body NUMERIC_BIT is
 
   -- null range array constants
@@ -75,7 +67,7 @@ package body NUMERIC_BIT is
 
   -- =========================Local Subprograms =================================
 
-  function to_std_logic_vector(bv: bit_vector) return std_ulogic_vector is
+  function to_std_ulogic_vector(bv: signed) return std_ulogic_vector is
     variable result: std_ulogic_vector(bv'range);
   begin
     for i in bv'range loop
@@ -88,12 +80,73 @@ package body NUMERIC_BIT is
     return result;
   end function;
 
-  function to_bit(sl : std_ulogic) return bit is
+  function to_std_ulogic_vector(bv: unsigned) return std_ulogic_vector is
+    variable result: std_ulogic_vector(bv'range);
   begin
-    if sl = '1' then
+    for i in bv'range loop
+      if (bv(i) = '1') then
+        result(i) := '1';
+      else
+        result(i) := '0';
+      end if;
+    end loop;
+    return result;
+  end function;
+
+  function to_bit_vector(slv: std_ulogic_vector) return bit_vector is
+    variable result: bit_vector(slv'range);
+  begin
+    for i in slv'range loop
+      if (slv(i) = '1') then
+        result(i) := '1';
+      else
+        result(i) := '0';
+      end if;
+    end loop;
+    return result;
+  end function;
+
+  function to_unsigned(slv: std_ulogic_vector) return unsigned is
+    variable result: unsigned(slv'range);
+  begin
+    for i in slv'range loop
+      if (slv(i) = '1') then
+        result(i) := '1';
+      else
+        result(i) := '0';
+      end if;
+    end loop;
+    return result;
+  end function;
+
+  function to_signed(slv: std_ulogic_vector) return signed is
+    variable result: signed(slv'range);
+  begin
+    for i in slv'range loop
+      if (slv(i) = '1') then
+        result(i) := '1';
+      else
+        result(i) := '0';
+      end if;
+    end loop;
+    return result;
+  end function;
+
+  -- function to_bit(sl : std_ulogic) return bit is
+  -- begin
+  --   if sl = '1' then
+  --     return '1';
+  --   else
+  --     return '0';
+  --   end if;
+  -- end function;
+
+  function to_std_ulogic(b : bit) return std_ulogic is
+  begin
+    if b = '1' then
       return '1';
     else
-      return '1';
+      return '0';
     end if;
   end function;
   -------------------------------------------------------------------
@@ -101,7 +154,7 @@ package body NUMERIC_BIT is
   -------------------------------------------------------------------
   function or_reduce (l : BIT_VECTOR) return BIT is
   begin
-    return to_bit(or_reduce(to_std_logic_vector(l)));
+    return to_bit(or_reduce(to_std_ulogic_vector(l)));
   end function or_reduce;
 
   -------------------------------------------------------------------
@@ -109,7 +162,7 @@ package body NUMERIC_BIT is
   -------------------------------------------------------------------
   function nor_reduce (l : BIT_VECTOR) return BIT is
   begin
-    return to_bit(nor_reduce(to_std_logic_vector(l)));
+    return to_bit(nor_reduce(to_std_ulogic_vector(l)));
   end function nor_reduce;
 
   -------------------------------------------------------------------
@@ -117,7 +170,7 @@ package body NUMERIC_BIT is
   -------------------------------------------------------------------
   function xor_reduce (l : BIT_VECTOR) return BIT is
   begin
-    return to_bit(xor_reduce(to_std_logic_vector(l)));
+    return to_bit(xor_reduce(to_std_ulogic_vector(l)));
   end function xor_reduce;
 
   -------------------------------------------------------------------
@@ -125,7 +178,7 @@ package body NUMERIC_BIT is
   -------------------------------------------------------------------
   function xnor_reduce (l : BIT_VECTOR) return BIT is
   begin
-    return to_bit(xnor_reduce(to_std_logic_vector(l)));
+    return to_bit(xnor_reduce(to_std_ulogic_vector(l)));
   end function xnor_reduce;
 
 
@@ -2507,61 +2560,61 @@ package body NUMERIC_BIT is
   -- Id: L.15
   function "and" (L : BIT; R : UNSIGNED) return UNSIGNED is
   begin
-    return UNSIGNED (L and BIT_VECTOR(R));
+    return to_unsigned (to_std_ulogic(L) and to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "and";
 
   -- Id: L.16
   function "and" (L : UNSIGNED; R : BIT) return UNSIGNED is
   begin
-    return UNSIGNED (BIT_VECTOR(L) and R);
+    return to_unsigned (to_std_ulogic_vector(BIT_VECTOR(L)) and to_std_ulogic(R));
   end function "and";
 
   -- Id: L.17
   function "or" (L : BIT; R : UNSIGNED) return UNSIGNED is
   begin
-    return UNSIGNED (L or BIT_VECTOR(R));
+    return to_unsigned (to_std_ulogic(L) or to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "or";
 
   -- Id: L.18
   function "or" (L : UNSIGNED; R : BIT) return UNSIGNED is
   begin
-    return UNSIGNED (BIT_VECTOR(L) or R);
+    return to_unsigned (to_std_ulogic_vector(BIT_VECTOR(L)) or to_std_ulogic(R));
   end function "or";
 
   -- Id: L.19
   function "nand" (L : BIT; R : UNSIGNED) return UNSIGNED is
   begin
-    return UNSIGNED (L nand BIT_VECTOR(R));
+    return to_unsigned (to_std_ulogic(L) nand to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "nand";
 
   -- Id: L.20
   function "nand" (L : UNSIGNED; R : BIT) return UNSIGNED is
   begin
-    return UNSIGNED (BIT_VECTOR(L) nand R);
+    return to_unsigned (to_std_ulogic_vector(BIT_VECTOR(L)) nand to_std_ulogic(R));
   end function "nand";
 
   -- Id: L.21
   function "nor" (L : BIT; R : UNSIGNED) return UNSIGNED is
   begin
-    return UNSIGNED (L nor BIT_VECTOR(R));
+    return to_unsigned (to_std_ulogic(L) nor to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "nor";
 
   -- Id: L.22
   function "nor" (L : UNSIGNED; R : BIT) return UNSIGNED is
   begin
-    return UNSIGNED (BIT_VECTOR(L) nor R);
+    return to_unsigned (to_std_ulogic_vector(BIT_VECTOR(L)) nor to_std_ulogic(R));
   end function "nor";
 
   -- Id: L.23
   function "xor" (L : BIT; R : UNSIGNED) return UNSIGNED is
   begin
-    return UNSIGNED (L xor BIT_VECTOR(R));
+    return to_unsigned (to_std_ulogic(L) xor to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "xor";
 
   -- Id: L.24
   function "xor" (L : UNSIGNED; R : BIT) return UNSIGNED is
   begin
-    return UNSIGNED (BIT_VECTOR(L) xor R);
+    return to_unsigned (to_std_ulogic_vector(BIT_VECTOR(L)) xor to_std_ulogic(R));
   end function "xor";
 
   ------------------------------------------------------------------------------
@@ -2571,7 +2624,7 @@ package body NUMERIC_BIT is
   -- Id: L.25
   function "xnor" (L : BIT; R : UNSIGNED) return UNSIGNED is
   begin
-    return UNSIGNED (L xnor BIT_VECTOR(R));
+    return to_unsigned (to_std_ulogic(L) xnor to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "xnor";
 
   ------------------------------------------------------------------------------
@@ -2581,67 +2634,67 @@ package body NUMERIC_BIT is
   -- Id: L.26
   function "xnor" (L : UNSIGNED; R : BIT) return UNSIGNED is
   begin
-    return UNSIGNED (BIT_VECTOR(L) xnor R);
+    return to_unsigned (to_std_ulogic_vector(BIT_VECTOR(L)) xnor to_std_ulogic(R));
   end function "xnor";
 
   -- Id: L.27
   function "and" (L : BIT; R : SIGNED) return SIGNED is
   begin
-    return SIGNED (L and BIT_VECTOR(R));
+    return to_signed (to_std_ulogic(L) and to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "and";
 
   -- Id: L.28
   function "and" (L : SIGNED; R : BIT) return SIGNED is
   begin
-    return SIGNED (BIT_VECTOR(L) and R);
+    return to_signed (to_std_ulogic_vector(BIT_VECTOR(L)) and to_std_ulogic(R));
   end function "and";
 
   -- Id: L.29
   function "or" (L : BIT; R : SIGNED) return SIGNED is
   begin
-    return SIGNED (L or BIT_VECTOR(R));
+    return to_signed (to_std_ulogic(L) or to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "or";
 
   -- Id: L.30
   function "or" (L : SIGNED; R : BIT) return SIGNED is
   begin
-    return SIGNED (BIT_VECTOR(L) or R);
+    return to_signed (to_std_ulogic_vector(BIT_VECTOR(L)) or to_std_ulogic(R));
   end function "or";
 
   -- Id: L.31
   function "nand" (L : BIT; R : SIGNED) return SIGNED is
   begin
-    return SIGNED (L nand BIT_VECTOR(R));
+    return to_signed (to_std_ulogic(L) nand to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "nand";
 
   -- Id: L.32
   function "nand" (L : SIGNED; R : BIT) return SIGNED is
   begin
-    return SIGNED (BIT_VECTOR(L) nand R);
+    return to_signed (to_std_ulogic_vector(BIT_VECTOR(L)) nand to_std_ulogic(R));
   end function "nand";
 
   -- Id: L.33
   function "nor" (L : BIT; R : SIGNED) return SIGNED is
   begin
-    return SIGNED (L nor BIT_VECTOR(R));
+    return to_signed (to_std_ulogic(L) nor to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "nor";
 
   -- Id: L.34
   function "nor" (L : SIGNED; R : BIT) return SIGNED is
   begin
-    return SIGNED (BIT_VECTOR(L) nor R);
+    return to_signed (to_std_ulogic_vector(BIT_VECTOR(L)) nor to_std_ulogic(R));
   end function "nor";
 
   -- Id: L.35
   function "xor" (L : BIT; R : SIGNED) return SIGNED is
   begin
-    return SIGNED (L xor BIT_VECTOR(R));
+    return to_signed (to_std_ulogic(L) xor to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "xor";
 
   -- Id: L.36
   function "xor" (L : SIGNED; R : BIT) return SIGNED is
   begin
-    return SIGNED (BIT_VECTOR(L) xor R);
+    return to_signed (to_std_ulogic_vector(BIT_VECTOR(L)) xor to_std_ulogic(R));
   end function "xor";
 
   ------------------------------------------------------------------------------
@@ -2651,7 +2704,7 @@ package body NUMERIC_BIT is
   -- Id: L.37
   function "xnor" (L : BIT; R : SIGNED) return SIGNED is
   begin
-    return SIGNED (L xnor BIT_VECTOR(R));
+    return to_signed (to_std_ulogic(L) xnor to_std_ulogic_vector(BIT_VECTOR(R)));
   end function "xnor";
 
   ------------------------------------------------------------------------------
@@ -2661,7 +2714,7 @@ package body NUMERIC_BIT is
   -- Id: L.38
   function "xnor" (L : SIGNED; R : BIT) return SIGNED is
   begin
-    return SIGNED (BIT_VECTOR(L) xnor R);
+    return to_signed (to_std_ulogic_vector(BIT_VECTOR(L)) xnor to_std_ulogic(R));
   end function "xnor";
 
   ------------------------------------------------------------------------------
@@ -2672,7 +2725,7 @@ package body NUMERIC_BIT is
   -- Id: L.39
   function and_reduce (L : SIGNED) return BIT is
   begin
-    return and_reduce (BIT_VECTOR (L));
+    return to_bit (and_reduce (to_std_ulogic_vector (L)));
   end function and_reduce;
 
   ------------------------------------------------------------------------------
@@ -2683,7 +2736,7 @@ package body NUMERIC_BIT is
   -- Id: L.40
   function and_reduce (L : UNSIGNED) return BIT is
   begin
-    return and_reduce (BIT_VECTOR (L));
+    return to_bit (and_reduce (to_std_ulogic_vector (L)));
   end function and_reduce;
 
   ------------------------------------------------------------------------------
@@ -2694,7 +2747,7 @@ package body NUMERIC_BIT is
   -- Id: L.41
   function nand_reduce (L : SIGNED) return BIT is
   begin
-    return nand_reduce (BIT_VECTOR (L));
+    return to_bit (nand_reduce (to_std_ulogic_vector (L)));
   end function nand_reduce;
 
   ------------------------------------------------------------------------------
@@ -2705,7 +2758,7 @@ package body NUMERIC_BIT is
   -- Id: L.42
   function nand_reduce (L : UNSIGNED) return BIT is
   begin
-    return nand_reduce (BIT_VECTOR (L));
+    return to_bit (nand_reduce (to_std_ulogic_vector (L)));
   end function nand_reduce;
 
   ------------------------------------------------------------------------------
@@ -2716,7 +2769,7 @@ package body NUMERIC_BIT is
   -- Id: L.43
   function or_reduce (L : SIGNED) return BIT is
   begin
-    return or_reduce (BIT_VECTOR (L));
+    return to_bit (or_reduce (to_std_ulogic_vector (L)));
   end function or_reduce;
 
   ------------------------------------------------------------------------------
@@ -2727,7 +2780,7 @@ package body NUMERIC_BIT is
   -- Id: L.44
   function or_reduce (L : UNSIGNED) return BIT is
   begin
-    return or_reduce (BIT_VECTOR (L));
+    return to_bit (or_reduce (to_std_ulogic_vector (L)));
   end function or_reduce;
 
   ------------------------------------------------------------------------------
@@ -2738,7 +2791,7 @@ package body NUMERIC_BIT is
   -- Id: L.45
   function nor_reduce (L : SIGNED) return BIT is
   begin
-    return nor_reduce (BIT_VECTOR (L));
+    return to_bit (nor_reduce (to_std_ulogic_vector (L)));
   end function nor_reduce;
 
   ------------------------------------------------------------------------------
@@ -2749,7 +2802,7 @@ package body NUMERIC_BIT is
   -- Id: L.46
   function nor_reduce (L : UNSIGNED) return BIT is
   begin
-    return nor_reduce (BIT_VECTOR (L));
+    return to_bit (nor_reduce (to_std_ulogic_vector (L)));
   end function nor_reduce;
 
   ------------------------------------------------------------------------------
@@ -2760,7 +2813,7 @@ package body NUMERIC_BIT is
   -- Id: L.47
   function xor_reduce (L : SIGNED) return BIT is
   begin
-    return xor_reduce (BIT_VECTOR (L));
+    return to_bit (xor_reduce (to_std_ulogic_vector (L)));
   end function xor_reduce;
 
   ------------------------------------------------------------------------------
@@ -2771,7 +2824,7 @@ package body NUMERIC_BIT is
   -- Id: L.48
   function xor_reduce (L : UNSIGNED) return BIT is
   begin
-    return xor_reduce (BIT_VECTOR (L));
+    return to_bit (xor_reduce (to_std_ulogic_vector (L)));
   end function xor_reduce;
 
   ------------------------------------------------------------------------------
@@ -2782,7 +2835,7 @@ package body NUMERIC_BIT is
   -- Id: L.49
   function xnor_reduce (L : SIGNED) return BIT is
   begin
-    return xnor_reduce (BIT_VECTOR (L));
+    return to_bit (xnor_reduce (to_std_ulogic_vector (L)));
   end function xnor_reduce;
 
   ------------------------------------------------------------------------------
@@ -2793,7 +2846,7 @@ package body NUMERIC_BIT is
   -- Id: L.50
   function xnor_reduce (L : UNSIGNED) return BIT is
   begin
-    return xnor_reduce (BIT_VECTOR (L));
+    return to_bit (xnor_reduce (to_std_ulogic_vector (L)));
   end function xnor_reduce;
 
   -- ============================================================================
@@ -2801,7 +2854,7 @@ package body NUMERIC_BIT is
   -- ============================================================================
   function TO_OSTRING (value : UNSIGNED) return STRING is
   begin
-    return TO_OSTRING(BIT_VECTOR (value));
+    return TO_OSTRING(to_std_ulogic_vector (value));
   end function TO_OSTRING;
 
   function TO_OSTRING (value : SIGNED) return STRING is
@@ -2809,12 +2862,12 @@ package body NUMERIC_BIT is
     constant pad           : BIT_VECTOR(1 to (result_length*3 - value'length))
       := (others => value (value'left));  -- Extend sign bit
   begin
-    return TO_OSTRING(pad & BIT_VECTOR (value));
+    return TO_OSTRING(to_std_ulogic_vector(pad & BIT_VECTOR (value)));
   end function TO_OSTRING;
 
   function to_hstring (value : UNSIGNED) return STRING is
   begin
-    return to_hstring(BIT_VECTOR (value));
+    return to_hstring(to_std_ulogic_vector (value));
   end function to_hstring;
 
   function to_hstring (value : SIGNED) return STRING is
@@ -2822,7 +2875,7 @@ package body NUMERIC_BIT is
     constant pad           : BIT_VECTOR(1 to (result_length*4 - value'length))
       := (others => value (value'left));  -- Extend sign bit
   begin
-    return to_hstring(pad & BIT_VECTOR (value));
+    return to_hstring(to_std_ulogic_vector(pad & BIT_VECTOR (value)));
   end function to_hstring;
 
   procedure READ(L : inout LINE; VALUE : out UNSIGNED; GOOD : out BOOLEAN) is
@@ -2882,23 +2935,33 @@ package body NUMERIC_BIT is
   end procedure WRITE;
 
   procedure OREAD (L : inout LINE; VALUE : out UNSIGNED; GOOD : out BOOLEAN) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : std_ulogic_vector(VALUE'range);
   begin
     OREAD (L     => L,
            VALUE => ivalue,
            GOOD  => GOOD);
-    VALUE := UNSIGNED(ivalue);
+    VALUE := to_unsigned(ivalue);
   end procedure OREAD;
 
   procedure OREAD (L : inout LINE; VALUE : out SIGNED; GOOD : out BOOLEAN) is
     constant ne     : INTEGER := (VALUE'length+2)/3;
     constant pad    : INTEGER := ne*3 - VALUE'length;
+    variable i_sulv_value : std_ulogic_vector(0 to ne*3-1);
     variable ivalue : BIT_VECTOR(0 to ne*3-1);
     variable ok     : BOOLEAN;
   begin
     OREAD (L      => L,
-            VALUE => ivalue,            -- Read padded STRING
-            good  => ok);
+           VALUE => i_sulv_value,            -- Read padded STRING
+           good  => ok);
+
+    for i in i_sulv_value'range loop
+      if (i_sulv_value(i) = '1') then
+        ivalue(i) := '1';
+      else
+        ivalue(i) := '0';
+      end if;
+    end loop;
+
     -- Bail out if there was a bad read
     if not ok then
       GOOD := false;
@@ -2913,7 +2976,7 @@ package body NUMERIC_BIT is
           GOOD := false;
         end if;
       else                              -- negative
-        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (unsigned (ivalue(0 to pad))) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
           GOOD  := true;
         else
@@ -2927,20 +2990,30 @@ package body NUMERIC_BIT is
   end procedure OREAD;
 
   procedure OREAD (L : inout LINE; VALUE : out UNSIGNED) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : std_ulogic_vector(VALUE'range);
   begin
     OREAD (L     => L,
            VALUE => ivalue);
-    VALUE := UNSIGNED (ivalue);
+    VALUE := to_unsigned (ivalue);
   end procedure OREAD;
 
   procedure OREAD (L : inout LINE; VALUE : out SIGNED) is
     constant ne     : INTEGER := (VALUE'length+2)/3;
     constant pad    : INTEGER := ne*3 - VALUE'length;
     variable ivalue : BIT_VECTOR(0 to ne*3-1);
+    variable i_sulv_value: std_ulogic_vector(0 to ne*3-1);
   begin
     OREAD (L      => L,
-            VALUE => ivalue);           -- Read padded string
+            VALUE => i_sulv_value);           -- Read padded string
+
+    for i in i_sulv_value'range loop
+      if i_sulv_value(i) = '1' then
+        ivalue(i) := '1';
+      else
+        ivalue(i) := '0';
+      end if;
+    end loop;
+    
     if (pad > 0) then
       if (ivalue(0) = '0') then         -- positive
         if ivalue(0) = or_reduce (ivalue(0 to pad)) then
@@ -2951,7 +3024,7 @@ package body NUMERIC_BIT is
             severity error;
         end if;
       else                              -- negative
-        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (unsigned (ivalue(0 to pad))) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           assert false
@@ -2965,23 +3038,33 @@ package body NUMERIC_BIT is
   end procedure OREAD;
 
   procedure HREAD (L : inout LINE; VALUE : out UNSIGNED; GOOD : out BOOLEAN) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : STD_ULOGIC_VECTOR(VALUE'range);
   begin
     HREAD (L     => L,
            VALUE => ivalue,
            GOOD  => GOOD);
-    VALUE := UNSIGNED(ivalue);
+    VALUE := to_unsigned (ivalue);
   end procedure HREAD;
 
   procedure HREAD (L : inout LINE; VALUE : out SIGNED; GOOD : out BOOLEAN) is
     constant ne     : INTEGER := (VALUE'length+3)/4;
     constant pad    : INTEGER := ne*4 - VALUE'length;
     variable ivalue : BIT_VECTOR(0 to ne*4-1);
+    variable i_sulv_value : STD_ULOGIC_VECTOR(0 to ne*4-1);
     variable ok     : BOOLEAN;
   begin
     HREAD (L      => L,
-            VALUE => ivalue,            -- Read padded STRING
+            VALUE => i_sulv_value,            -- Read padded STRING
             good  => ok);
+    
+    for i in i_sulv_value'range loop
+      if i_sulv_value(i) = '1' then
+        ivalue(i) := '1';
+      else
+        ivalue(i) := '0';
+      end if;
+    end loop;
+
     if not ok then
       GOOD := false;
       return;
@@ -2995,7 +3078,7 @@ package body NUMERIC_BIT is
           GOOD := false;
         end if;
       else                              -- negative
-        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (unsigned (ivalue(0 to pad))) then
           GOOD  := true;
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
@@ -3009,20 +3092,30 @@ package body NUMERIC_BIT is
   end procedure HREAD;
 
   procedure HREAD (L : inout LINE; VALUE : out UNSIGNED) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : STD_ULOGIC_VECTOR(VALUE'range);
   begin
     HREAD (L     => L,
            VALUE => ivalue);
-    VALUE := UNSIGNED (ivalue);
+    VALUE := to_unsigned (ivalue);
   end procedure HREAD;
 
   procedure HREAD (L : inout LINE; VALUE : out SIGNED) is
     constant ne     : INTEGER := (VALUE'length+3)/4;
     constant pad    : INTEGER := ne*4 - VALUE'length;
     variable ivalue : BIT_VECTOR(0 to ne*4-1);
+    variable i_sulv_value: STD_ULOGIC_VECTOR(0 to ne*4-1);
   begin
     HREAD (L      => L,
-            VALUE => ivalue);           -- Read padded string
+            VALUE => i_sulv_value);           -- Read padded string
+
+    for i in i_sulv_value'range loop
+      if i_sulv_value(i) = '1' then
+        ivalue(i) := '1';
+      else
+        ivalue(i) := '0';
+      end if;
+    end loop;
+
     if (pad > 0) then
       if (ivalue(0) = '0') then         -- positive
         if ivalue(0) = or_reduce (ivalue(0 to pad)) then
@@ -3033,7 +3126,7 @@ package body NUMERIC_BIT is
             severity error;
         end if;
       else                              -- negative
-        if ivalue(0) = and_reduce (ivalue(0 to pad)) then
+        if ivalue(0) = and_reduce (unsigned (ivalue(0 to pad))) then
           VALUE := SIGNED (ivalue (pad to ivalue'high));
         else
           assert false
@@ -3048,9 +3141,9 @@ package body NUMERIC_BIT is
 
   procedure OWRITE (L         : inout LINE; VALUE : in UNSIGNED;
                     JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : STD_ULOGIC_VECTOR(VALUE'range);
   begin
-    ivalue := BIT_VECTOR (VALUE);
+    ivalue := to_std_ulogic_vector (VALUE);
     OWRITE (L         => L,
             VALUE     => ivalue,
             JUSTIFIED => JUSTIFIED,
@@ -3062,20 +3155,20 @@ package body NUMERIC_BIT is
     constant ne  : INTEGER := (VALUE'length+2)/3;
     constant pad : BIT_VECTOR(0 to (ne*3 - VALUE'length) - 1)
       := (others => VALUE (VALUE'left));
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : STD_ULOGIC_VECTOR(VALUE'range);
   begin
-    ivalue := BIT_VECTOR (VALUE);
+    ivalue := to_std_ulogic_vector (VALUE);
     OWRITE (L         => L,
-            VALUE     => pad & ivalue,
+            VALUE     => to_std_ulogic_vector (pad) & ivalue,
             JUSTIFIED => JUSTIFIED,
             FIELD     => FIELD);
   end procedure OWRITE;
 
   procedure HWRITE (L         : inout LINE; VALUE : in UNSIGNED;
                     JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : STD_ULOGIC_VECTOR(VALUE'range);
   begin
-    ivalue := BIT_VECTOR (VALUE);
+    ivalue := to_std_ulogic_vector (VALUE);
     HWRITE (L         => L,
             VALUE     => ivalue,
             JUSTIFIED => JUSTIFIED,
@@ -3084,14 +3177,14 @@ package body NUMERIC_BIT is
 
   procedure HWRITE (L         : inout LINE; VALUE : in SIGNED;
                     JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0) is
-    variable ivalue : BIT_VECTOR(VALUE'range);
+    variable ivalue : STD_ULOGIC_VECTOR(VALUE'range);
     constant ne     : INTEGER := (VALUE'length+3)/4;
     constant pad    : BIT_VECTOR(0 to (ne*4 - VALUE'length) - 1)
       := (others => VALUE(VALUE'left));
   begin
-    ivalue := BIT_VECTOR (VALUE);
+    ivalue := to_std_ulogic_vector (VALUE);
     HWRITE (L         => L,
-            VALUE     => pad & ivalue,
+            VALUE     => to_std_ulogic_vector (pad) & ivalue,
             JUSTIFIED => JUSTIFIED,
             FIELD     => FIELD);
   end procedure HWRITE;

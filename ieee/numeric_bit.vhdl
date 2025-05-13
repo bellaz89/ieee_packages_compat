@@ -56,6 +56,14 @@
 
 use STD.TEXTIO.all;
 
+library ieee;
+use ieee.std_logic_1164.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.maximum;
+use ieee_compat.numeric_std.minimum;
+
 package NUMERIC_BIT is
   constant CopyRightNotice : STRING
     := "Copyright © 2008 IEEE. All rights reserved.";
@@ -1348,7 +1356,7 @@ package NUMERIC_BIT is
   -- out the function (declaration and body) for IEEE Std 1076-1987 compatibility.
   ------------------------------------------------------------------------------
   -- Id: L.38
-  function xnor_reduce (L : SIGNED; R : BIT) return SIGNED;
+  function "xnor" (L : SIGNED; R : BIT) return SIGNED;
   -- Result subtype: SIGNED(L'LENGTH-1 downto 0)
   -- Result: Vector/Scalar XNOR operation
 
