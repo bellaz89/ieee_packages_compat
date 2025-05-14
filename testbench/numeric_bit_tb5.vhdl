@@ -4,11 +4,15 @@
 -- numeric_bit_tb4.vhd
 --
 library vunit_lib;
-context vunit_lib.vunit_context;
-library IEEE;
 
-use IEEE.std_logic_1164.all;
-use ieee.numeric_bit.all;
+
+library ieee;
+use ieee.std_logic_1164;
+
+library ieee_compat;
+
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_bit.all;
 
 entity numeric_bit_tb5 is
   generic (

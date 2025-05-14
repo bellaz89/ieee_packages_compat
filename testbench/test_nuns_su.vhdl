@@ -11,7 +11,7 @@
 --  Created for VHDL-200X par, David Bishop (dbishop@vhdl.org)
 -----------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_nuns_su is
   generic (
@@ -22,6 +22,10 @@ use std.textio.all;
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use ieee.numeric_std_unsigned.all;
+
+library ieee_compat;
+use ieee_compat.STD_LOGIC_1164.all;
+use ieee_compat.numeric_std_unsigned.all;
 
 architecture testbench of test_nuns_su is
 

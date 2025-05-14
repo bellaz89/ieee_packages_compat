@@ -8,7 +8,7 @@
 --  Modified for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_shift is
   generic (
@@ -18,6 +18,10 @@ end entity test_shift;
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_bit.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_bit.all;
 
 architecture test of test_shift is
   signal start_shifttest, shifttest_done : BOOLEAN := false;  -- start reading test

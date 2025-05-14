@@ -8,7 +8,7 @@
 --  Modified for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_logical is
   generic (
@@ -17,6 +17,9 @@ end entity test_logical;
 
 library ieee;
 use ieee.std_logic_1164.all, ieee.numeric_bit.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all, ieee_compat.numeric_bit.all;
 
 architecture testbench of test_logical is
   SIGNAL start_logicaltest, logicaltest_done : BOOLEAN := false;

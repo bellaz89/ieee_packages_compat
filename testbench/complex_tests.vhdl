@@ -72,11 +72,14 @@
 -- Modified for VHDL-2006 05/25/06 David Bishop (dbishop@vhdl.org)
 -------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 library ieee;
 use ieee.math_real.all;
-use ieee.math_complex.all;
+
+library ieee_compat;
+use ieee_compat.math_real.all;
+use ieee_compat.math_complex.all;
 use std.textio.all;
 entity COMPLEX_TESTS is
   generic (

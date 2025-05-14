@@ -4,10 +4,10 @@
 -- numeric_bit_tb2.vhd
 --
 library vunit_lib;
-context vunit_lib.vunit_context;
-library ieee;
 
-use ieee.numeric_bit.all;
+library ieee_compat;
+
+use ieee_compat.numeric_bit.all;
 
 entity numeric_bit_tb3 is
   generic (

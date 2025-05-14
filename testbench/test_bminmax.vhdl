@@ -13,7 +13,7 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- -----------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_bminmax is
   generic (
@@ -21,8 +21,8 @@ entity test_bminmax is
 end entity test_bminmax;
 
 use std.textio.all;
-library ieee;
-use ieee.numeric_bit.all;
+library ieee_compat;
+use ieee_compat.numeric_bit.all;
 
 architecture testbench of test_bminmax is
 

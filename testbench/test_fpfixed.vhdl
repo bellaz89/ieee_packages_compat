@@ -9,7 +9,7 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fpfixed is
   generic (
@@ -17,13 +17,19 @@ entity test_fpfixed is
 end entity test_fpfixed;
 
 use std.textio.all;
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;               -- IEEE 1076.3
 use ieee.math_real.all;
-use ieee.fixed_float_types.all;
-use ieee.fixed_pkg.all;                 -- IEEE 1076 fixed point package
-use ieee.float_pkg.all;            -- IEEE 1076 floating point package
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;               -- ieee_compat 1076.3
+use ieee_compat.math_real.all;
+use ieee_compat.fixed_float_types.all;
+use ieee_compat.fixed_pkg.all;                 -- ieee_compat 1076 fixed point package
+use ieee_compat.float_pkg.all;            -- ieee_compat 1076 floating point package
 
 architecture testbench of test_fpfixed is
   alias fp is float32;                     -- 32 bit fp

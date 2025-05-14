@@ -7,7 +7,7 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fphdl64 is
   generic (
@@ -15,12 +15,18 @@ entity test_fphdl64 is
 end entity test_fphdl64;
 
 use std.textio.all;
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
-use ieee.fixed_float_types.all;
-use ieee.float_pkg.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
+use ieee_compat.math_real.all;
+use ieee_compat.fixed_float_types.all;
+use ieee_compat.float_pkg.all;
 architecture testbench of test_fphdl64 is
   constant iterations   : integer := 5000;      -- number of interations
 

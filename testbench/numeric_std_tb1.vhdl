@@ -3,7 +3,7 @@
 -- This is the first in a series of testbenches.
 --
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 library IEEE;
 
 use ieee.numeric_std.all;

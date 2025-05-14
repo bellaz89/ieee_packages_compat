@@ -15,12 +15,15 @@
 --
 -- --------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
 
 entity test_string is
   generic (
     runner_cfg : string);
 end entity test_string;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
 
 library ieee;
 use ieee.std_logic_1164.all;

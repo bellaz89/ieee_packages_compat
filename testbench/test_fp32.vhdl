@@ -7,21 +7,26 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fp32 is
   generic (
     runner_cfg : string);
 end entity test_fp32;
 
-library ieee;
+library ieee_compat;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
-use ieee.fixed_pkg.all;
-use ieee.float_pkg.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
+use ieee_compat.math_real.all;
+use ieee_compat.fixed_pkg.all;
+use ieee_compat.float_pkg.all;
 use std.textio.all;
-use ieee.std_logic_textio.all;
+use ieee_compat.std_logic_textio.all;
 architecture testbench of test_fp32 is
   constant fp_exponent_width : integer := float32'high;  -- compatibility
   constant fp_fraction_width : integer := -float32'low;  -- compatibility

@@ -8,15 +8,15 @@
 --  Created for VHDL-200X par, David Bishop (dbishop@vhdl.org)
 -----------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_bstring is
   generic (
     runner_cfg : string);
 end entity test_bstring;
 
-library ieee;
-use ieee.numeric_bit.all;
+library ieee_compat;
+use ieee_compat.numeric_bit.all;
 use std.textio.all;
 
 architecture testbench of test_bstring is

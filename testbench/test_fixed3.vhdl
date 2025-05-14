@@ -6,21 +6,25 @@
 --   Version $Id: test_fixed3.vhdl,v 1.3 2007-09-12 08:58:36-04 l435385 Exp $
 -- --------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
 
 entity test_fixed3 is
   generic (
     runner_cfg : string);
 end entity test_fixed3;
 
-use std.textio.all;
 library ieee;
 use ieee.math_real.all;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_textio.all;          -- %%% For testing only, REMOVE
 use ieee.numeric_std.all;
-use ieee.fixed_float_types.all;
-use ieee.fixed_pkg.all;
+
+use std.textio.all;
+library ieee_compat;
+use ieee_compat.math_real.all;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.std_logic_textio.all;          -- %%% For testing only, REMOVE
+use ieee_compat.numeric_std.all;
+use ieee_compat.fixed_float_types.all;
+use ieee_compat.fixed_pkg.all;
 
 architecture testbench of test_fixed3 is
 

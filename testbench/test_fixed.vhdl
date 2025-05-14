@@ -6,7 +6,7 @@
 --   Version $Id: test_fixed.vhdl,v 1.10 2007/09/26 18:05:58 l435385 Exp $
 -- --------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fixed is
   generic (
@@ -14,12 +14,18 @@ entity test_fixed is
 end entity test_fixed;
 
 use std.textio.all;
+
 library ieee;
 use ieee.math_real.all;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.fixed_float_types.all;
-use ieee.fixed_pkg.all;
+
+library ieee_compat;
+use ieee_compat.math_real.all;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
+use ieee_compat.fixed_float_types.all;
+use ieee_compat.fixed_pkg.all;
 
 architecture testbench of test_fixed is
 

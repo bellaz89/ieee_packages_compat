@@ -9,7 +9,7 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fphdlbase is
   generic (
@@ -17,13 +17,19 @@ entity test_fphdlbase is
 end entity test_fphdlbase;
 
 use std.textio.all;
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
-use ieee.fixed_float_types.all;
-use ieee.float_pkg.all;
-use ieee.fixed_pkg.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
+use ieee_compat.math_real.all;
+use ieee_compat.fixed_float_types.all;
+use ieee_compat.float_pkg.all;
+use ieee_compat.fixed_pkg.all;
 architecture testbench of test_fphdlbase is
   -- purpose: reports an error
   procedure report_error (

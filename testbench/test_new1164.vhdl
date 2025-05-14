@@ -12,7 +12,7 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -----------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_new1164 is
   generic (
@@ -21,6 +21,9 @@ end entity test_new1164;
 
 library ieee;
 use ieee.std_logic_1164.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
 -- use ieee.std_logic_textio.all;          -- Should be empty
 use std.textio.all;
 architecture testbench of test_new1164 is  -- purpose: reports an error

@@ -1,52 +1,30 @@
 """
 VUnit run script for repository testbenches.
 """
-from pathlib import Path
+
 import re
-from vunit import VUnit, VUnitCLI
+from pathlib import Path
 from xml.etree import ElementTree
 
-class IEEEPreprocessor:
-    """
-    Preprocessing of VHDL files to replace each reference to ieee with
-    a reference to new_ieee such that the simulator implementation isn't used.
-    An exception is std_logic since some of its functionality is "predefined"
-    and not part of the package but only known by the simulator.
-    """
-    _ieee_use_pattern = re.compile(r'\s+(?P<library>ieee)\.(?P<package>\w+)',
-                                   re.MULTILINE | re.IGNORECASE)
-    _ieee_library_pattern = re.compile(r'(library\s+)ieee(\s*;)', re.MULTILINE | re.IGNORECASE)
+from vunit import VUnit, VUnitCLI
 
-    def run(self, code, file_name):
-        """
-        Called by VUnit for every VHDL file
-        """
-        new_code = self._ieee_library_pattern.sub(r'\1new_ieee, ieee\2', code)
-
-        matches = list(self._ieee_use_pattern.finditer(new_code))
-        matches.sort(key=lambda match: match.start('package'), reverse=True)
-        for match in matches:
-            if match.group('package').lower() != 'std_logic_1164':
-                new_code = new_code[:match.start('library')] + 'new_ieee' + new_code[match.end('library'):]
-
-        return new_code
 
 def get_args(root):
     """
     Create and extract command line arguments
     """
     cli = VUnitCLI()
-    cli.parser.add_argument('-s', '--vendor-verification',
-                            action='store_true',
-                            help='Use vendor ieee library for internal package references.')
-    cli.parser.add_argument('-a', '--vhdl-assert-stop-level',
-                            default="all",
-                            choices=["all", "warning", "error", "failure"],
-                            help=('VHDL assert stop level. "all" will use all levels.'))
+    cli.parser.add_argument(
+        "-a",
+        "--vhdl-assert-stop-level",
+        default="all",
+        choices=["all", "warning", "error", "failure"],
+        help=('VHDL assert stop level. "all" will use all levels.'),
+    )
     args = cli.parse_args()
 
     if args.xunit_xml is None:
-        args.xunit_xml = str(root/"result.xml")
+        args.xunit_xml = str(root / "result.xml")
 
     xunit_xml_path = Path(args.xunit_xml)
     if xunit_xml_path.exists():
@@ -54,71 +32,46 @@ def get_args(root):
 
     return args
 
+
 def create_project(root, args):
     """
     Create VUnit project
     """
     prj = VUnit.from_args(args)
+    prj.add_vhdl_builtins()
 
-    if not args.vendor_verification:
-        prj.add_preprocessor(IEEEPreprocessor())
-
-    prj.enable_check_preprocessing()
-
-    new_ieee = prj.add_library("new_ieee")
-    if not args.vendor_verification:
-        new_ieee.add_source_files(str(root/"../ieee/*.vhdl"))
-    new_ieee.add_source_files(str(root/"*.vhdl"))
+    ieee_compat = prj.add_library("ieee_compat", vhdl_standard="93")
+    ieee_compat.add_source_files(str(root / "../ieee/*.vhdl"))
+    ieee_compat.add_source_files(str(root / "*.vhdl"))
 
     # Work around pending VUnit dependency scanning updates
-    test_fixed = new_ieee.get_source_files("*test_fixed.vhdl")
-    test_fixed2 = new_ieee.get_source_files("*test_fixed2.vhdl")
-    test_fixed3 = new_ieee.get_source_files("*test_fixed3.vhdl")
-    test_fixed_nr = new_ieee.get_source_files("*test_fixed_nr.vhdl")
-    test_fphdl = new_ieee.get_source_files("*test_fphdl.vhdl")
-    test_fphdl16 = new_ieee.get_source_files("*test_fphdl16.vhdl")
-    test_fphdl64 = new_ieee.get_source_files("*test_fphdl64.vhdl")
-    test_fphdl128 = new_ieee.get_source_files("*test_fphdl128.vhdl")
-    test_fphdlbase = new_ieee.get_source_files("*test_fphdlbase.vhdl")
-    test_fpfixed = new_ieee.get_source_files("*test_fpfixed.vhdl")
-    test_fp32 = new_ieee.get_source_files("*test_fp32.vhdl")
-    fixed_noround_pkg = new_ieee.get_source_files("*fixed_noround_pkg.vhdl")
-    float_roundneg_pkg = new_ieee.get_source_files("*float_roundneg_pkg.vhdl")
-    float_noround_pkg = new_ieee.get_source_files("*float_noround_pkg.vhdl")
+    test_fixed = ieee_compat.get_source_files("*test_fixed.vhdl")
+    test_fixed2 = ieee_compat.get_source_files("*test_fixed2.vhdl")
+    test_fixed3 = ieee_compat.get_source_files("*test_fixed3.vhdl")
+    # test_fixed_nr = ieee_compat.get_source_files("*test_fixed_nr.vhdl")
+    # test_fphdl = ieee_compat.get_source_files("*test_fphdl.vhdl")
+    # test_fphdl16 = ieee_compat.get_source_files("*test_fphdl16.vhdl")
+    test_fphdl64 = ieee_compat.get_source_files("*test_fphdl64.vhdl")
+    test_fphdl128 = ieee_compat.get_source_files("*test_fphdl128.vhdl")
+    test_fphdlbase = ieee_compat.get_source_files("*test_fphdlbase.vhdl")
+    test_fpfixed = ieee_compat.get_source_files("*test_fpfixed.vhdl")
+    test_fp32 = ieee_compat.get_source_files("*test_fp32.vhdl")
+    # fixed_noround_pkg = ieee_compat.get_source_files("*fixed_noround_pkg.vhdl")
+    # float_roundneg_pkg = ieee_compat.get_source_files("*float_roundneg_pkg.vhdl")
+    # float_noround_pkg = ieee_compat.get_source_files("*float_noround_pkg.vhdl")
 
-    if not args.vendor_verification:
-        fixed_pkg = new_ieee.get_source_files("*fixed_pkg.vhdl")
-        float_pkg = new_ieee.get_source_files("*float_pkg.vhdl")
-        fixed_generic_pkg_body = new_ieee.get_source_files("*fixed_generic_pkg-body.vhdl")
-        float_generic_pkg = new_ieee.get_source_files("*float_generic_pkg.vhdl")
-        float_generic_pkg_body = new_ieee.get_source_files("*float_generic_pkg-body.vhdl")
-
-    if not args.vendor_verification:
-        float_pkg.add_dependency_on(fixed_pkg)
-        float_pkg.add_dependency_on(float_generic_pkg_body)
-        fixed_pkg.add_dependency_on(fixed_generic_pkg_body)
-        float_generic_pkg.add_dependency_on(fixed_pkg)
-        test_fixed.add_dependency_on(fixed_pkg)
-        test_fixed2.add_dependency_on(fixed_pkg)
-        test_fixed3.add_dependency_on(fixed_pkg)
-        test_fphdlbase.add_dependency_on(fixed_pkg)
-        test_fpfixed.add_dependency_on(fixed_pkg)
-        test_fp32.add_dependency_on(fixed_pkg)
-        test_fphdl64.add_dependency_on(float_pkg)
-        test_fphdl128.add_dependency_on(float_pkg)
-        test_fphdlbase.add_dependency_on(float_pkg)
-        test_fpfixed.add_dependency_on(float_pkg)
-        test_fp32.add_dependency_on(float_pkg)
-        float_roundneg_pkg.add_dependency_on(float_generic_pkg_body)
-        float_noround_pkg.add_dependency_on(float_generic_pkg_body)
-        fixed_noround_pkg.add_dependency_on(fixed_generic_pkg_body)
-
-    test_fphdl.add_dependency_on(float_roundneg_pkg)
-    test_fphdl16.add_dependency_on(float_noround_pkg)
-    test_fixed_nr.add_dependency_on(fixed_noround_pkg)
+    fixed_pkg_conf = ieee_compat.get_source_files("*fixed_pkg_conf.vhdl")
+    float_pkg_conf = ieee_compat.get_source_files("*float_pkg_conf.vhdl")
+    fixed_pkg = ieee_compat.get_source_files("*fixed_pkg.vhdl")
+    fixed_pkg_body = ieee_compat.get_source_files("*fixed_pkg-body.vhdl")
+    float_pkg = ieee_compat.get_source_files("*float_pkg.vhdl")
+    float_pkg_body = ieee_compat.get_source_files("*float_pkg-body.vhdl")
+    # test_fphdl.add_dependency_on(float_roundneg_pkg)
+    # test_fphdl16.add_dependency_on(float_noround_pkg)
+    # test_fixed_nr.add_dependency_on(fixed_noround_pkg)
 
     prj.set_sim_option("vhdl_assert_stop_level", "warning")
-    for testbench in new_ieee.get_test_benches():
+    for testbench in ieee_compat.get_test_benches():
         for test_case in testbench.get_tests():
             if test_case.name.startswith("Expected to warn"):
                 levels = ["warning", "error"]
@@ -133,14 +86,17 @@ def create_project(root, args):
 
     return prj
 
+
 def check_report(report_file):
-    """ Report mismatch between test case status and expectation."""
+    """Report mismatch between test case status and expectation."""
 
     def expected_to_fail(test_case_name):
         if "Expected to fail" in test_case_name:
-            return ("stop@warning" in test_case_name) or ("stop@error" in test_case_name)
+            return ("stop@warning" in test_case_name) or (
+                "stop@error" in test_case_name
+            )
         elif "Expected to warn" in test_case_name:
-            return ("stop@warning" in test_case_name)
+            return "stop@warning" in test_case_name
         else:
             return False
 
@@ -164,6 +120,7 @@ def check_report(report_file):
         raise AssertionError("Test case status mismatch")
     else:
         print("%d test cases passed and failed as expected." % n)
+
 
 root = Path(__file__).parent
 args = get_args(root)

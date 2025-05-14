@@ -7,7 +7,7 @@
 --  Created for VHDL-200X par, David Bishop (dbishop@vhdl.org)
 -------------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_reduce is
   generic (
@@ -17,6 +17,10 @@ end entity test_reduce;
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_bit.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_bit.all;
 
 architecture test of test_reduce is
   signal start_nulltest, nulltest_done : BOOLEAN := false;  -- null test

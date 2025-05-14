@@ -4,7 +4,7 @@
 -- numeric_std_tb2.vhd
 --
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 library IEEE;
 
 use ieee.numeric_std.all;

@@ -6,7 +6,7 @@
 --   Version $Id: test_fixed2.vhdl,v 1.7 2007-09-12 08:58:36-04 l435385 Exp $
 -- --------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fixed2 is
   generic (

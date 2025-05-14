@@ -7,7 +7,7 @@
 --  Created for VHDL-200X-ft, David Bishop (dbishop@vhdl.org)
 -- ---------------------------------------------------------------------------
 library vunit_lib;
-context vunit_lib.vunit_context;
+
 
 entity test_fphdl128 is
   generic (
@@ -18,7 +18,11 @@ use std.textio.all;
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.float_pkg.all;
+
+library ieee_compat;
+use ieee_compat.std_logic_1164.all;
+use ieee_compat.numeric_std.all;
+use ieee_compat.float_pkg.all;
 architecture testbench of test_fphdl128 is
 
 -- For the conversion function test
